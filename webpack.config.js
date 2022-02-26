@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 const babelOptions = (preset) => {
     const opts = {
@@ -6,7 +6,7 @@ const babelOptions = (preset) => {
         plugins: [
             "@babel/plugin-proposal-class-properties",
             "@babel/plugin-syntax-jsx",
-            "@babel/plugin-transform-runtime"
+            "@babel/plugin-transform-runtime",
         ],
     };
 
@@ -29,13 +29,19 @@ const jsLoaders = () => {
 };
 
 module.exports = (env, argv) => {
+    const is_prod = argv.mode === "production" ?? false;
+
     return {
-        mode: argv.mode === "production" ? "production" : "development",
-        entry: ['babel-polyfill', './resources/js/app.js'],
-        devtool: 'inline-source-map',
+        mode: is_prod ? "production" : "development",
+        entry: {
+            app: "./resources/js/app.js",
+        },
+        // entry: ["babel-polyfill", "./resources/js/app.js"],
+        devtool: "inline-source-map",
         output: {
-            filename: 'app.js',
-            path: path.resolve(__dirname, 'public/js'),
+            filename: "app.js",
+            publicPath: is_prod ? "/" : "http://localhost:8080/js/",
+            path: path.resolve(__dirname, "public/js"),
             clean: true,
         },
         module: {
@@ -59,13 +65,12 @@ module.exports = (env, argv) => {
         },
         devServer: {
             static: {
-                directory: path.join(__dirname, 'public'),
-                // publicPath: 'http://localhost:8080'
+                directory: path.join(__dirname, "public"),
             },
-            port: 8080,
-            // hot: 'only',
+            // port: 8080,
+            hot: true,
             // liveReload: false,
-            // headers: { 'Access-Control-Allow-Origin': '*' }
+            headers: { 'Access-Control-Allow-Origin': '*' }
         },
-    }
+    };
 };

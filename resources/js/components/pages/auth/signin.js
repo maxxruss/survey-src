@@ -55,12 +55,12 @@ function SignIn({
 
         var response = await requestService.auth(params);
 
-        if (response.result == "success") {
-            navigate("/");
-        }
+        // if (response.result == "success") {
+        //     navigate("/");
+        // }
 
 
-        if ((response.result = "success")) {
+        if ((response.result == "success")) {
             authDataLoaded(response.data);
         }
     };
@@ -139,7 +139,7 @@ function SignIn({
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Отправить
+                        Отправить1
                     </Button>
                 </Box>
                 <Grid container>

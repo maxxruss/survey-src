@@ -3,7 +3,7 @@
 # nc 10.222.0.85 -p 1433
 //dblib:host=10.222.0.85:1433;dbname=ost=10.222.0.85;dbname=MasterCatalog;charset=utf8
 #$dsn = 'sqlsrv:server=dcdb16.GUO.local;MultipleActiveResultSets=false';
-$connection  = pg_connect('host=survey-service-postgres port=5432 dbname=survey user=survey password=}mozxn9~2L');
+$connection  = pg_connect('host=survey-service-postgres port=5432 dbname=survey user=survey password=survey12345');
 if($connection) {
     echo 'connected';
 } else {
