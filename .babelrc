@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "corejs": 3,
+        "useBuiltIns": "usage",
+        "debug": true,
+        "modules": false
+      }
+    ], "@babel/react"
+  ],
+  //Плагин поддержки экспериментальных возможностей
+  "plugins": ["@babel/proposal-class-properties"]
+}
