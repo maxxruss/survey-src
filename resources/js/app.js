@@ -25,8 +25,6 @@ const requestService = new RequestService();
 
 if (module.hot) module.hot.accept();
 
-console.log(document)
-
 render(
     <Provider store={store}>
         <ErrorBoundry>
