@@ -3,11 +3,7 @@ const path = require("path");
 const babelOptions = (preset) => {
     const opts = {
         presets: ["@babel/preset-env", "@babel/preset-react"],
-        plugins: [
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-syntax-jsx",
-            "@babel/plugin-transform-runtime",
-        ],
+        plugins: ["@babel/plugin-transform-runtime"],
     };
 
     if (preset) {
@@ -36,7 +32,6 @@ module.exports = (env, argv) => {
         entry: {
             app: "./resources/js/app.js",
         },
-        // entry: ["babel-polyfill", "./resources/js/app.js"],
         devtool: "inline-source-map",
         output: {
             filename: "app.js",
@@ -57,7 +52,7 @@ module.exports = (env, argv) => {
                     use: [
                         {
                             loader: "babel-loader",
-                            options: babelOptions("@babel/preset-react"),
+                            options: babelOptions(),
                         },
                     ],
                 },
@@ -67,10 +62,9 @@ module.exports = (env, argv) => {
             static: {
                 directory: path.join(__dirname, "public"),
             },
-            // port: 8080,
             hot: true,
-            // liveReload: false,
-            headers: { 'Access-Control-Allow-Origin': '*' }
+            liveReload: false,
+            headers: { "Access-Control-Allow-Origin": "*" },
         },
     };
 };

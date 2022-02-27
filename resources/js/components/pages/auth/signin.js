@@ -139,7 +139,7 @@ function SignIn({
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Отправить1
+                        Отправить
                     </Button>
                 </Box>
                 <Grid container>
