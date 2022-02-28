@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import withRequestService from "./hoc/with-request-service";
 import withRouter from "./hoc/with-router";
 import * as actions from "../redux/actions";
@@ -8,44 +8,31 @@ import compose from "../utils/compose";
 import Main from "./main";
 import Spinner from "./spinner";
 
-class Body extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false,
-        };
-    }
+const Body = (props) => {
+    const [loading, setLoading] = useState(false);
 
-    async componentDidMount() {
-        this.setState({
-            loading: true,
-        });
-        var response = await this.props.requestService.auth({
+    useEffect(() => {
+        setLoading(true)
+        const response = async () => await props.requestService.auth({
             method: "check",
         });
 
         if (response.result == "success") {
-            this.setState({
-                loading: false,
-            });
-            this.props.authDataLoaded(response.data);
-        } else {           
-            this.setState({
-                loading: false,
-            });
+            setLoading(false)
+            props.authDataLoaded(response.data);
+        } else {
+            setLoading(false)
 
-            this.props.navigate("/signin");
+            props.navigate("/signin");
         }
-    }
+    }, []);
 
-    render() {
-        if (this.state.loading) return <Spinner />;
-        return (
-            <>
-                <Main />
-            </>
-        );
-    }
+    if (loading) return <Spinner />;
+    return (
+        <>
+            <Main />
+        </>
+    );
 }
 
 const mapStateToProps = ({ id, name, email }) => {
