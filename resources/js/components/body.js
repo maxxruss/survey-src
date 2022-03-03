@@ -9,7 +9,7 @@ import Main from "./main";
 import Spinner from "./spinner";
 
 const Body = (props) => {
-    console.log('props - ', props)
+    console.log('Body props - ', props)
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -18,12 +18,16 @@ const Body = (props) => {
             method: "check",
         });
 
+        response()
+
         if (response.result == "success") {
+            console.log("success")
             setLoading(false)
             props.authDataLoaded(response.data);
+            props.navigate("/");
         } else {
+            console.log("failed")
             setLoading(false)
-
             props.navigate("/signin");
         }
     }, []);

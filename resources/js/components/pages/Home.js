@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 const Home = (props) => {
+    console.log('home props - ', props)
     const logout = async () => {
         var response = await props.requestService.auth({
             method: "logout",

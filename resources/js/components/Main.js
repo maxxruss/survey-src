@@ -15,7 +15,10 @@ import PropTypes from 'prop-types'
 
 const RequireAuth = ({ children, location }) => {
     const store_data = store.getState();
+    console.log('RequireAuth')
+
     if (store_data.id) {
+        console.log('Navigate')
         return <Navigate to="/" state={{ from: location }} replace />;
     }
 
@@ -35,6 +38,7 @@ const Main = (props) => {
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route
+                    exact
                     path="/signin"
                     element={
                         <RequireAuth
@@ -44,6 +48,7 @@ const Main = (props) => {
                     }
                 />
                 <Route
+                    exact
                     path="/signup"
                     element={
                         <RequireAuth

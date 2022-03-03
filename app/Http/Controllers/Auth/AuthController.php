@@ -51,6 +51,7 @@ class AuthController extends Controller
             return response()->json([
                 'result' => 'success',
                 'check' => Auth::check(),
+                'data' => Auth::user(),
                 'type' => gettype($remember),
                 'remember' => $remember,
             ]);
@@ -63,6 +64,12 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // var_dump('Auth::logout() - ',  Auth::logout());
+        // var_dump('$request->session()->invalidate() - ',  $request->session()->invalidate());
+        // var_dump('$request->session()->regenerateToken() - ',  $request->session()->regenerateToken());        
+
+
+
         Auth::logout();
 
         $request->session()->invalidate();
