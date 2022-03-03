@@ -9,6 +9,7 @@ import Main from "./main";
 import Spinner from "./spinner";
 
 const Body = (props) => {
+    console.log('props - ', props)
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {

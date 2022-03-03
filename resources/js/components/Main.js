@@ -11,6 +11,7 @@ import Home from "./Pages/Home";
 import SignIn from "./pages/auth/signin";
 import SignUp from "./pages/auth/signup";
 import store from "../redux/store";
+import PropTypes from 'prop-types'
 
 const RequireAuth = ({ children, location }) => {
     const store_data = store.getState();
@@ -20,6 +21,12 @@ const RequireAuth = ({ children, location }) => {
 
     return children;
 };
+
+RequireAuth.propTypes = {
+    children: PropTypes.node
+}
+
+
 
 const Main = (props) => {
     return (

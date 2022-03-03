@@ -10,7 +10,9 @@ import Body from "./components/body";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ServiceProvider } from "./services/context";
-import RequestService from "./services/request";
+// import RequestService from "./services/request";
+import * as requestService from "./services/request";
+
 
 const theme = createTheme(
     {
@@ -21,14 +23,14 @@ const theme = createTheme(
     ruRU
 );
 
-const requestService = new RequestService();
+// const requestService = new RequestService();
 
 if (module.hot) module.hot.accept();
 
 render(
     <Provider store={store}>
         <ErrorBoundry>
-            <ServiceProvider value={requestService}>
+            <ServiceProvider value={{...requestService}}>
                 <BrowserRouter>
                     <ThemeProvider theme={theme}>
                         <Body />
