@@ -25,7 +25,7 @@ const theme = createTheme(
 
 // const requestService = new RequestService();
 
-if (module.hot) module.hot.accept();
+// if (module.hot) module.hot.accept();
 
 render(
     <Provider store={store}>
