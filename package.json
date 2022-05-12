@@ -2,7 +2,7 @@
     "private": true,
     "scripts": {
         "prod": "webpack --mode=production",
-        "dev": "webpack serve"
+        "dev": "webpack serve --mode=development"
     },
     "devDependencies": {
         "@babel/core": "^7.17.5",
@@ -12,9 +12,9 @@
         "axios": "^0.21",
         "babel-loader": "^8.2.3",
         "lodash": "^4.17.19",
-        "webpack": "^5.69.1",
+        "webpack": "^5.72.1",
         "webpack-cli": "^4.9.2",
-        "webpack-dev-server": "^4.7.4"
+        "webpack-dev-server": "^4.9.0"
     },
     "dependencies": {
         "@emotion/react": "^11.8.1",

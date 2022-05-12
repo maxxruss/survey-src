@@ -35,7 +35,6 @@ module.exports = (env, argv) => {
         devtool: "inline-source-map",
         output: {
             filename: "app.js",
-            publicPath: is_prod ? "/" : "http://localhost:8080/js/",
             path: path.resolve(__dirname, "public/js"),
             clean: true,
         },
@@ -58,12 +57,7 @@ module.exports = (env, argv) => {
                 },
             ],
         },
-        devServer: {
-            static: {
-                directory: path.join(__dirname, "public"),
-            },
-            hot: true,
-            liveReload: false,
+        devServer: {           
             headers: { "Access-Control-Allow-Origin": "*" },
         },
     };

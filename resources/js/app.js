@@ -27,6 +27,9 @@ const theme = createTheme(
 
 // if (module.hot) module.hot.accept();
 
+// var root = document.getElementById('root')
+// root.innerText = "ok11!"
+
 render(
     <Provider store={store}>
         <ErrorBoundry>

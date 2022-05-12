@@ -13,11 +13,12 @@
 </head>
 
 <body>
-    <div id="root"></div>
-    <noscript>
-        You need to enable JavaScript to run this app.
-    </noscript>
-    <script src="js/app.js"></script>
+    <div id="root"></div>   
+    @if(env('APP_ENV') === 'local')
+    <script src="http://localhost:8080/app.js"></script>
+    @else
+    <script src="/js/app.js"></script>
+    @endif
 </body>
 
 </html>
