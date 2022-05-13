@@ -13,7 +13,8 @@ import { bindActionCreators } from "redux";
 import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import { Link } from "react-router-dom";
-import withRouter from "../../hoc/with-router";
+// import withRouter from "../../hoc/with-router";
+import { useHistory } from "react-router-dom";
 
 function Copyright(props) {
     return (
@@ -41,6 +42,7 @@ function SignIn({
     navigate,
 }) {
     const [checked, setChecked] = React.useState(true);
+    const history = useHistory();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -56,7 +58,7 @@ function SignIn({
         var response = await requestService.auth(params);
 
         // if (response.result == "success") {
-        //     navigate("/");
+        //     history.push('/')
         // }
 
 
@@ -93,7 +95,7 @@ function SignIn({
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    Авторизация1
+                    Авторизация
                 </Typography>
                 <Box
                     component="form"
@@ -166,6 +168,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 export default compose(
     withRequestService(),
-    withRouter(),
+    // withRouter(),
     connect(mapStateToProps, mapDispatchToProps)
 )(SignIn);

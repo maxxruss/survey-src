@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import withRouter from "./hoc/with-router";
+import { Switch, Route } from "react-router-dom";
+// import withRouter from "./hoc/with-router";
 import compose from "../utils/compose";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,34 +13,34 @@ import SignUp from "./pages/auth/signup";
 import store from "../redux/store";
 import PropTypes from 'prop-types'
 
-const RequireAuth = ({ children, location }) => {
-    const store_data = store.getState();
-    console.log('RequireAuth')
+// const RequireAuth = ({ children, location }) => {
+//     const store_data = store.getState();
+//     console.log('RequireAuth')
 
-    if (store_data.id) {
-        console.log('Navigate')
-        return <Navigate to="/" state={{ from: location }} replace />;
-    }
+//     // if (store_data.id) {
+//     //     console.log('Navigate')
+//     //     return <Navigate to="/" state={{ from: location }} replace />;
+//     // }
 
-    return children;
-};
+//     return children;
+// };
 
-RequireAuth.propTypes = {
-    children: PropTypes.node
-}
-
-
+// RequireAuth.propTypes = {
+//     children: PropTypes.node
+// }
 
 const Main = (props) => {
     return (
         <>
             <CssBaseline />
-            <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route
+            <Switch>
+                <Route path="/" component={Home} />
+                <Route path="/signin" component={SignIn} />
+                <Route path="/signup" component={SignUp} />
+                {/* <Route
                     exact
                     path="/signin"
-                    element={
+                    component={
                         <RequireAuth
                             children={<SignIn />}
                             location={props.location}
@@ -50,17 +50,18 @@ const Main = (props) => {
                 <Route
                     exact
                     path="/signup"
-                    element={
+                    component={
                         <RequireAuth
                             children={<SignUp />}
                             location={props.location}
                         />
                     }
-                />
-                <Route path="*" component={<Navigate to="/" />} />
-            </Routes>
+                /> */}
+                {/* <Route path="*" component={<Navigate to="/" />} /> */}
+            </Switch>
         </>
     );
 };
 
-export default compose(withRequestService(), withRouter())(Main);
+// export default compose(withRequestService(), withRouter())(Main);
+export default withRequestService()(Main);

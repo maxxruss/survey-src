@@ -32,11 +32,11 @@ function SignUp({ requestService }) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
-        console.log({
-            name: data.get('name'),
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        // console.log({
+        //     name: data.get('name'),
+        //     email: data.get('email'),
+        //     password: data.get('password'),
+        // });
 
         const params = {
             name: data.get("name"),

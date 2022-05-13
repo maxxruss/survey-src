@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import withRequestService from "./hoc/with-request-service";
-import withRouter from "./hoc/with-router";
 import * as actions from "../redux/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,24 +11,21 @@ const Body = (props) => {
     console.log('Body props - ', props)
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        setLoading(true)
-        const response = async () => await props.requestService.auth({
+    async function response() {
+        const response = await props.requestService.auth({
             method: "check",
         });
 
-        response()
-
         if (response.result == "success") {
-            console.log("success")
-            setLoading(false)
             props.authDataLoaded(response.data);
-            props.navigate("/");
-        } else {
-            console.log("failed")
-            setLoading(false)
-            props.navigate("/signin");
         }
+
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        setLoading(true)
+        response()
     }, []);
 
     if (loading) return <Spinner />;
@@ -48,6 +44,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 export default compose(
     withRequestService(),
-    withRouter(),
     connect(mapStateToProps, mapDispatchToProps)
 )(Body);

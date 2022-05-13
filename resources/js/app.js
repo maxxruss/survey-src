@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import ErrorBoundry from "./components/error-boundry";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ruRU } from "@mui/material/locale";
-import Body from "./components/body";
+import Body from "./components/Body";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ServiceProvider } from "./services/context";
