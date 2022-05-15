@@ -35,6 +35,7 @@ module.exports = (env, argv) => {
         devtool: "inline-source-map",
         output: {
             filename: "app.js",
+            // publicPath: "/",
             path: path.resolve(__dirname, "public/js"),
             clean: true,
         },
@@ -57,7 +58,8 @@ module.exports = (env, argv) => {
                 },
             ],
         },
-        devServer: {           
+        devServer: {
+            // historyApiFallback: true,
             headers: { "Access-Control-Allow-Origin": "*" },
         },
     };
