@@ -13,7 +13,6 @@ import { bindActionCreators } from "redux";
 import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import { Link } from "react-router-dom";
-// import withRouter from "../../hoc/with-router";
 import { useHistory } from "react-router-dom";
 
 function Copyright(props) {
@@ -40,6 +39,7 @@ function SignIn({
     authDataError,
     id,
     navigate,
+    setAuth
 }) {
     const [checked, setChecked] = React.useState(true);
     const history = useHistory();
@@ -57,9 +57,10 @@ function SignIn({
 
         var response = await requestService.auth(params);
 
-        // if (response.result == "success") {
-        //     history.push('/')
-        // }
+        if (response.result == "success") {
+            setAuth(true);
+            history.push('/')
+        }
 
 
         if ((response.result == "success")) {

@@ -35,9 +35,7 @@ const Main = (props) => {
             <CssBaseline />
             <Switch>
                 <Route path="/" component={Home} />
-                <Route path="/signin" component={SignIn} />
-                <Route path="/signup" component={SignUp} />
-                {/* <Route
+                <Route
                     exact
                     path="/signin"
                     component={
@@ -56,8 +54,8 @@ const Main = (props) => {
                             location={props.location}
                         />
                     }
-                /> */}
-                {/* <Route path="*" component={<Navigate to="/" />} /> */}
+                />
+                <Route path="*" component={<Navigate to="/" />} />
             </Switch>
         </>
     );

@@ -98,7 +98,8 @@ class AuthController extends Controller
         auth()->login($user);
 
         return response()->json([
-            'result' => 'success'
+            'result' => 'success',
+            'data' => Auth::user()
         ]);
     }
 }

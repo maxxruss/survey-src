@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const Home = (props) => {
+    console.log('Home')
     console.log('home props - ', props)
     const history = useHistory();
 
@@ -19,14 +20,22 @@ const Home = (props) => {
 
         if (response.result == "success") {
             props.authLogOut();
+            props.setAuth(false);
             history.push('/signin')
         }
+    };
+
+    const about = async () => {
+       
+        history.push('/about')
+
     };
 
     return (
         <div className="tender_test">
             <h1>Home</h1>
             <Button onClick={() => logout()}>Выйти</Button>
+            <Button onClick={() => about()}>about</Button>
         </div>
     );
 };

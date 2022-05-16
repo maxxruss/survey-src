@@ -11,6 +11,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
+import * as actions from "../../../redux/actions";
+
 
 function Copyright(props) {
     return (
@@ -27,16 +29,11 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-function SignUp({ requestService }) {
+function SignUp({ authDataLoaded, requestService, setAuth }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        // console.log({
-        //     name: data.get('name'),
-        //     email: data.get('email'),
-        //     password: data.get('password'),
-        // });
+        
 
         const params = {
             name: data.get("name"),
@@ -49,6 +46,8 @@ function SignUp({ requestService }) {
 
         if ((response.result = "success")) {
             authDataLoaded(response.data);
+            setAuth(true);
+            history.push('/')
         }
 
     };
@@ -125,6 +124,13 @@ function SignUp({ requestService }) {
     );
 }
 
+const mapStateToProps = ({ id, role, token, org, login }) => {
+    return { id, role, token, org, login };
+};
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
+
 export default compose(
-    withRequestService()
+    withRequestService(),
+    connect(mapStateToProps, mapDispatchToProps)
 )(SignUp);
