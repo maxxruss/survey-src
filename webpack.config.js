@@ -43,21 +43,34 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.js$/,
-                    exclude: /node_modules/,
                     use: jsLoaders(),
+                    exclude: /node_modules/
                 },
                 {
                     test: /\.jsx$/,
-                    exclude: /node_modules/,
                     use: [
                         {
                             loader: "babel-loader",
                             options: babelOptions(),
                         },
                     ],
+                    exclude: /node_modules/
                 },
+                {
+                    test: /\.ts?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/,
+                },
+                {
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/,
+                }
             ],
         },
+        resolve: {
+            extensions: ['.tsx', '.ts', '.js', 'jsx'],
+          },
         devServer: {
             // historyApiFallback: true,
             headers: { "Access-Control-Allow-Origin": "*" },

@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
 
 const About = () => {
-    console.log('About')
     const history = useHistory();
 
     const Home = async () => {

@@ -1,16 +1,14 @@
-import React, { Component, PropTypes } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 // import withRouter from "../hoc/with-router";
 import withRequestService from "../hoc/with-request-service";
 import compose from "../../utils/compose";
-import * as actions from "../../redux/actions";
+import * as actions from "../../redux/actions/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const Home = (props) => {
-    console.log('Home')
-    console.log('home props - ', props)
+const Home = (props: any) => {    
     const history = useHistory();
 
     const logout = async () => {
@@ -25,10 +23,8 @@ const Home = (props) => {
         }
     };
 
-    const about = async () => {
-       
+    const about = async () => {       
         history.push('/about')
-
     };
 
     return (
