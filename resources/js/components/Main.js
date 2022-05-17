@@ -1,61 +1,72 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 // import withRouter from "./hoc/with-router";
 import compose from "../utils/compose";
-
-import CssBaseline from "@mui/material/CssBaseline";
 import withRequestService from "./hoc/with-request-service";
-
+import CssBaseline from "@mui/material/CssBaseline";
 import Page404 from "./Pages/404";
 import Home from "./Pages/Home";
+import About from "./Pages/About";
 import SignIn from "./pages/auth/signin";
 import SignUp from "./pages/auth/signup";
-import store from "../redux/store";
-import PropTypes from 'prop-types'
 
-// const RequireAuth = ({ children, location }) => {
-//     const store_data = store.getState();
-//     console.log('RequireAuth')
+const Main = ({ auth, setAuth }) => {
 
-//     // if (store_data.id) {
-//     //     console.log('Navigate')
-//     //     return <Navigate to="/" state={{ from: location }} replace />;
-//     // }
+    function AuthorizedRoute({ children, ...rest }) {
+        console.log({ ...rest })
+        console.log(children)
+        // console.log(path)
+        return (
+            <Route
+                {...rest}
+                render={({ location }) =>
+                    auth ? (
+                        children
+                    ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/signin",
+                                state: { from: location }
+                            }}
+                        />
+                    )
+                }
+            />
+        );
+    }
 
-//     return children;
-// };
+    function UnAuthorizedRoute({ children, ...rest }) {
+        console.log({ ...rest })
+        console.log(children)
+        // console.log(path)
+        return (
+            <Route
+                {...rest}
+                render={({ location }) =>
+                    !auth ? (
+                        children
+                    ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/",
+                                state: { from: location }
+                            }}
+                        />
+                    )
+                }
+            />
+        );
+    }
 
-// RequireAuth.propTypes = {
-//     children: PropTypes.node
-// }
-
-const Main = (props) => {
     return (
         <>
             <CssBaseline />
             <Switch>
-                <Route path="/" component={Home} />
-                <Route
-                    exact
-                    path="/signin"
-                    component={
-                        <RequireAuth
-                            children={<SignIn />}
-                            location={props.location}
-                        />
-                    }
-                />
-                <Route
-                    exact
-                    path="/signup"
-                    component={
-                        <RequireAuth
-                            children={<SignUp />}
-                            location={props.location}
-                        />
-                    }
-                />
-                <Route path="*" component={<Navigate to="/" />} />
+                <AuthorizedRoute exact path="/"><Home /></AuthorizedRoute>
+                <AuthorizedRoute exact path="/about"><About /></AuthorizedRoute>
+                <UnAuthorizedRoute exact path="/signin" ><SignIn setAuth={setAuth} /></UnAuthorizedRoute>
+                <UnAuthorizedRoute exact path="/signup" ><SignUp setAuth={setAuth} /></UnAuthorizedRoute>
+                <Route path="*" component={Page404} status={404} />
             </Switch>
         </>
     );
