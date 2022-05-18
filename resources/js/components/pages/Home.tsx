@@ -8,7 +8,16 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const Home = (props: any) => {    
+interface Props {
+    authLogOut: () => {};
+    setAuth: (v: boolean) => {};
+    requestService: {
+        auth: (method: object) => { result: string };
+    };
+}
+
+const Home: React.FC<Props> = (props) => {
+    console.log("props: ", props);
     const history = useHistory();
 
     const logout = async () => {
@@ -19,12 +28,12 @@ const Home = (props: any) => {
         if (response.result == "success") {
             props.authLogOut();
             props.setAuth(false);
-            history.push('/signin')
+            history.push("/signin");
         }
     };
 
-    const about = async () => {       
-        history.push('/about')
+    const about = async () => {
+        history.push("/about");
     };
 
     return (
