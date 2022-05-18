@@ -15,7 +15,24 @@ import compose from "../../../utils/compose";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-function Copyright(props) {
+interface Props {
+    authLogOut: () => {};
+    setAuth: (v: boolean) => {};
+    requestService: {
+        auth: (method: object) => { result: string; data: string };
+    };
+    authDataLoaded: (data: any) => {};
+}
+
+type StateProps = {
+    id: string;
+    role: string;
+    token: string;
+    org: string;
+    login: string;
+};
+
+function Copyright(props: any) {
     return (
         <Typography
             variant="body2"
@@ -33,19 +50,17 @@ function Copyright(props) {
     );
 }
 
-function SignIn({
+const SignIn: React.FC<Props> = ({
     requestService,
     authDataLoaded,
-    authDataError,
-    id,
-    navigate,
-    setAuth
-}) {
+    setAuth,
+}) => {
     const [checked, setChecked] = React.useState(true);
     const history = useHistory();
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
+        console.log(event.currentTarget);
         const data = new FormData(event.currentTarget);
 
         const params = {
@@ -59,31 +74,31 @@ function SignIn({
 
         if (response.result == "success") {
             setAuth(true);
-            history.push('/')
+            history.push("/");
         }
 
-
-        if ((response.result == "success")) {
-            authDataLoaded(response.data);
+        if (response.result == "success") {
+            const data = response.data;
+            authDataLoaded(data);
         }
     };
 
-    const check = async () => {
-        const params = {
-            method: "check",
-        };
+    // const check = async () => {
+    //     const params = {
+    //         method: "check",
+    //     };
 
-        var response = await requestService.auth(params);
-    };
+    //     var response = await requestService.auth(params);
+    // };
 
-    const test = async () => {
-        const params = {
-            method: "test",
-        };
+    // const test = async () => {
+    //     const params = {
+    //         method: "test",
+    //     };
 
-        var response = await requestService.auth(params);
-        response = response.data;
-    };
+    //     var response = await requestService.auth(params);
+    //     response = response.data;
+    // };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -146,26 +161,25 @@ function SignIn({
                     </Button>
                 </Box>
                 <Grid container>
-                    <Grid item xs>
+                    {/* <Grid item xs>
                         <Button onClick={() => check()}>check</Button>
                         <Button onClick={() => test()}>test</Button>
-                    </Grid>
+                    </Grid> */}
                     <Grid item>
-                        <Link to="/signup" variant="body2">
-                            Регистрация
-                        </Link>
+                        <Link to="/signup">Регистрация</Link>
                     </Grid>
                 </Grid>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
     );
-}
-const mapStateToProps = ({ id, role, token, org, login }) => {
+};
+const mapStateToProps = ({ id, role, token, org, login }: StateProps) => {
     return { id, role, token, org, login };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch: any) =>
+    bindActionCreators(actions, dispatch);
 
 export default compose(
     withRequestService(),
