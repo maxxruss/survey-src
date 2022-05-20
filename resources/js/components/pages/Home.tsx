@@ -17,7 +17,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = (props) => {
-    console.log("props: ", props);
+    // console.log("props: ", props);
     const history = useHistory();
 
     const logout = async () => {

@@ -81,24 +81,7 @@ const SignIn: React.FC<Props> = ({
             const data = response.data;
             authDataLoaded(data);
         }
-    };
-
-    // const check = async () => {
-    //     const params = {
-    //         method: "check",
-    //     };
-
-    //     var response = await requestService.auth(params);
-    // };
-
-    // const test = async () => {
-    //     const params = {
-    //         method: "test",
-    //     };
-
-    //     var response = await requestService.auth(params);
-    //     response = response.data;
-    // };
+    };    
 
     return (
         <Container component="main" maxWidth="xs">
@@ -160,11 +143,7 @@ const SignIn: React.FC<Props> = ({
                         Отправить
                     </Button>
                 </Box>
-                <Grid container>
-                    {/* <Grid item xs>
-                        <Button onClick={() => check()}>check</Button>
-                        <Button onClick={() => test()}>test</Button>
-                    </Grid> */}
+                <Grid container>                   
                     <Grid item>
                         <Link to="/signup">Регистрация</Link>
                     </Grid>
