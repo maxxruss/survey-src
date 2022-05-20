@@ -13,6 +13,7 @@ import { ServiceProvider } from "./services/context";
 // import RequestService from "./services/request";
 import * as requestService from "./services/request";
 
+type ValueTypes = any;
 
 const theme = createTheme(
     {
@@ -30,10 +31,12 @@ const theme = createTheme(
 // var root = document.getElementById('root')
 // root.innerText = "ok11!"
 
+const { ...value }: ValueTypes = requestService;
+
 render(
     <Provider store={store}>
         <ErrorBoundry>
-            <ServiceProvider value={{...requestService}}>
+            <ServiceProvider value={value}>
                 <BrowserRouter>
                     <ThemeProvider theme={theme}>
                         <Body />

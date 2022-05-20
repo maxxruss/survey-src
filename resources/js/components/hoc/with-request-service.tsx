@@ -1,8 +1,11 @@
 import React from "react";
 import { ServiceConsumer } from "../../services/context";
 
-const withRequestService = () => (Wrapped) => {
-    return (props) => {
+type WrappedTypes = any;
+type Props = any;
+
+const withRequestService = () => (Wrapped: WrappedTypes) => {
+    return (props: Props) => {
         return (
             <ServiceConsumer>
                 {(requestService) => {

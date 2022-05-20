@@ -1,4 +1,11 @@
-const reducer = (state, action) => {
+type ActionType = {
+    type: string;
+    payload: any;
+};
+
+type StateType = {} | undefined;
+
+const reducer = (state: StateType, action: ActionType) => {
     if (state === undefined) {
         return {
             id: "",

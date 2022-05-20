@@ -30,7 +30,7 @@ module.exports = (env, argv) => {
     return {
         mode: is_prod ? "production" : "development",
         entry: {
-            app: "./resources/js/app.js",
+            app: "./resources/js/app",
         },
         devtool: "inline-source-map",
         output: {

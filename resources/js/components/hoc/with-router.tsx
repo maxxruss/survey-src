@@ -1,8 +1,11 @@
 import React from "react";
 // import { useNavigate, useLocation } from "react-router-dom";
 
-const withRouter = () => (Wrapped) => {
-    return (props) => {
+type WrappedTypes = any;
+type Props = any;
+
+const withRouter = () => (Wrapped: WrappedTypes) => {
+    return (props: Props) => {
         // const location = useLocation();
         // const navigate = useNavigate();
 
