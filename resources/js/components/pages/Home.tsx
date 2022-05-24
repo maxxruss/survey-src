@@ -7,6 +7,7 @@ import * as actions from "../../redux/actions/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Interviewer from "./interviewer";
 
 interface Props {
     authLogOut: () => {};
@@ -41,6 +42,7 @@ const Home: React.FC<Props> = (props) => {
             <h1>Home</h1>
             <Button onClick={() => logout()}>Выйти</Button>
             <Button onClick={() => about()}>about</Button>
+            <Interviewer />
         </div>
     );
 };
