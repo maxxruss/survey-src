@@ -8,6 +8,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Interviewer from "./interviewer";
+import TablePagination from '@mui/material/TablePagination';
+
 
 interface Props {
     authLogOut: () => {};
@@ -43,6 +45,13 @@ const Home: React.FC<Props> = (props) => {
             <Button onClick={() => logout()}>Выйти</Button>
             <Button onClick={() => about()}>about</Button>
             <Interviewer />
+            <TablePagination
+                count={2000}
+                rowsPerPage={10}
+                page={1}
+                component="div"
+                onPageChange={() => {}}
+            />
         </div>
     );
 };
