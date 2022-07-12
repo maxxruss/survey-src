@@ -4,16 +4,23 @@ import * as actions from "../redux/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import compose from "../utils/compose";
-import { useLocation } from "react-router-dom";
+import { withCookies } from "react-cookie";
+import { ThemeProvider } from "@mui/material/styles";
+import getTheme from "../theme";
 import Spinner from "./spinner";
 import Main from "./Main";
+import ButtonAppBar from "./ui/AppBar";
 
 interface Props {
     requestService: {
         auth: (method: object) => { result: string; data: string };
     };
     authDataLoaded: (data: any) => {};
-    getLang: () => {}
+    getLang: () => {};
+    cookies: {
+        set: (arg1: String, arg2: String) => {};
+        get: (arg1: String) => {};
+    };
 }
 
 type StateProps = {
@@ -23,24 +30,14 @@ type StateProps = {
 };
 
 const Body: React.FC<Props> = (props) => {
-    const { pathname } = useLocation();
-    const firstSegment = pathname.split("/")[1];
-    console.log("firstSegment:", firstSegment);
+    console.log("Body props", props);
+    const { cookies } = props;
+    const lang = cookies.get("lang");
+    console.log("getTheme", getTheme());
+    const theme = getTheme();
 
-    let lang = '';
-
-    if (firstSegment === "eng") {
-         lang = "eng";
-    } else {
-        lang =  "rus";
-    }
-
-    console.log('Body lang', lang)
-
-    console.log('Body props', props)
-    
     const [loading, setLoading] = useState(false);
-    const [auth, setAuth] = useState(true); 
+    const [auth, setAuth] = useState(true);
 
     async function authCheck() {
         setLoading(true);
@@ -67,7 +64,10 @@ const Body: React.FC<Props> = (props) => {
     if (loading) return <Spinner />;
     return (
         <>
-            <Main auth={auth} setAuth={setAuth} />
+            <ThemeProvider theme={theme}>
+                <ButtonAppBar />
+                <Main auth={auth} setAuth={setAuth} />
+            </ThemeProvider>
         </>
     );
 };
@@ -81,5 +81,6 @@ const mapDispatchToProps = (dispatch: any) =>
 
 export default compose(
     withRequestService(),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps),
+    withCookies
 )(Body);

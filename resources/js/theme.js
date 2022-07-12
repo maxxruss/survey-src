@@ -1,14 +1,19 @@
 import { createTheme } from "@mui/material/styles";
-import { ruRU } from "@mui/material/locale";
+import { ruRU, enUS } from "@mui/material/locale";
+import { useCookies } from "react-cookie";
 
-const theme = createTheme(
-    {
-        palette: {
-            primary: { main: "#1976d2" },
+const getTheme = () => {   
+    const [cookies] = useCookies();
+    const { lang } = cookies;
+
+    return createTheme(
+        {
+            palette: {
+                primary: { main: "#1976d2" },
+            },
         },
-    },
-    ruRU
-);
+        lang == "en" ? enUS : ruRU
+    );
+};
 
-
-export default theme
+export default getTheme;
