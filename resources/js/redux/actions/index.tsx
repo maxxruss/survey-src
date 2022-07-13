@@ -17,3 +17,9 @@ export const authLogOut = () => {
         type: "AUTH_LOGOUT",
     };
 };
+
+export const toggleDrawer = () => {
+    return {
+        type: "DRAWER_TOGGLE",
+    };
+};

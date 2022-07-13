@@ -16,27 +16,25 @@ interface HeadersTypes {
 
 const _BASE_URL = "/api";
 
-export const auth = (params: AuthParamsTypes) => {
-    return new Promise((resolve) => {
-        // const body = new URLSearchParams();
-        // body.append("params", JSON.stringify(params));
-        const payload: HeadersTypes = {
-            method: "post",
-            headers: {
-                "X-CSRF-TOKEN": document
-                    .querySelector(`meta[name="csrf-token"]`)
-                    ?.getAttribute("content"),
-                "X-Requested-With": "XMLHttpRequest",
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(params),
-        };
+export const auth = (params: AuthParamsTypes) => {    
+    const payload: HeadersTypes = {
+        method: "post",
+        headers: {
+            "X-CSRF-TOKEN": document
+                .querySelector(`meta[name="csrf-token"]`)
+                ?.getAttribute("content"),
+            "X-Requested-With": "XMLHttpRequest",
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(params),
+    };
 
-        fetch(`${_BASE_URL}/${params.method}`, payload).then((data) => {
-            resolve(data.json());
-        });
-    });
+    const data = fetch(`${_BASE_URL}/${params.method}`, payload)
+        .then((data) => data.json())
+        .then((data) => data);
+
+    return data;
 };
 
 // export const request = ({ action, userParams: { id, role, token }, requestParams = {} }) => {

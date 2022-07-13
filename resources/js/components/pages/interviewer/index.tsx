@@ -1,12 +1,12 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import MainMenu from "../../ui/MainMenu";
+// import MainMenu from "../../ui/Menu";
 
 const Interviewer = () => {
     return (
         <>
             <Grid>
-                <MainMenu />
+                {'Interviewer'}
             </Grid>
         </>
     );

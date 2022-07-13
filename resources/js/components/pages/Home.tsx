@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Interviewer from "./interviewer";
 import TablePagination from '@mui/material/TablePagination';
+import Drawer from "../ui/Drawer"
 
 
 interface Props {
@@ -41,17 +42,18 @@ const Home: React.FC<Props> = (props) => {
 
     return (
         <div className="tender_test">
+            <Drawer/>
             <h1>Home</h1>
             <Button onClick={() => logout()}>Выйти</Button>
             <Button onClick={() => about()}>about</Button>
             <Interviewer />
-            <TablePagination
+            {/* <TablePagination
                 count={2000}
                 rowsPerPage={10}
                 page={1}
                 component="div"
                 onPageChange={() => {}}
-            />
+            /> */}
         </div>
     );
 };

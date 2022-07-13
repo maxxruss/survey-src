@@ -42,7 +42,7 @@ function Copyright(props: any) {
         >
             {"Copyright © "}
             <Link color="inherit" to="/">
-                Your Website
+                Survey services
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}
@@ -153,6 +153,7 @@ const SignIn: React.FC<Props> = ({
         </Container>
     );
 };
+
 const mapStateToProps = ({ id, role, token, org, login }: StateProps) => {
     return { id, role, token, org, login };
 };

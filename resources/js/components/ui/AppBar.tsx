@@ -9,8 +9,15 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Dictionary from "../../dictionary";
 import { useCookies } from "react-cookie";
+import { toggleDrawer } from "../../redux/actions";
+import { connect } from "react-redux";
 
-export default function ButtonAppBar() {
+
+type Props = {
+    toggleDrawer: () => {};
+};
+
+const ButtonAppBar = ({ toggleDrawer }: Props)=> {
     const [cookies, setCookie] = useCookies();
 
     const dict = Dictionary();
@@ -37,6 +44,7 @@ export default function ButtonAppBar() {
                         color="inherit"
                         aria-label="menu"
                         sx={{ mr: 2 }}
+                        onClick={toggleDrawer}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -59,3 +67,8 @@ export default function ButtonAppBar() {
         </Box>
     );
 }
+
+const mapDispathToProps = { toggleDrawer };
+
+
+export default connect(null, mapDispathToProps)(ButtonAppBar)
