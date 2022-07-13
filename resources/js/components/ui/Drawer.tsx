@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Drawer from "@mui/material/Drawer";
+import React from "react";
 import Menu from "../ui/Menu";
 import { connect } from "react-redux";
 import { toggleDrawer } from "../../redux/actions";
+import Paper from "@mui/material/Paper";
 
 type Props = {
     drawerStatus: boolean;
@@ -13,8 +13,8 @@ type StateProps = {
     drawerStatus: boolean;
 };
 
-const MenuDrawer = ({ drawerStatus, toggleDrawer }: Props) => {
-    const OnToggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
+const Drawer = ({ drawerStatus, toggleDrawer }: Props) => {
+    const onToggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
             event.type === "keydown" &&
             ((event as React.KeyboardEvent).key === "Tab" ||
@@ -27,17 +27,15 @@ const MenuDrawer = ({ drawerStatus, toggleDrawer }: Props) => {
     };
 
     return (
-        <div>
-            <>
-                <Drawer
-                    anchor={"left"}
-                    open={drawerStatus}
-                    onClose={OnToggleDrawer}
-                >
-                    <Menu />
-                </Drawer>
-            </>
-        </div>
+        <Paper
+            className="menu-wrap"
+            style={{
+                transform: drawerStatus ? "translateX(0)" : "translateX(-100%)",
+            }}
+            onClick={onToggleDrawer}
+        >
+            <Menu />
+        </Paper>
     );
 };
 
@@ -47,4 +45,4 @@ const mapStateToProps = ({ drawerStatus }: StateProps) => {
 
 const mapDispathToProps = { toggleDrawer };
 
-export default connect(mapStateToProps, mapDispathToProps)(MenuDrawer);
+export default connect(mapStateToProps, mapDispathToProps)(Drawer);

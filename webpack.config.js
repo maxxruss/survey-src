@@ -42,9 +42,13 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 {
+                    test: /\.css$/i,
+                    use: ["style-loader", "css-loader"],
+                },
+                {
                     test: /\.js$/,
                     use: jsLoaders(),
-                    exclude: /node_modules/
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.jsx$/,
@@ -54,23 +58,23 @@ module.exports = (env, argv) => {
                             options: babelOptions(),
                         },
                     ],
-                    exclude: /node_modules/
+                    exclude: /node_modules/,
                 },
                 {
                     test: /\.ts?$/,
-                    use: 'ts-loader',
+                    use: "ts-loader",
                     exclude: /node_modules/,
                 },
                 {
                     test: /\.tsx?$/,
-                    use: 'ts-loader',
+                    use: "ts-loader",
                     exclude: /node_modules/,
-                }
+                },
             ],
         },
         resolve: {
-            extensions: ['.tsx', '.ts', '.js', 'jsx'],
-          },
+            extensions: [".tsx", ".ts", ".js", "jsx"],
+        },
         devServer: {
             // historyApiFallback: true,
             headers: { "Access-Control-Allow-Origin": "*" },

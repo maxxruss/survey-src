@@ -1,5 +1,5 @@
 require("./bootstrap");
-// import "../sass/app.scss";
+import "../style/app.css";
 import React from "react";
 import { render } from "react-dom";
 import {BrowserRouter} from "react-router-dom";
@@ -8,7 +8,6 @@ import Body from "./components/Body";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { ServiceProvider } from "./services/context";
-// import RequestService from "./services/request";
 import * as requestService from "./services/request";
 import { CookiesProvider } from "react-cookie";
 

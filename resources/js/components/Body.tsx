@@ -10,6 +10,7 @@ import getTheme from "../theme";
 import Spinner from "./spinner";
 import Main from "./Main";
 import ButtonAppBar from "./ui/AppBar";
+import CssBaseline from "@mui/material/CssBaseline";
 
 interface Props {
     requestService: {
@@ -30,12 +31,9 @@ type StateProps = {
 };
 
 const Body: React.FC<Props> = (props) => {
-    console.log("Body props", props);
     const { cookies } = props;
     const lang = cookies.get("lang");
-    console.log("getTheme", getTheme());
     const theme = getTheme();
-
     const [loading, setLoading] = useState(false);
     const [auth, setAuth] = useState(true);
 
@@ -65,7 +63,8 @@ const Body: React.FC<Props> = (props) => {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <ButtonAppBar />
+                <CssBaseline />
+                <ButtonAppBar auth={auth} setAuth={setAuth} />
                 <Main auth={auth} setAuth={setAuth} />
             </ThemeProvider>
         </>

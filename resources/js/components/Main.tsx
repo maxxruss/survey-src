@@ -1,12 +1,12 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import withRequestService from "./hoc/with-request-service";
-import CssBaseline from "@mui/material/CssBaseline";
 import Page404 from "./pages/404";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import SignIn from "./pages/auth/signin";
 import SignUp from "./pages/auth/signup";
+import Drawer from "./ui/Drawer";
 
 interface Props {
     auth: boolean;
@@ -64,13 +64,13 @@ const Main: React.FC<Props> = (props) => {
             />
         );
     }
-   
+
     return (
         <>
-            <CssBaseline />
+            <Drawer />
             <Switch>
                 <AuthorizedRoute exact path="/">
-                    <Home setAuth={setAuth} />
+                    <Home />
                 </AuthorizedRoute>
                 <AuthorizedRoute exact path="/about">
                     <About />

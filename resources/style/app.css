@@ -1,0 +1,10 @@
+.menu-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    text-align: left;
+    top: 64px;
+    position: absolute;
+    transition: transform 0.3s ease-in-out !important;
+    transform: translateX(-100%);
+}

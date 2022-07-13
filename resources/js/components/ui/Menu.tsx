@@ -8,8 +8,15 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import { useHistory } from "react-router-dom";
 
 const MainMenu = () => {
+    const history = useHistory();   
+
+    const about = async () => {
+        history.push("/about");
+    };
+
     return (
         <>
             <Box
@@ -26,7 +33,10 @@ const MainMenu = () => {
                                 <ListItemIcon>
                                     <InboxIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Inbox" />
+                                <ListItemText
+                                    primary="about"
+                                    onClick={() => about()}
+                                />
                             </ListItemButton>
                         </ListItem>
                         <ListItem disablePadding>
@@ -44,12 +54,9 @@ const MainMenu = () => {
                     <List>
                         <ListItem disablePadding>
                             <ListItemButton>
-                                <ListItemText primary="Trash" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton component="a" href="#simple-list">
-                                <ListItemText primary="Spam" />
+                                <ListItemText
+                                    primary="Trash"                                    
+                                />
                             </ListItemButton>
                         </ListItem>
                     </List>
@@ -59,4 +66,5 @@ const MainMenu = () => {
     );
 };
 
-export default MainMenu;
+
+export default MainMenu
