@@ -83,17 +83,29 @@ class AuthController extends Controller
 
     public function register(Request $params)
     {
-        // $name = $params->login;
-        // $email = $params->email;
-        // $password = $params->password;
+        // $tt = $params->all();
+        // var_dump($tt);die();
 
-        $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $name = $params->login;
+        $email = $params->email;
+        $password = $params->password;
 
-        $user = User::create(request(['name', 'email', 'password']));
+        $data = [
+            'name' => $params->name,
+            'email' => $params->email,
+            'password' => $params->password,
+            'role_id' => 2,
+        ];
+
+        // $this->validate(request(), [
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'password' => 'required'
+        // ]);
+
+        // var_dump(request(['name', 'email', 'password']));die();
+
+        $user = User::create($data);
 
         auth()->login($user);
 
