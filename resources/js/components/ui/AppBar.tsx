@@ -65,7 +65,7 @@ const ButtonAppBar = ({
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed" color="primary">
                 <Toolbar>
                     <Grid container>
                         <Grid item xs={1}>

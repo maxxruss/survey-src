@@ -1,21 +1,46 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import InboxIcon from "@mui/icons-material/Inbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import { useHistory } from "react-router-dom";
+import {
+    Box,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Divider,
+    Icon,
+} from "@mui/material";
+
+import {
+    // useHistory,
+    Link as RouterLink,
+    LinkProps as RouterLinkProps,
+    MemoryRouter as Router,
+} from "react-router-dom";
+
+const menuItems = [
+    {
+        to: "/",
+        icon: "home",
+        title: "Главная",
+    },
+    {
+        to: "/about",
+        icon: "info",
+        title: "О проекте",
+    },
+    {
+        to: "/analytics",
+        icon: "analytics",
+        title: "Аналитика",
+    },
+];
 
 const MainMenu = () => {
-    const history = useHistory();   
+    // const history = useHistory();
 
-    const about = async () => {
-        history.push("/about");
-    };
+    // const about = async () => {
+    //     history.push("/about");
+    // };
 
     return (
         <>
@@ -28,25 +53,22 @@ const MainMenu = () => {
             >
                 <nav aria-label="main mailbox folders">
                     <List>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <InboxIcon />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="about"
-                                    onClick={() => about()}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <DraftsIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Drafts" />
-                            </ListItemButton>
-                        </ListItem>
+                        {menuItems.map((item, i) => {
+                            return (
+                                <ListItem
+                                    disablePadding
+                                    component={RouterLink}
+                                    to={item.to}
+                                >
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <Icon>{item.icon}</Icon>
+                                        </ListItemIcon>
+                                        <ListItemText primary={item.title} />
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
                     </List>
                 </nav>
                 <Divider />
@@ -54,9 +76,7 @@ const MainMenu = () => {
                     <List>
                         <ListItem disablePadding>
                             <ListItemButton>
-                                <ListItemText
-                                    primary="Trash"                                    
-                                />
+                                <ListItemText primary="Trash" />
                             </ListItemButton>
                         </ListItem>
                     </List>
@@ -66,5 +86,4 @@ const MainMenu = () => {
     );
 };
 
-
-export default MainMenu
+export default MainMenu;
