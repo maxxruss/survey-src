@@ -7,17 +7,15 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import * as actions from "../../../redux/actions";
+import { authLogOut, authDataLoaded } from "../../../redux/actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 interface Props {
     authLogOut: () => {};
-    setAuth: (v: boolean) => {};
     requestService: {
         auth: (method: object) => { result: string; data: string };
     };
@@ -50,17 +48,12 @@ function Copyright(props: any) {
     );
 }
 
-const SignIn: React.FC<Props> = ({
-    requestService,
-    authDataLoaded,
-    setAuth,
-}) => {
+const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
     const [checked, setChecked] = React.useState(true);
     const history = useHistory();
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        console.log(event.currentTarget);
         const data = new FormData(event.currentTarget);
 
         const params = {
@@ -73,15 +66,10 @@ const SignIn: React.FC<Props> = ({
         var response = await requestService.auth(params);
 
         if (response.result == "success") {
-            setAuth(true);
+            authDataLoaded(response.data);
             history.push("/");
         }
-
-        if (response.result == "success") {
-            const data = response.data;
-            authDataLoaded(data);
-        }
-    };    
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -143,7 +131,7 @@ const SignIn: React.FC<Props> = ({
                         Отправить
                     </Button>
                 </Box>
-                <Grid container>                   
+                <Grid container>
                     <Grid item>
                         <Link to="/signup">Регистрация</Link>
                     </Grid>
@@ -159,7 +147,7 @@ const mapStateToProps = ({ id, role, token, org, login }: StateProps) => {
 };
 
 const mapDispatchToProps = (dispatch: any) =>
-    bindActionCreators(actions, dispatch);
+    bindActionCreators({ authLogOut, authDataLoaded }, dispatch);
 
 export default compose(
     withRequestService(),

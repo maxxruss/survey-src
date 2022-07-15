@@ -27,23 +27,48 @@ class AuthController extends Controller
         }
     }
 
+    public function register(Request $params)
+    {
+        $name = $params->name;
+        $email = $params->email;
+        $password = $params->password;
+
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'role_id' => 2,
+        ];
+
+        $user = User::create($data);
+        auth()->login($user);
+
+
+        $credentials = [
+            'name' => $name,
+            'password' => $password,
+        ];
+
+        if (Auth::attempt($credentials, true)) {
+            $params->session()->regenerate();
+            return response()->json([
+                'result' => 'success',
+                'data' => Auth::user()
+            ]);
+        } else {
+            return response()->json([
+                'result' => 'false',
+            ]);
+        }
+    }
+
     public function auth(Request $request)
     {
-        // var_dump($params->all());die();       
         $remember = $request->remember;
-        // $name = $request->name;
-        // $password = $request->password;
-
-
         $credentials = $request->validate([
             'name' => 'required',
             'password' => 'required',
         ]);
-
-        // $credentials = [
-        //     'name' => $name,
-        //     'password' => $password,
-        // ];
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
@@ -78,40 +103,6 @@ class AuthController extends Controller
 
         return response()->json([
             'result' => $result
-        ]);
-    }
-
-    public function register(Request $params)
-    {
-        // $tt = $params->all();
-        // var_dump($tt);die();
-
-        $name = $params->login;
-        $email = $params->email;
-        $password = $params->password;
-
-        $data = [
-            'name' => $params->name,
-            'email' => $params->email,
-            'password' => $params->password,
-            'role_id' => 2,
-        ];
-
-        // $this->validate(request(), [
-        //     'name' => 'required',
-        //     'email' => 'required|email',
-        //     'password' => 'required'
-        // ]);
-
-        // var_dump(request(['name', 'email', 'password']));die();
-
-        $user = User::create($data);
-
-        auth()->login($user);
-
-        return response()->json([
-            'result' => 'success',
-            'data' => Auth::user()
         ]);
     }
 }

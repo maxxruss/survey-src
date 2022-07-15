@@ -14,14 +14,12 @@ import compose from "../../../utils/compose";
 import * as actions from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
 
-interface Props {
-    authLogOut: () => {};
-    setAuth: (v: boolean) => {};
+type Props = {
     requestService: {
         auth: (method: object) => { result: string; data: string };
     };
     authDataLoaded: (data: any) => {};
-}
+};
 
 type StateProps = {
     id: string;
@@ -51,11 +49,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const SignUp: React.FC<Props> = ({
-    authDataLoaded,
-    requestService,
-    setAuth,
-}) => {
+const SignUp = ({ authDataLoaded, requestService }: Props) => {
     const history = useHistory();
     const handleSubmit = async (event: any) => {
         event.preventDefault();
@@ -72,7 +66,6 @@ const SignUp: React.FC<Props> = ({
 
         if ((response.result = "success")) {
             authDataLoaded(response.data);
-            setAuth(true);
             history.push("/");
         }
     };
@@ -141,9 +134,7 @@ const SignUp: React.FC<Props> = ({
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link to="/signin">
-                                    Авторизация
-                                </Link>
+                                <Link to="/signin">Авторизация</Link>
                             </Grid>
                         </Grid>
                     </Box>

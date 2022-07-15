@@ -9,15 +9,23 @@ import {
     Divider,
     Icon,
 } from "@mui/material";
-
 import {
     // useHistory,
     Link as RouterLink,
     LinkProps as RouterLinkProps,
     MemoryRouter as Router,
 } from "react-router-dom";
+import { connect } from "react-redux";
 
-const menuItems = [
+type StateProps = {
+    role: string;
+};
+
+type Props = {
+    role: string;
+};
+
+const listCommon = [
     {
         to: "/",
         icon: "home",
@@ -35,7 +43,44 @@ const menuItems = [
     },
 ];
 
-const MainMenu = () => {
+const listAdmin = [
+    {
+        to: "/",
+        icon: "home",
+        title: "Главная",
+    },
+    {
+        to: "/about",
+        icon: "info",
+        title: "О проекте",
+    },
+    {
+        to: "/analytics",
+        icon: "analytics",
+        title: "Аналитика",
+    },
+];
+
+const listAsker = [
+    {
+        to: "/",
+        icon: "home",
+        title: "Главная",
+    },
+    {
+        to: "/about",
+        icon: "info",
+        title: "О проекте",
+    },
+    {
+        to: "/analytics",
+        icon: "analytics",
+        title: "Аналитика",
+    },
+];
+
+const MainMenu = ({ role }: Props) => {
+    console.log("role: ", role);
     // const history = useHistory();
 
     // const about = async () => {
@@ -53,9 +98,10 @@ const MainMenu = () => {
             >
                 <nav aria-label="main mailbox folders">
                     <List>
-                        {menuItems.map((item, i) => {
+                        {listCommon.map((item, i) => {
                             return (
                                 <ListItem
+                                    key={i}
                                     disablePadding
                                     component={RouterLink}
                                     to={item.to}
@@ -86,4 +132,8 @@ const MainMenu = () => {
     );
 };
 
-export default MainMenu;
+const mapStateToProps = ({ role }: StateProps) => {
+    return { role };
+};
+
+export default connect(mapStateToProps)(MainMenu);

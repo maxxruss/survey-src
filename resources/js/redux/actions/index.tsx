@@ -12,6 +12,12 @@ export const authDataError = (error: any) => {
     };
 };
 
+export const setAuth = () => {
+    return {
+        type: "AUTH_SET",
+    };
+};
+
 export const authLogOut = () => {
     return {
         type: "AUTH_LOGOUT",

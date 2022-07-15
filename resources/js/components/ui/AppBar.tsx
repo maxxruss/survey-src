@@ -22,17 +22,19 @@ type Props = {
     auth: boolean;
     toggleDrawer: () => {};
     authLogOut: () => {};
-    setAuth: (v: boolean) => {};
     requestService: {
         auth: (method: object) => { result: string };
     };
+};
+
+type StateProps = {
+    auth: boolean;
 };
 
 const ButtonAppBar = ({
     auth,
     toggleDrawer,
     authLogOut,
-    setAuth,
     requestService,
 }: Props) => {
     const history = useHistory();
@@ -58,7 +60,6 @@ const ButtonAppBar = ({
 
         if (response.result == "success") {
             authLogOut();
-            setAuth(false);
             history.push("/signin");
         }
     };
@@ -110,11 +111,15 @@ const ButtonAppBar = ({
     );
 };
 
+const mapStateToProps = ({ auth }: StateProps) => {
+    return { auth };
+};
+
 const mapDispathToProps = { toggleDrawer, authLogOut };
 
 // export default connect(null, mapDispathToProps)(ButtonAppBar);
 
 export default compose(
     withRequestService(),
-    connect(null, mapDispathToProps)
+    connect(mapStateToProps, mapDispathToProps)
 )(ButtonAppBar);

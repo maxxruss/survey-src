@@ -24,32 +24,30 @@ interface Props {
     };
 }
 
-type StateProps = {
-    id: string;
-    name: string;
-    email: string;
-};
+// type StateProps = {
+//     auth: boolean;
+//     id: string;
+//     name: string;
+//     email: string;
+//     role: string;
+// };
 
-const Body: React.FC<Props> = (props) => {
-    const { cookies } = props;
+const Body: React.FC<Props> = ({cookies, requestService, authDataLoaded, }) => {
     const lang = cookies.get("lang");
     const theme = getTheme();
     const [loading, setLoading] = useState(false);
-    const [auth, setAuth] = useState(true);
 
     async function authCheck() {
         setLoading(true);
 
-        const response = await props.requestService.auth({
+        const response = await requestService.auth({
             method: "check",
         });
 
         if (response.result == "success") {
             const data = response.data;
-            props.authDataLoaded(data);
-            setAuth(true);
+            authDataLoaded(data);
         } else {
-            setAuth(false);
         }
 
         setLoading(false);
@@ -64,22 +62,22 @@ const Body: React.FC<Props> = (props) => {
         <>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <ButtonAppBar auth={auth} setAuth={setAuth} />
-                <Main auth={auth} setAuth={setAuth} />
+                <ButtonAppBar />
+                <Main />
             </ThemeProvider>
         </>
     );
 };
 
-const mapStateToProps = ({ id, name, email }: StateProps) => {
-    return { id, name, email };
-};
+// const mapStateToProps = ({ auth, id, name, email, role }: StateProps) => {
+//     return {auth,  id, name, email, role };
+// };
 
 const mapDispatchToProps = (dispatch: any) =>
     bindActionCreators(actions, dispatch);
 
 export default compose(
     withRequestService(),
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(null, mapDispatchToProps),
     withCookies
 )(Body);

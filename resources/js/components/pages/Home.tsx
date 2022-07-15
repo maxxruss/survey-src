@@ -1,10 +1,10 @@
 import React from "react";
-import Interviewer from "./interviewer";
+import Asker from "./asker";
 
 const Home = () => {    
     return (
         <div>            
-            <Interviewer />            
+            <Asker />            
         </div>
     );
 };

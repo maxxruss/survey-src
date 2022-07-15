@@ -2,14 +2,14 @@ import React from "react";
 import { Grid } from "@mui/material";
 // import MainMenu from "../../ui/Menu";
 
-const Interviewer = () => {
+const Asker = () => {
     return (
         <>
             <Grid>
-                {'Interviewer'}
+                {'Asker'}
             </Grid>
         </>
     );
 };
 
-export default Interviewer;
+export default Asker;

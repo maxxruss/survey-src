@@ -7,11 +7,16 @@ import About from "./pages/About";
 import SignIn from "./pages/auth/signin";
 import SignUp from "./pages/auth/signup";
 import Drawer from "./ui/Drawer";
+import { connect } from "react-redux";
+import compose from "../utils/compose";
 
 interface Props {
     auth: boolean;
-    setAuth: () => {};
 }
+
+type StateProps = {
+    auth: boolean;
+};
 
 type RouteProps = {
     children: any;
@@ -19,8 +24,7 @@ type RouteProps = {
     path: string;
 };
 
-const Main: React.FC<Props> = (props) => {
-    const { auth, setAuth } = props;
+const Main = ({ auth }: Props) => {
     function AuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
         return (
@@ -76,10 +80,10 @@ const Main: React.FC<Props> = (props) => {
                     <About />
                 </AuthorizedRoute>
                 <UnAuthorizedRoute exact path="/signin">
-                    <SignIn setAuth={setAuth} />
+                    <SignIn />
                 </UnAuthorizedRoute>
                 <UnAuthorizedRoute exact path="/signup">
-                    <SignUp setAuth={setAuth} />
+                    <SignUp />
                 </UnAuthorizedRoute>
                 <Route path="*" component={Page404} />
             </Switch>
@@ -87,4 +91,8 @@ const Main: React.FC<Props> = (props) => {
     );
 };
 
-export default withRequestService()(Main);
+const mapStateToProps = ({ auth }: StateProps) => {
+    return { auth };
+};
+
+export default compose(connect(mapStateToProps), withRequestService())(Main);
