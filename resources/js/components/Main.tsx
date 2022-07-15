@@ -66,7 +66,7 @@ const Main: React.FC<Props> = (props) => {
     }
 
     return (
-        <>
+        <div className="main-content">
             <Drawer />
             <Switch>
                 <AuthorizedRoute exact path="/">
@@ -83,7 +83,7 @@ const Main: React.FC<Props> = (props) => {
                 </UnAuthorizedRoute>
                 <Route path="*" component={Page404} />
             </Switch>
-        </>
+        </div>
     );
 };
 

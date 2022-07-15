@@ -64,54 +64,49 @@ const ButtonAppBar = ({
     };
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" color="primary">
-                <Toolbar>
-                    <Grid container>
-                        <Grid item xs={1}>
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }}
-                                onClick={toggleDrawer}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={2} style={{ alignSelf: "center" }}>
-                            <Typography
-                                variant="h6"
-                                component="div"
-                                sx={{ flexGrow: 1 }}
-                            >
-                                {dict.appBarTitle}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={7}></Grid>
-                        <Grid item xs={1} style={{ alignSelf: "center" }}>
-                            <Switch
-                                checked={cookies.lang == "en"}
-                                onChange={handleChange}
-                                inputProps={{ "aria-label": "controlled" }}
-                                color="secondary"
-                            />
-                        </Grid>
-                        <Grid item xs={1} style={{ alignSelf: "center" }}>
-                            {!auth ? null : (
-                                <Button
-                                    color="inherit"
-                                    onClick={() => logout()}
-                                >
-                                    Logout
-                                </Button>
-                            )}
-                        </Grid>
+        <AppBar position="fixed" color="primary">
+            <Toolbar>
+                <Grid container>
+                    <Grid item xs={1}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            onClick={toggleDrawer}
+                        >
+                            <MenuIcon />
+                        </IconButton>
                     </Grid>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                    <Grid item xs={2} style={{ alignSelf: "center" }}>
+                        <Typography
+                            variant="h6"
+                            component="div"
+                            sx={{ flexGrow: 1 }}
+                        >
+                            {dict.appBarTitle}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}></Grid>
+                    <Grid item xs={1} style={{ alignSelf: "center" }}>
+                        <Switch
+                            checked={cookies.lang == "en"}
+                            onChange={handleChange}
+                            inputProps={{ "aria-label": "controlled" }}
+                            color="secondary"
+                        />
+                    </Grid>
+                    <Grid item xs={1} style={{ alignSelf: "center" }}>
+                        {!auth ? null : (
+                            <Button color="inherit" onClick={() => logout()}>
+                                Logout
+                            </Button>
+                        )}
+                    </Grid>
+                </Grid>
+            </Toolbar>
+        </AppBar>
     );
 };
 
