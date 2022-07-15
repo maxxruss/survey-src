@@ -1,6 +1,11 @@
 type ActionType = {
     type: string;
-    payload: any;
+    payload: {
+        id: String;
+        name: String;
+        email: String;
+        role: Number;
+    };
 };
 
 type StateType =
@@ -27,13 +32,24 @@ const reducer = (state: StateType, action: ActionType) => {
     }
     switch (action.type) {
         case "FETCH_AUTH_SUCCESS":
+            let role = "";
+
+            switch (action.payload.role) {
+                case 1:
+                    role = "admin";
+                case 2:
+                    role = "asker";
+                case 3:
+                    role = "responder";
+            }            
+
             return {
                 ...state,
                 auth: true,
                 id: action.payload.id,
                 name: action.payload.name,
                 email: action.payload.email,
-                role: action.payload.role,
+                role,
             };
         case "FETCH_AUTH_FAILURE":
             return {

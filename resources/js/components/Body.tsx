@@ -24,14 +24,6 @@ interface Props {
     };
 }
 
-// type StateProps = {
-//     auth: boolean;
-//     id: string;
-//     name: string;
-//     email: string;
-//     role: string;
-// };
-
 const Body: React.FC<Props> = ({cookies, requestService, authDataLoaded, }) => {
     const lang = cookies.get("lang");
     const theme = getTheme();
@@ -68,10 +60,6 @@ const Body: React.FC<Props> = ({cookies, requestService, authDataLoaded, }) => {
         </>
     );
 };
-
-// const mapStateToProps = ({ auth, id, name, email, role }: StateProps) => {
-//     return {auth,  id, name, email, role };
-// };
 
 const mapDispatchToProps = (dispatch: any) =>
     bindActionCreators(actions, dispatch);

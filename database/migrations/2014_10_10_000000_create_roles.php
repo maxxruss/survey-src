@@ -21,8 +21,8 @@ class CreateRoles extends Migration
 
         $roles = [
             ['id'=>1, 'title'=>'admin'],
-            ['id'=>2, 'title'=>'interviewer'],
-            ['id'=>3, 'title'=>'respondent'],
+            ['id'=>2, 'title'=>'asker'],
+            ['id'=>3, 'title'=>'responder'],
         ];
 
         DB::table('roles')->insert($roles);
