@@ -4,7 +4,7 @@ type ActionType = {
         id: String;
         name: String;
         email: String;
-        role: Number;
+        role_id: Number;
     };
 };
 
@@ -33,15 +33,17 @@ const reducer = (state: StateType, action: ActionType) => {
     switch (action.type) {
         case "FETCH_AUTH_SUCCESS":
             let role = "";
-
-            switch (action.payload.role) {
+            
+            switch (action.payload.role_id) {
                 case 1:
                     role = "admin";
+                    break;
                 case 2:
                     role = "asker";
+                    break;
                 case 3:
                     role = "responder";
-            }            
+            }
 
             return {
                 ...state,

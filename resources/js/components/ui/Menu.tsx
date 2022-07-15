@@ -25,7 +25,7 @@ type Props = {
     role: string;
 };
 
-const listCommon = [
+const listAsker = [
     {
         to: "/",
         icon: "home",
@@ -61,21 +61,31 @@ const listAdmin = [
     },
 ];
 
-const listAsker = [
+const listCommon = [
     {
         to: "/",
         icon: "home",
         title: "Главная",
     },
     {
-        to: "/about",
+        to: "/admin",
         icon: "info",
-        title: "О проекте",
+        title: "Админ - общее",
     },
     {
-        to: "/analytics",
-        icon: "analytics",
-        title: "Аналитика",
+        to: "/admin/listaskers",
+        icon: "info",
+        title: "Админ - лист",
+    },
+    {
+        to: "/asker",
+        icon: "info",
+        title: "Asker - общее",
+    },
+    {
+        to: "/asker/profile",
+        icon: "info",
+        title: "Asker - profile",
     },
 ];
 

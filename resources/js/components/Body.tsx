@@ -24,10 +24,11 @@ interface Props {
     };
 }
 
-const Body: React.FC<Props> = ({cookies, requestService, authDataLoaded, }) => {
+const Body: React.FC<Props> = ({ cookies, requestService, authDataLoaded }) => {
     const lang = cookies.get("lang");
     const theme = getTheme();
     const [loading, setLoading] = useState(false);
+    const [auth, setAuth] = useState(true);
 
     async function authCheck() {
         setLoading(true);
@@ -39,7 +40,9 @@ const Body: React.FC<Props> = ({cookies, requestService, authDataLoaded, }) => {
         if (response.result == "success") {
             const data = response.data;
             authDataLoaded(data);
-        } else {
+            setAuth(true);
+        } else if (response.result == "failed") {
+            setAuth(false);
         }
 
         setLoading(false);
@@ -55,7 +58,7 @@ const Body: React.FC<Props> = ({cookies, requestService, authDataLoaded, }) => {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <ButtonAppBar />
-                <Main />
+                <Main auth={auth} />
             </ThemeProvider>
         </>
     );
