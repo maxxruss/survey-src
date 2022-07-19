@@ -35,21 +35,17 @@ type MapRoutes = {
 };
 
 const mapRoutes: MapRoutes = {
-    admin: ["/", "/admin", "/admin/listaskers"],
-    asker: ["/", "/asker", "/asker/profile"],
-    responder: ["/", "/responder"],
+    admin: ["/admin", "/admin/listaskers"],
+    asker: ["/asker", "/asker/profile"],
+    responder: ["/responder"],
 };
 
 const Main = ({ auth, role }: Props) => {
-    function ProtectRoute(path: string) {
-        const r = mapRoutes[role];
-        console.log("r: ", r);
-        console.log("path: ", path);
-        if (role && mapRoutes[role].indexOf(path) != -1) {
-            console.log(
-                "mapRoutes[role].indexOf(path): ",
-                mapRoutes[role].indexOf(path)
-            );
+    function ProtectRole(path: string, children: any) {
+        if (mapRoutes[role].indexOf(path) != -1) {
+            return children;
+        } else {
+            return <Redirect to={`/${role}`} />;
         }
     }
 
@@ -57,14 +53,14 @@ const Main = ({ auth, role }: Props) => {
         const { children, exact, path } = props;
         console.log("AuthorizedRoute path: ", path);
         console.log("AuthorizedRoute auth: ", auth);
-        // ProtectRoute(path);
+
         return (
             <Route
                 exact={exact}
                 path={path}
                 render={({ location }) =>
-                    auth ? (
-                        children
+                    auth && role ? (
+                        ProtectRole(path, children)
                     ) : (
                         <Redirect
                             to={{
@@ -87,12 +83,12 @@ const Main = ({ auth, role }: Props) => {
                 exact={exact}
                 path={path}
                 render={({ location }) =>
-                    !auth ? (
+                    !auth && !role ? (
                         children
                     ) : (
                         <Redirect
                             to={{
-                                pathname: "/",
+                                pathname: `/${role}`,
                                 state: { from: location },
                             }}
                         />
@@ -127,9 +123,9 @@ const Main = ({ auth, role }: Props) => {
                 <AuthorizedRoute exact path="/responder">
                     <Responder />
                 </AuthorizedRoute>
-                <AuthorizedRoute exact path="/">
+                {/* <AuthorizedRoute exact path="/">
                     <Home />
-                </AuthorizedRoute>
+                </AuthorizedRoute> */}
                 <Route path="*" component={Page404} />
             </Switch>
         </div>
