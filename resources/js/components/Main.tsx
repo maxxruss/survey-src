@@ -24,11 +24,11 @@ type StateProps = {
     role: string;
 };
 
-type RouteProps = {
+interface RouteProps {
     children: any;
     exact: boolean;
     path: string;
-};
+}
 
 type MapRoutes = {
     [key: string]: string[];
@@ -118,11 +118,11 @@ const Main = ({ auth, role }: Props) => {
                 <AuthorizedRoute exact path="/admin/listaskers">
                     <AdminListAskers />
                 </AuthorizedRoute>
-                <AuthorizedRoute exact path="/asker">
-                    <Asker />
-                </AuthorizedRoute>
                 <AuthorizedRoute exact path="/asker/profile">
                     <AskerProfile />
+                </AuthorizedRoute>
+                <AuthorizedRoute exact path="/asker">
+                    <Asker />
                 </AuthorizedRoute>
                 <AuthorizedRoute exact path="/responder">
                     <Responder />

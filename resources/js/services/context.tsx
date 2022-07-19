@@ -1,6 +1,10 @@
 import React from "react";
 
+interface AppContextInterface {
+    [x: string]: any;
+}
+
 const { Provider: ServiceProvider, Consumer: ServiceConsumer } =
-    React.createContext<null>(null);
+    React.createContext<AppContextInterface | null>(null);
 
 export { ServiceProvider, ServiceConsumer };

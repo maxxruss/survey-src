@@ -2,7 +2,7 @@ require("./bootstrap");
 import "../style/app.css";
 import React from "react";
 import { render } from "react-dom";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import ErrorBoundry from "./components/error-boundry";
 import Body from "./components/Body";
 import { Provider } from "react-redux";
@@ -11,9 +11,11 @@ import { ServiceProvider } from "./services/context";
 import * as requestService from "./services/request";
 import { CookiesProvider } from "react-cookie";
 
-type ValueTypes = any;
+interface IProps {
+    [x: string]: any;
+}
 
-const { ...value }: ValueTypes = requestService;
+const { ...value }: IProps = requestService;
 
 render(
     <Provider store={store}>
