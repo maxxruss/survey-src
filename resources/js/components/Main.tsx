@@ -123,9 +123,9 @@ const Main = ({ auth, role }: Props) => {
                 <AuthorizedRoute exact path="/responder">
                     <Responder />
                 </AuthorizedRoute>
-                {/* <AuthorizedRoute exact path="/">
+                <AuthorizedRoute exact path="/">
                     <Home />
-                </AuthorizedRoute> */}
+                </AuthorizedRoute>
                 <Route path="*" component={Page404} />
             </Switch>
         </div>
