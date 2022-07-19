@@ -20,6 +20,7 @@ interface Props {
 }
 
 type StateProps = {
+    auth: boolean;
     role: string;
 };
 
@@ -54,8 +55,8 @@ const Main = ({ auth, role }: Props) => {
 
     function AuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
-        console.log("path: ", path);
-        console.log("auth: ", auth);
+        console.log("AuthorizedRoute path: ", path);
+        console.log("AuthorizedRoute auth: ", auth);
         // ProtectRoute(path);
         return (
             <Route
@@ -79,8 +80,8 @@ const Main = ({ auth, role }: Props) => {
 
     function UnAuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
-        console.log("path: ", path);
-        console.log("auth: ", auth);
+        console.log("UnAuthorizedRoute path: ", path);
+        console.log("UnAuthorizedRoute auth: ", auth);
         return (
             <Route
                 exact={exact}
@@ -135,8 +136,8 @@ const Main = ({ auth, role }: Props) => {
     );
 };
 
-const mapStateToProps = ({ role }: StateProps) => {
-    return { role };
+const mapStateToProps = ({ role, auth }: StateProps) => {
+    return { role, auth };
 };
 
 export default compose(connect(mapStateToProps), withRequestService())(Main);
