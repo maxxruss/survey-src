@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Asker\AskerMainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::post('auth', [AuthController::class, 'auth']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('check', [AuthController::class, 'check']);
 Route::post('test', [TestController::class, 'test']);
+Route::post('asker/test', [AskerMainController::class, 'test']);
 
 Route::group(['middleware' => ['auth']], function () {
     //    Route::post('test', [TestController::class, 'test']);

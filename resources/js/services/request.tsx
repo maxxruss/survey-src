@@ -16,7 +16,7 @@ interface HeadersTypes {
 
 const _BASE_URL = "/api";
 
-export const auth = (params: AuthParamsTypes) => {    
+export const auth = (params: AuthParamsTypes) => {
     const payload: HeadersTypes = {
         method: "post",
         headers: {
@@ -35,6 +35,33 @@ export const auth = (params: AuthParamsTypes) => {
         .then((data) => data);
 
     return data;
+};
+
+type Params = {
+    params: {
+        [v: string]: string | number;
+    };
+    url: string;
+};
+
+export const request = ({ url, params }: Params) => {
+    return new Promise((resolve) => {
+        const body = new URLSearchParams();
+        body.append("params", JSON.stringify(params));
+
+        fetch(`${_BASE_URL}/${url}`, {
+            method: "post",
+            headers: {
+                "content-type": "application/x-www-form-urlencoded",
+                // "x-xsrf-token": token,
+            },
+            body,
+        })
+            .then((data) => {
+                resolve(data.json());
+            })
+            .then((data) => data);
+    });
 };
 
 // export const request = ({ action, userParams: { id, role, token }, requestParams = {} }) => {
