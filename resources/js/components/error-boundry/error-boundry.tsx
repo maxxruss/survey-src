@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import ErrorIndicator from "../error-indicator";
 
-interface Props {
-    children: any;
-}
+type Props = {
+    children: JSX.Element;
+};
 
-export default class ErrorBoundry extends Component<Props> {
+export default class ErrorBoundry extends Component {
+    constructor(readonly props: Props) {
+        super(props);
+    }
     state = {
         hasError: false,
     };

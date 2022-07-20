@@ -39,7 +39,6 @@ const ButtonAppBar = ({
 }: Props) => {
     const history = useHistory();
     const [cookies, setCookie] = useCookies();
-
     const dict = Dictionary();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

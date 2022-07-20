@@ -6,16 +6,7 @@ type Props = any;
 
 const withRouter = () => (Wrapped: WrappedTypes) => {
     return (props: Props) => {
-        // const location = useLocation();
-        // const navigate = useNavigate();
-
-        return (
-            <Wrapped
-                // location={location}
-                // navigate={navigate}
-                {...props}
-            />
-        );
+        return <Wrapped {...props} />;
     };
 };
 

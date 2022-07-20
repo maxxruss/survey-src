@@ -5,6 +5,7 @@ type WrappedTypes = any;
 type Props = any;
 
 const withRequestService = () => (Wrapped: WrappedTypes) => {
+    console.log('Wrapped: ', typeof Wrapped)
     return (props: Props) => {
         return (
             <ServiceConsumer>

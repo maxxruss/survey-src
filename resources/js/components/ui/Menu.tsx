@@ -10,7 +10,6 @@ import {
     Icon,
 } from "@mui/material";
 import {
-    // useHistory,
     Link as RouterLink,
     LinkProps as RouterLinkProps,
     MemoryRouter as Router,
@@ -21,81 +20,60 @@ type StateProps = {
     role: string;
 };
 
-type Props = {
-    role: string;
+type Menu = {
+    [v: string]: { to: string; icon: string; title: string }[];
 };
 
-const listAsker = [
-    {
-        to: "/",
-        icon: "home",
-        title: "Главная",
-    },
-    {
-        to: "/about",
-        icon: "info",
-        title: "О проекте",
-    },
-    {
-        to: "/analytics",
-        icon: "analytics",
-        title: "Аналитика",
-    },
-];
+const menuRoles: Menu = {
+    admin: [
+        {
+            to: "/admin",
+            icon: "info",
+            title: "Админ - общее",
+        },
+        {
+            to: "/admin/listaskers",
+            icon: "info",
+            title: "Админ - лист",
+        },
+    ],
+    asker: [
+        {
+            to: "/asker",
+            icon: "public",
+            title: "Asker - общее",
+        },
+        {
+            to: "/surveys",
+            icon: "info",
+            title: "О проекте",
+        },
+        {
+            to: "/analytics",
+            icon: "analytics",
+            title: "Аналитика",
+        },
+    ],
+    responder: [
+        {
+            to: "/admin",
+            icon: "info",
+            title: "Админ - общее",
+        },
+        {
+            to: "/admin/listaskers",
+            icon: "info",
+            title: "Админ - лист",
+        },
+    ],
+};
 
-const listAdmin = [
-    {
-        to: "/",
-        icon: "home",
-        title: "Главная",
-    },
-    {
-        to: "/about",
-        icon: "info",
-        title: "О проекте",
-    },
-    {
-        to: "/analytics",
-        icon: "analytics",
-        title: "Аналитика",
-    },
-];
+const MainMenu = ({ role }: StateProps) => {
+    const menuItems = menuRoles[role];
+    // console.log("role: ", role);
+    // console.log("menuItems: ", menuItems);
 
-const listCommon = [
-    {
-        to: "/",
-        icon: "home",
-        title: "Главная",
-    },
-    {
-        to: "/admin",
-        icon: "info",
-        title: "Админ - общее",
-    },
-    {
-        to: "/admin/listaskers",
-        icon: "info",
-        title: "Админ - лист",
-    },
-    {
-        to: "/asker",
-        icon: "info",
-        title: "Asker - общее",
-    },
-    {
-        to: "/asker/profile",
-        icon: "info",
-        title: "Asker - profile",
-    },
-];
-
-const MainMenu = ({ role }: Props) => {
-    console.log("role: ", role);
-    // const history = useHistory();
-
-    // const about = async () => {
-    //     history.push("/about");
-    // };
+    if (!menuItems) return null;
 
     return (
         <>
@@ -108,7 +86,7 @@ const MainMenu = ({ role }: Props) => {
             >
                 <nav aria-label="main mailbox folders">
                     <List>
-                        {listCommon.map((item, i) => {
+                        {menuItems.map((item, i) => {
                             return (
                                 <ListItem
                                     key={i}
