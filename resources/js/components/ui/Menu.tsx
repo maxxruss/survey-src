@@ -9,6 +9,13 @@ import {
     Divider,
     Icon,
 } from "@mui/material";
+
+import {
+    PublicOutlined,
+    FormatListBulletedOutlined,
+    AnalyticsOutlined,
+} from "@mui/icons-material";
+
 import {
     Link as RouterLink,
     LinkProps as RouterLinkProps,
@@ -21,7 +28,7 @@ type StateProps = {
 };
 
 type Menu = {
-    [v: string]: { to: string; icon: string; title: string }[];
+    [v: string]: { to: string; icon: JSX.Element | string; title: string }[];
 };
 
 const menuRoles: Menu = {
@@ -40,17 +47,17 @@ const menuRoles: Menu = {
     asker: [
         {
             to: "/asker",
-            icon: "public",
-            title: "Asker - общее",
+            icon: <PublicOutlined />,
+            title: "Главная",
         },
         {
             to: "/surveys",
-            icon: "info",
-            title: "О проекте",
+            icon: <FormatListBulletedOutlined />,
+            title: "Опросы",
         },
         {
             to: "/analytics",
-            icon: "analytics",
+            icon: <AnalyticsOutlined />,
             title: "Аналитика",
         },
     ],
