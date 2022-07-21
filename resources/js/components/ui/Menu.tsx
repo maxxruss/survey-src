@@ -51,12 +51,12 @@ const menuRoles: Menu = {
             title: "Главная",
         },
         {
-            to: "/surveys",
+            to: "/asker/surveys",
             icon: <FormatListBulletedOutlined />,
             title: "Опросы",
         },
         {
-            to: "/analytics",
+            to: "/asker/analytics",
             icon: <AnalyticsOutlined />,
             title: "Аналитика",
         },

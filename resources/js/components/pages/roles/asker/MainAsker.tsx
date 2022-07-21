@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import withRequestService from "../../../hoc/with-request-service";
+import PageLayout from "../../../ui/PageLayout"
 
 type Props = {
     requestService: {
@@ -38,9 +39,9 @@ const MainAsker = ({ requestService }: Props) => {
     // }
 
     return (
-        <>
+        <PageLayout title='Главная'>
             <Grid>{"MainAsker"}</Grid>
-        </>
+        </PageLayout>
     );
 };
 

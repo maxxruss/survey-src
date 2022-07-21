@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import withRequestService from "./hoc/with-request-service";
+import { Container, Box, Paper } from "@mui/material";
 import Page404 from "./pages/404";
 import Home from "./pages/Home";
 import SignIn from "./pages/auth/signin";
@@ -8,7 +9,8 @@ import SignUp from "./pages/auth/signup";
 import Admin from "./pages/roles/admin/MainAdmin";
 import AdminListAskers from "./pages/roles/admin/AdminListAskers";
 import Asker from "./pages/roles/asker/MainAsker";
-import AskerProfile from "./pages/roles/asker/AskerProfile";
+import AskerSurveys from "./pages/roles/asker/AskerSurveys";
+import AskerAnalytics from "./pages/roles/asker/AskerAnalytics";
 import Responder from "./pages/roles/responder/MainResponder";
 import Drawer from "./ui/Drawer";
 import { connect } from "react-redux";
@@ -36,7 +38,7 @@ type MapRoutes = {
 
 const mapRoutes: MapRoutes = {
     admin: ["/admin", "/admin/listaskers"],
-    asker: ["/asker", "/asker/profile"],
+    asker: ["/asker", "/asker/surveys", "/asker/analytics"],
     responder: ["/responder"],
 };
 
@@ -101,33 +103,42 @@ const Main = ({ auth, role }: Props) => {
     return (
         <div className="main-content">
             <Drawer />
-            <Switch>
-                <UnAuthorizedRoute exact path="/signin">
-                    <SignIn />
-                </UnAuthorizedRoute>
-                <UnAuthorizedRoute exact path="/signup">
-                    <SignUp />
-                </UnAuthorizedRoute>
-                <AuthorizedRoute exact path="/admin">
-                    <Admin />
-                </AuthorizedRoute>
-                <AuthorizedRoute exact path="/admin/listaskers">
-                    <AdminListAskers />
-                </AuthorizedRoute>
-                <AuthorizedRoute exact path="/asker/profile">
-                    <AskerProfile />
-                </AuthorizedRoute>
-                <AuthorizedRoute exact path="/asker">
-                    <Asker />
-                </AuthorizedRoute>
-                <AuthorizedRoute exact path="/responder">
-                    <Responder />
-                </AuthorizedRoute>
-                <AuthorizedRoute exact path="/">
-                    <Home />
-                </AuthorizedRoute>
-                <Route path="*" component={Page404} />
-            </Switch>
+            <Container component="main">
+                <Paper elevation={3}>
+                    <Box sx={{ height: "100vh" }}>
+                        <Switch>
+                            <UnAuthorizedRoute exact path="/signin">
+                                <SignIn />
+                            </UnAuthorizedRoute>
+                            <UnAuthorizedRoute exact path="/signup">
+                                <SignUp />
+                            </UnAuthorizedRoute>
+                            <AuthorizedRoute exact path="/admin">
+                                <Admin />
+                            </AuthorizedRoute>
+                            <AuthorizedRoute exact path="/admin/listaskers">
+                                <AdminListAskers />
+                            </AuthorizedRoute>
+                            <AuthorizedRoute exact path="/asker">
+                                <Asker />
+                            </AuthorizedRoute>
+                            <AuthorizedRoute exact path="/asker/surveys">
+                                <AskerSurveys />
+                            </AuthorizedRoute>
+                            <AuthorizedRoute exact path="/asker/analytics">
+                                <AskerAnalytics />
+                            </AuthorizedRoute>
+                            <AuthorizedRoute exact path="/responder">
+                                <Responder />
+                            </AuthorizedRoute>
+                            <AuthorizedRoute exact path="/">
+                                <Home />
+                            </AuthorizedRoute>
+                            <Route path="*" component={Page404} />
+                        </Switch>
+                    </Box>
+                </Paper>
+            </Container>
         </div>
     );
 };
