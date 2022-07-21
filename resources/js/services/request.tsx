@@ -30,11 +30,9 @@ export const auth = (params: AuthParamsTypes) => {
         body: JSON.stringify(params),
     };
 
-    const data = fetch(`${_BASE_URL}/${params.method}`, payload)
-        .then((data) => data.json())
-        .then((data) => data);
-
-    return data;
+    return fetch(`${_BASE_URL}/${params.method}`, payload).then((data) =>
+        data.json()
+    );
 };
 
 type Params = {
@@ -45,23 +43,17 @@ type Params = {
 };
 
 export const request = ({ url, params }: Params) => {
-    return new Promise((resolve) => {
-        const body = new URLSearchParams();
-        body.append("params", JSON.stringify(params));
+    const body = new URLSearchParams();
+    body.append("params", JSON.stringify(params));
 
-        fetch(`${_BASE_URL}/${url}`, {
-            method: "post",
-            headers: {
-                "content-type": "application/x-www-form-urlencoded",
-                // "x-xsrf-token": token,
-            },
-            body,
-        })
-            .then((data) => {
-                resolve(data.json());
-            })
-            .then((data) => data);
-    });
+    return fetch(`${_BASE_URL}/${url}`, {
+        method: "post",
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            // "x-xsrf-token": token,
+        },
+        body,
+    }).then((data) => data.json());
 };
 
 // export const request = ({ action, userParams: { id, role, token }, requestParams = {} }) => {

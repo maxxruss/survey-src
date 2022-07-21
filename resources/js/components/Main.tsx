@@ -51,8 +51,8 @@ const Main = ({ auth, role }: Props) => {
 
     function AuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
-        console.log("AuthorizedRoute path: ", path);
-        console.log("AuthorizedRoute auth: ", auth);
+        // console.log("AuthorizedRoute path: ", path);
+        // console.log("AuthorizedRoute auth: ", auth);
 
         return (
             <Route
@@ -76,8 +76,8 @@ const Main = ({ auth, role }: Props) => {
 
     function UnAuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
-        console.log("UnAuthorizedRoute path: ", path);
-        console.log("UnAuthorizedRoute auth: ", auth);
+        // console.log("UnAuthorizedRoute path: ", path);
+        // console.log("UnAuthorizedRoute auth: ", auth);
         return (
             <Route
                 exact={exact}

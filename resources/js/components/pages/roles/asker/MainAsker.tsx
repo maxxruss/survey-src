@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import withRequestService from "../../../hoc/with-request-service";
-// import MainMenu from "../../ui/Menu";
 
 type Props = {
     requestService: {
@@ -10,19 +9,33 @@ type Props = {
 };
 
 const MainAsker = ({ requestService }: Props) => {
-    const params = {
-        id: 1,
-        name: "max",
-        password: 12345,
-        method: "test",
+    const getData = async () => {
+        const params = {
+            id: 1,
+            name: "max",
+            password: 12345,
+            method: "test",
+        };
+
+        let response = await requestService.request({
+            url: "asker/test",
+            params,
+        });
+        console.log("response: ", response);
     };
 
-    var response = requestService.request({ url: "asker/test", params });
-    console.log("response: ", response);
+    useEffect(() => {
+        getData();
+    }, []);
 
-    if (response.result == "success") {
-        console.log("response.data: ", response.data.params);
-    }
+    // let response = await getData(requestService)
+
+    // var response = ;
+    // console.log("response: ", response);
+
+    // if (response.result == "success") {
+    //     console.log("response.data: ", response.data.params);
+    // }
 
     return (
         <>
