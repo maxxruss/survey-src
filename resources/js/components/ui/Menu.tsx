@@ -22,61 +22,75 @@ import {
     MemoryRouter as Router,
 } from "react-router-dom";
 import { connect } from "react-redux";
+import Dictionary from "../../dictionary";
 
 type StateProps = {
     role: string;
 };
 
 type Menu = {
-    [v: string]: { to: string; icon: JSX.Element | string; title: string }[];
+    (dict: any): {
+        [v: string]: {
+            to: string;
+            icon: JSX.Element | string;
+            title: any;
+        }[];
+    };
 };
 
-const menuRoles: Menu = {
-    admin: [
-        {
-            to: "/admin",
-            icon: "info",
-            title: "Админ - общее",
-        },
-        {
-            to: "/admin/listaskers",
-            icon: "info",
-            title: "Админ - лист",
-        },
-    ],
-    asker: [
-        {
-            to: "/asker",
-            icon: <PublicOutlined />,
-            title: "Главная",
-        },
-        {
-            to: "/asker/surveys",
-            icon: <FormatListBulletedOutlined />,
-            title: "Опросы",
-        },
-        {
-            to: "/asker/analytics",
-            icon: <AnalyticsOutlined />,
-            title: "Аналитика",
-        },
-    ],
-    responder: [
-        {
-            to: "/admin",
-            icon: "info",
-            title: "Админ - общее",
-        },
-        {
-            to: "/admin/listaskers",
-            icon: "info",
-            title: "Админ - лист",
-        },
-    ],
+const menuAllRoles: Menu = (dict) => {
+    const menu = {
+        admin: [
+            {
+                to: "/admin",
+                icon: "info",
+                title: dict.menu.admin.main,
+            },
+            {
+                to: "/admin/listaskers",
+                icon: "info",
+                title: dict.menu.admin.list,
+            },
+        ],
+        asker: [
+            {
+                to: "/asker",
+                icon: <PublicOutlined />,
+                title: dict.menu.asker.main,
+            },
+            {
+                to: "/asker/surveys",
+                icon: <FormatListBulletedOutlined />,
+                title: dict.menu.asker.surveys,
+            },
+            {
+                to: "/asker/analytics",
+                icon: <AnalyticsOutlined />,
+                title: dict.menu.asker.analytics,
+            },
+        ],
+        responder: [
+            {
+                to: "/admin",
+                icon: "info",
+                title: "Админ - общее",
+            },
+            {
+                to: "/admin/listaskers",
+                icon: "info",
+                title: "Админ - лист",
+            },
+        ],
+    };
+
+    return menu;
 };
 
 const MainMenu = ({ role }: StateProps) => {
-    const menuItems = menuRoles[role];
+    const dict = Dictionary();
+    const menu = menuAllRoles(dict);
+    const menuItems = menu[role];
+
     // console.log("role: ", role);
     // console.log("menuItems: ", menuItems);
 

@@ -100,7 +100,7 @@ const ButtonAppBar = ({
                     <Grid item xs={1} style={{ alignSelf: "center" }}>
                         {!auth ? null : (
                             <Button color="inherit" onClick={() => logout()}>
-                                Logout
+                                {dict.logout}
                             </Button>
                         )}
                     </Grid>
