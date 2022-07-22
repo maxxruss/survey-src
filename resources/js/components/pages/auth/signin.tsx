@@ -151,6 +151,5 @@ const mapDispatchToProps = (dispatch: any) =>
 
 export default compose(
     withRequestService(),
-    // withRouter(),
     connect(mapStateToProps, mapDispatchToProps)
 )(SignIn);
