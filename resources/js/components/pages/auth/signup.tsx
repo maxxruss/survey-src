@@ -51,7 +51,7 @@ const theme = createTheme();
 
 const SignUp = ({ authDataLoaded, requestService }: Props) => {
     const history = useHistory();
-    const handleSubmit = async (event: any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 

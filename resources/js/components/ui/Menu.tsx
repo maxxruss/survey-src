@@ -20,6 +20,7 @@ import {
     Link as RouterLink,
     LinkProps as RouterLinkProps,
     MemoryRouter as Router,
+    NavLink,
 } from "react-router-dom";
 import { connect } from "react-redux";
 import Dictionary from "../../dictionary";
@@ -37,6 +38,8 @@ type Menu = {
         }[];
     };
 };
+
+type className = {};
 
 const menuAllRoles: Menu = (dict) => {
     const menu = {
@@ -112,8 +115,9 @@ const MainMenu = ({ role }: StateProps) => {
                                 <ListItem
                                     key={i}
                                     disablePadding
-                                    component={RouterLink}
+                                    component={NavLink}
                                     to={item.to}
+                                    activeClassName="menu-selected"
                                 >
                                     <ListItemButton>
                                         <ListItemIcon>

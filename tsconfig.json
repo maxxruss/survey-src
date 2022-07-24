@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "jsx": "react",
-    "module": "es6",
+    "module": "ES2015",
     "moduleResolution": "node",
     "allowJs": true,
     "sourceMap": true,
@@ -10,9 +14,11 @@
     // "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "skipLibCheck": true
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
   },
-  "exclude": [
-    "node_modules"
+  "include": [
+    "resources"
   ]
 }

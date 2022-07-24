@@ -14,3 +14,7 @@
 .main-content {
     margin-top: 64px;
 }
+
+.menu-selected {
+    background-color: red;
+}

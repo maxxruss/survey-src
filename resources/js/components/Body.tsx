@@ -24,10 +24,9 @@ interface Props {
     };
 }
 
-const Body: React.FC<Props> = ({ cookies, requestService, authDataLoaded }) => {
-    // const lang = cookies.get("lang");
+const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
     const theme = getTheme();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
     async function authCheck() {
         const response = await requestService.auth({

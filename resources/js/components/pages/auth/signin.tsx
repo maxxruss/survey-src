@@ -13,14 +13,10 @@ import { bindActionCreators } from "redux";
 import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import { Link, useHistory } from "react-router-dom";
+import { Props } from "../../interfaces";
 
-interface Props {
-    authLogOut: () => {};
-    requestService: {
-        auth: (method: object) => { result: string; data: string };
-    };
-    authDataLoaded: (data: any) => {};
-}
+// useRef
+// import * as React,
 
 type StateProps = {
     id: string;
@@ -49,10 +45,11 @@ function Copyright(props: any) {
 }
 
 const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
-    const [checked, setChecked] = React.useState(true);
+    const [checked, setChecked] = React.useState<boolean>(true);
+    const ref = React.useRef(null);
     const history = useHistory();
 
-    const handleSubmit = async (event: any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
@@ -123,6 +120,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         label="Remember me"
                     />
                     <Button
+                        ref={ref}
                         type="submit"
                         fullWidth
                         variant="contained"
