@@ -2,11 +2,11 @@ import React from "react";
 import Menu from "../ui/Menu";
 import { connect } from "react-redux";
 import { toggleDrawer } from "../../redux/actions";
-import Paper from "@mui/material/Paper";
+import { Paper } from "@mui/material";
 
 type Props = {
     drawerStatus: boolean;
-    toggleDrawer: () => {};
+    toggleDrawer: (v: boolean) => {};
 };
 
 type StateProps = {
@@ -15,16 +15,16 @@ type StateProps = {
 
 const Drawer = ({ drawerStatus, toggleDrawer }: Props) => {
     const onToggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-            event.type === "keydown" &&
-            ((event as React.KeyboardEvent).key === "Tab" ||
-                (event as React.KeyboardEvent).key === "Shift")
-        ) {
-            return;
-        }
+        // if (
+        //     event.type === "keydown" &&
+        //     ((event as React.KeyboardEvent).key === "Tab" ||
+        //         (event as React.KeyboardEvent).key === "Shift")
+        // ) {
+        //     return;
+        // }
 
-        toggleDrawer();
-    };
+        toggleDrawer(!drawerStatus);
+    };    
 
     return (
         <Paper

@@ -5,6 +5,7 @@ type ActionType = {
         name: String;
         email: String;
         role_id: Number;
+        drawerStatus: boolean;
     };
 };
 
@@ -74,7 +75,7 @@ const reducer = (state: StateType, action: ActionType) => {
         case "DRAWER_TOGGLE":
             return {
                 ...state,
-                drawerStatus: !state.drawerStatus,
+                drawerStatus: action.payload.drawerStatus,
             };
         default:
             return state;

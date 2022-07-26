@@ -20,7 +20,8 @@ import withRequestService from "../hoc/with-request-service";
 
 type Props = {
     auth: boolean;
-    toggleDrawer: () => {};
+    drawerStatus: boolean;
+    toggleDrawer: (v: boolean) => {};
     authLogOut: () => {};
     requestService: {
         auth: (method: object) => { result: string };
@@ -29,10 +30,12 @@ type Props = {
 
 type StateProps = {
     auth: boolean;
+    drawerStatus: boolean;
 };
 
 const ButtonAppBar = ({
     auth,
+    drawerStatus,
     toggleDrawer,
     authLogOut,
     requestService,
@@ -74,7 +77,7 @@ const ButtonAppBar = ({
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
-                            onClick={toggleDrawer}
+                            onClick={() => toggleDrawer(!drawerStatus)}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -110,8 +113,8 @@ const ButtonAppBar = ({
     );
 };
 
-const mapStateToProps = ({ auth }: StateProps) => {
-    return { auth };
+const mapStateToProps = ({ auth, drawerStatus }: StateProps) => {
+    return { auth, drawerStatus };
 };
 
 const mapDispathToProps = { toggleDrawer, authLogOut };

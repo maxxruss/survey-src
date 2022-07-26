@@ -24,8 +24,9 @@ export const authLogOut = () => {
     };
 };
 
-export const toggleDrawer = () => {
+export const toggleDrawer = (drawerStatus: boolean) => {
     return {
         type: "DRAWER_TOGGLE",
+        payload: { drawerStatus },
     };
 };

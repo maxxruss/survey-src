@@ -7,7 +7,7 @@ import {
     ListItemIcon,
     ListItemText,
     Divider,
-    Icon,
+    Icon
 } from "@mui/material";
 
 import {
@@ -16,14 +16,16 @@ import {
     AnalyticsOutlined,
 } from "@mui/icons-material";
 
-import {
-    Link as RouterLink,
-    LinkProps as RouterLinkProps,
-    MemoryRouter as Router,
-    NavLink,
-} from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import Dictionary from "../../dictionary";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles({
+    link: {
+        color:'inherit'
+    }
+})
 
 type StateProps = {
     role: string;
@@ -38,8 +40,6 @@ type Menu = {
         }[];
     };
 };
-
-type className = {};
 
 const menuAllRoles: Menu = (dict) => {
     const menu = {
@@ -93,8 +93,10 @@ const MainMenu = ({ role }: StateProps) => {
     const dict = Dictionary();
     const menu = menuAllRoles(dict);
     const menuItems = menu[role];
+    const location = useLocation();
+    const classes = useStyles()
 
-    // console.log("role: ", role);
+    // console.log("location: ", location);
     // console.log("menuItems: ", menuItems);
 
     if (!menuItems) return null;
@@ -117,9 +119,11 @@ const MainMenu = ({ role }: StateProps) => {
                                     disablePadding
                                     component={NavLink}
                                     to={item.to}
-                                    activeClassName="menu-selected"
+                                    className={classes.link}
                                 >
-                                    <ListItemButton>
+                                    <ListItemButton
+                                        selected={location.pathname == item.to}
+                                    >
                                         <ListItemIcon>
                                             <Icon>{item.icon}</Icon>
                                         </ListItemIcon>
