@@ -13,6 +13,7 @@ import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import * as actions from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
+import Dictionary from "../../../dictionary";
 
 type Props = {
     requestService: {
@@ -51,6 +52,8 @@ const theme = createTheme();
 
 const SignUpCompany = ({ authDataLoaded, requestService }: Props) => {
     const history = useHistory();
+    const dict = Dictionary();
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -75,7 +78,7 @@ const SignUpCompany = ({ authDataLoaded, requestService }: Props) => {
             <Container component="main" maxWidth="xs">
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 2,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
@@ -93,13 +96,60 @@ const SignUpCompany = ({ authDataLoaded, requestService }: Props) => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="given-name"
-                                    name="name"
+                                    name="title"
                                     required
                                     fullWidth
-                                    id="name"
-                                    label="name"
+                                    id="title"
+                                    label={dict.auth.company.title}
                                     autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="inn"
+                                    fullWidth
+                                    id="inn"
+                                    label={dict.auth.company.inn}
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="kpp"
+                                    fullWidth
+                                    id="title"
+                                    label={dict.auth.company.kpp}
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="address"
+                                    fullWidth
+                                    id="address"
+                                    label={dict.auth.company.company_address}
+                                    autoFocus
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="manager"
+                                    required
+                                    fullWidth
+                                    id="manager"
+                                    label={dict.auth.company.company_manager}
+                                    autoFocus
+                                />
+                            </Grid>
+                           
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="phone"
+                                    label={dict.auth.company.phone}
+                                    name="phone"
+                                    autoComplete="phone"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -107,9 +157,19 @@ const SignUpCompany = ({ authDataLoaded, requestService }: Props) => {
                                     required
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
+                                    label={dict.auth.company.email}
                                     name="email"
                                     autoComplete="email"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="name"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label={dict.auth.company.login}
+                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -117,10 +177,9 @@ const SignUpCompany = ({ authDataLoaded, requestService }: Props) => {
                                     required
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    label={dict.auth.company.password}
                                     type="password"
                                     id="password"
-                                    autoComplete="new-password"
                                 />
                             </Grid>
                         </Grid>

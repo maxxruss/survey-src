@@ -26,7 +26,23 @@ export default function Dictionary() {
             main: {
                 user: 'Пользователь',
                 company: 'Компания'
+            },
+            company: {
+                title: "Наименование",
+                inn: "ИНН",
+                kpp: "КПП",
+                company_address: "Адрес компании",
+                company_manager: "ФИО менеджера компании",
+                phone: "Телефон компании",
+                email: "Электронная почта пользователя",
+                login: "Логин",
+                password: "Пароль",
             }
+        },
+        askers: {
+            userFirstName: "Имя пользователя",
+            userMiddleName: "Отчество пользователя",
+            userLastName: "Фамилия пользователя",
         }
 
     };
@@ -53,6 +69,17 @@ export default function Dictionary() {
             main: {
                 user: 'User',
                 company: 'Company'
+            },
+            company: {
+                title: "Title",
+                inn: "INN",
+                kpp: "KPP",
+                company_address: "Address of company",
+                company_manager: "Manager of company",
+                phone: "Phone of company",
+                email: "User's E-mail",
+                login: "Login",
+                password: "Password",
             }
         }
 
