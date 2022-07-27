@@ -49,7 +49,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const SignUp = ({ authDataLoaded, requestService }: Props) => {
+const SignUpUser = ({ authDataLoaded, requestService }: Props) => {
     const history = useHistory();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -155,4 +155,4 @@ const mapDispatchToProps = (dispatch: any) =>
 export default compose(
     withRequestService(),
     connect(mapStateToProps, mapDispatchToProps)
-)(SignUp);
+)(SignUpUser);

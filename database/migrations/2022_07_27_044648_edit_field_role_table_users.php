@@ -16,6 +16,8 @@ class EditFieldRoleTableUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['role_id']);
             $table->dropColumn('role_id');
+            $table->integer('company_id');
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

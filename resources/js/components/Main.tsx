@@ -5,7 +5,7 @@ import { Container, Box, Paper } from "@mui/material";
 import Page404 from "./pages/404";
 import Home from "./pages/Home";
 import SignIn from "./pages/auth/signin";
-import SignUp from "./pages/auth/signup";
+import SignUpMain from "./pages/auth/SignUpMain";
 import Admin from "./pages/roles/admin/MainAdmin";
 import AdminListAskers from "./pages/roles/admin/AdminListAskers";
 import Asker from "./pages/roles/asker/MainAsker";
@@ -109,7 +109,7 @@ const Main = ({ auth, role }: Props) => {
                                 <SignIn />
                             </UnAuthorizedRoute>
                             <UnAuthorizedRoute exact path="/signup">
-                                <SignUp />
+                                <SignUpMain />
                             </UnAuthorizedRoute>
                             <AuthorizedRoute exact path="/admin">
                                 <Admin />

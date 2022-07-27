@@ -22,6 +22,12 @@ export default function Dictionary() {
             },
 
         },
+        auth: {
+            main: {
+                user: 'Пользователь',
+                company: 'Компания'
+            }
+        }
 
     };
 
@@ -43,6 +49,12 @@ export default function Dictionary() {
             },
 
         },
+        auth: {
+            main: {
+                user: 'User',
+                company: 'Company'
+            }
+        }
 
     };
 

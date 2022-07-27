@@ -16,8 +16,8 @@ class CreateTableCompanyResponders extends Migration
         Schema::create('company_responders', function (Blueprint $table) {
             $table->integer('company_id');
             $table->foreign('company_id')->references('id')->on('companies');
-            $table->integer('role_id');
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->integer('responder_id');
+            $table->foreign('responder_id')->references('id')->on('responders');
             $table->timestamps();            
         });
     }
