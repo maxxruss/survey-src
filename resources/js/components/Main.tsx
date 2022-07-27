@@ -52,9 +52,7 @@ const Main = ({ auth, role }: Props) => {
     }
 
     function AuthorizedRoute(props: RouteProps) {
-        const { children, exact, path } = props;
-        // console.log("AuthorizedRoute path: ", path);
-        // console.log("AuthorizedRoute auth: ", auth);
+        const { children, exact, path } = props;        
 
         return (
             <Route

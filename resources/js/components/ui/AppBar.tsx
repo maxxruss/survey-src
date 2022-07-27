@@ -66,6 +66,15 @@ const ButtonAppBar = ({
         }
     };
 
+    const onToggleDrawer = (
+        event: React.KeyboardEvent | React.MouseEvent
+    ): void => {
+        // само меню обернуто в ClickAwayListener и событие срабатывает (закрывается) при нажатии на любое место, вместо нажатия бургера в AppBar
+        // поэтому останавливаем все остальные события, что бы не сработало событие компонента ClickAwayListener и меню переключилось (открылось или закрылось).
+        event.stopPropagation();
+        toggleDrawer(!drawerStatus);
+    };
+
     return (
         <AppBar position="fixed" color="primary">
             <Toolbar>
@@ -77,7 +86,7 @@ const ButtonAppBar = ({
                             color="inherit"
                             aria-label="menu"
                             sx={{ mr: 2 }}
-                            onClick={() => toggleDrawer(!drawerStatus)}
+                            onClick={(e) => onToggleDrawer(e)}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -118,8 +127,6 @@ const mapStateToProps = ({ auth, drawerStatus }: StateProps) => {
 };
 
 const mapDispathToProps = { toggleDrawer, authLogOut };
-
-// export default connect(null, mapDispathToProps)(ButtonAppBar);
 
 export default compose(
     withRequestService(),

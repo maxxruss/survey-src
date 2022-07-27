@@ -2,7 +2,7 @@ import React from "react";
 import Menu from "../ui/Menu";
 import { connect } from "react-redux";
 import { toggleDrawer } from "../../redux/actions";
-import { Paper } from "@mui/material";
+import { Paper, ClickAwayListener } from "@mui/material";
 
 type Props = {
     drawerStatus: boolean;
@@ -14,28 +14,24 @@ type StateProps = {
 };
 
 const Drawer = ({ drawerStatus, toggleDrawer }: Props) => {
-    const onToggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
-        // if (
-        //     event.type === "keydown" &&
-        //     ((event as React.KeyboardEvent).key === "Tab" ||
-        //         (event as React.KeyboardEvent).key === "Shift")
-        // ) {
-        //     return;
-        // }
-
-        toggleDrawer(!drawerStatus);
-    };    
+    const onCloseDrawer = () => {
+        toggleDrawer(false);
+    };
 
     return (
-        <Paper
-            className="menu-wrap"
-            style={{
-                transform: drawerStatus ? "translateX(0)" : "translateX(-100%)",
-            }}
-            onClick={onToggleDrawer}
-        >
-            <Menu />
-        </Paper>
+        <ClickAwayListener onClickAway={onCloseDrawer}>
+            <Paper
+                className="menu-wrap"
+                style={{
+                    transform: drawerStatus
+                        ? "translateX(0)"
+                        : "translateX(-100%)",
+                }}
+                onClick={onCloseDrawer}
+            >
+                <Menu />
+            </Paper>
+        </ClickAwayListener>
     );
 };
 
