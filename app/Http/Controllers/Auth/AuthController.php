@@ -8,17 +8,17 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
     public function check()
     {
         if (Auth::check()) {
             return response()->json([
                 'result' => 'success',
-                'data' => Auth::user()
+                'data' => User::where('id', Auth::id())->with('company.role')->first()
             ]);
         } else {
             return response()->json([
@@ -29,24 +29,43 @@ class AuthController extends Controller
 
     public function register(Request $params)
     {
-        $name = $params->name;
-        $email = $params->email;
-        $password = $params->password;
+        $data_company = [
+            'title' => $params->title,
+            'inn' => $params->inn,
+            'kpp' => $params->kpp,
+            'address' => $params->address,
+            'manager' => $params->manager,
+            'phone' => $params->phone,
+            'is_active' => true,
+            'role_id' => 2
+        ];
+       
 
-        $data = [
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-            'role_id' => 2,
+        $company_id = Company::create($data_company)->id;
+
+        if(!$company_id) {
+            return response()->json([
+                'result' => 'false',
+                'msg' => 'Не удалось создать компанию',
+            ]);
+        }
+
+        // var_dump($company_id);die();
+
+        $data_user = [
+            'name' => $params->name,
+            'email' => $params->email,
+            'password' => $params->password,
+            'company_id' => $company_id,
         ];
 
-        $user = User::create($data);
+        $user = User::create($data_user);
         auth()->login($user);
 
 
         $credentials = [
-            'name' => $name,
-            'password' => $password,
+            'name' => $params->name,
+            'password' => $params->password,
         ];
 
         if (Auth::attempt($credentials, true)) {

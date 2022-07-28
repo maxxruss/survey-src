@@ -59,8 +59,14 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         const data = new FormData(event.currentTarget);
 
         const params = {
-            name: data.get("name"),
+            title: data.get("title"),
+            inn: data.get("inn"),
+            kpp: data.get("kpp"),
+            address: data.get("address"),
+            manager: data.get("manager"),
+            phone: data.get("phone"),
             email: data.get("email"),
+            name: data.get("name"),
             password: data.get("password"),
             method: "register",
         };
@@ -68,6 +74,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         var response = await requestService.auth(params);
 
         if ((response.result = "success")) {
+            console.log(response.data)
             authDataLoaded(response.data);
             history.push("/");
         }
@@ -85,7 +92,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    Регистрация
+                {dict.auth.main.titleReg}
                 </Typography>
                 <Box
                     component="form"
@@ -189,11 +196,11 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Отправить
+                        {dict.auth.main.send}
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to="/signin">Авторизация</Link>
+                            <Link to="/signin">{dict.auth.main.titleAuth}</Link>
                         </Grid>
                     </Grid>
                 </Box>

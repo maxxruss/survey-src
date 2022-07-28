@@ -14,9 +14,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 interface Props {
     requestService: {
-        auth: (method: object) => { result: string; data: string };
+        auth: (method: object) => {
+            result: string;
+            data: { [v: string]: any };
+        };
     };
-    authDataLoaded: (data: any) => {};
+    authDataLoaded: (data: { [v: string]: any }) => {};
     getLang: () => {};
     cookies: {
         set: (arg1: String, arg2: String) => {};
@@ -35,7 +38,16 @@ const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
 
         if (response.result == "success") {
             const data = response.data;
-            authDataLoaded(data);
+            console.log("data: ", data);
+
+            const dataUser = {
+                id: data.id,
+                name: data.name,
+                email: data.email,
+                role: data.company.role.title,
+            };
+
+            authDataLoaded(dataUser);
         } else if (response.result == "failed") {
         }
 

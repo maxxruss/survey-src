@@ -24,8 +24,9 @@ export default function Dictionary() {
         },
         auth: {
             main: {
-                user: 'Пользователь',
-                company: 'Компания'
+                titleReg: 'Регистрация',
+                titleAuth: 'Авторизация',
+                send: 'Отправить',
             },
             company: {
                 title: "Наименование",
@@ -67,8 +68,9 @@ export default function Dictionary() {
         },
         auth: {
             main: {
-                user: 'User',
-                company: 'Company'
+                titleReg: 'Registration',
+                titleAuth: 'Auth',
+                send: 'Send',
             },
             company: {
                 title: "Title",
