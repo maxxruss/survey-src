@@ -61,7 +61,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         manager: false,
         phone: false,
         email: false,
-        name: false,
+        login: false,
         password: false,
     });
 
@@ -77,7 +77,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
             manager: formData.get("manager"),
             phone: formData.get("phone"),
             email: formData.get("email"),
-            name: formData.get("name"),
+            login: formData.get("login"),
             password: formData.get("password"),
         };
 
@@ -89,7 +89,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
             manager: !data.manager,
             phone: !data.phone,
             email: !data.email,
-            name: !data.name,
+            login: !data.login,
             password: !data.password,
         };
 
@@ -113,6 +113,12 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
             authDataLoaded(response.data);
             history.push("/");
         }
+    };
+
+    const rmError = (field: string) => {
+        setErrors((prev) => {
+            return { ...prev, [field]: false };
+        });
     };
 
     return (
@@ -148,6 +154,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 id="title"
                                 label={dict.reg.company_title}
                                 autoFocus
+                                onFocus={() => rmError("title")}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -161,6 +168,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 id="inn"
                                 label={dict.reg.inn}
                                 autoFocus
+                                onFocus={() => rmError("inn")}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -171,9 +179,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 }
                                 name="kpp"
                                 fullWidth
-                                id="title"
+                                id="kpp"
                                 label={dict.reg.kpp}
                                 autoFocus
+                                onFocus={() => rmError("kpp")}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -189,6 +198,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 id="address"
                                 label={dict.reg.company_address}
                                 autoFocus
+                                onFocus={() => rmError("address")}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -205,6 +215,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 id="manager"
                                 label={dict.reg.company_manager}
                                 autoFocus
+                                onFocus={() => rmError("manager")}
                             />
                         </Grid>
 
@@ -220,6 +231,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.phone}
                                 name="phone"
                                 autoComplete="phone"
+                                onFocus={() => rmError("phone")}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -234,20 +246,22 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.email}
                                 name="email"
                                 autoComplete="email"
+                                onFocus={() => rmError("email")}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                error={errors.name}
+                                error={errors.login}
                                 helperText={
-                                    errors.name ? dict.error.fieldRequired : ""
+                                    errors.login ? dict.error.fieldRequired : ""
                                 }
-                                name="name"
+                                name="login"
                                 required
                                 fullWidth
-                                id="name"
+                                id="login"
                                 label={dict.reg.login}
                                 autoFocus
+                                onFocus={() => rmError("login")}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -264,6 +278,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.password}
                                 type="password"
                                 id="password"
+                                onFocus={() => rmError("password")}
                             />
                         </Grid>
                     </Grid>

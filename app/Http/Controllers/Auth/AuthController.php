@@ -19,7 +19,7 @@ class AuthController extends Controller
 
         return [
             'id' => $data['id'],
-            'name' => $data['name'],
+            'login' => $data['login'],
             'email' => $data['email'],
             'role' => $data['company']['role']['title']
         ];
@@ -63,7 +63,7 @@ class AuthController extends Controller
         }
 
         $data_user = [
-            'name' => $params->name,
+            'login' => $params->login,
             'email' => $params->email,
             'password' => $params->password,
             'company_id' => $company_id,
@@ -74,7 +74,7 @@ class AuthController extends Controller
 
 
         $credentials = [
-            'name' => $params->name,
+            'login' => $params->login,
             'password' => $params->password,
         ];
 
@@ -96,7 +96,7 @@ class AuthController extends Controller
     {
         $remember = $request->remember;
         $credentials = $request->validate([
-            'name' => 'required',
+            'login' => 'required',
             'password' => 'required',
         ]);
 
