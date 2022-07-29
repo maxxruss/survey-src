@@ -22,23 +22,25 @@ export default function Dictionary() {
             },
 
         },
+        reg: {
+            title: 'Регистрация',
+            company_title: "Наименование",
+            inn: "ИНН",
+            kpp: "КПП",
+            company_address: "Адрес компании",
+            company_manager: "ФИО менеджера компании",
+            phone: "Телефон компании",
+            email: "Электронная почта пользователя",
+            login: "Логин",
+            password: "Пароль",
+            send: 'Отправить',
+        },
         auth: {
-            main: {
-                titleReg: 'Регистрация',
-                titleAuth: 'Авторизация',
-                send: 'Отправить',
-            },
-            company: {
-                title: "Наименование",
-                inn: "ИНН",
-                kpp: "КПП",
-                company_address: "Адрес компании",
-                company_manager: "ФИО менеджера компании",
-                phone: "Телефон компании",
-                email: "Электронная почта пользователя",
-                login: "Логин",
-                password: "Пароль",
-            }
+            title: 'Авторизация',
+            login: 'Логин',
+            password: 'Пароль',
+            remember: 'Запомнить меня',
+            send: 'Отправить',
         },
         askers: {
             userFirstName: "Имя пользователя",
@@ -66,24 +68,26 @@ export default function Dictionary() {
             },
 
         },
+        reg: {
+            title: "Registration",
+            company_title: "Title",
+            inn: "INN",
+            kpp: "KPP",
+            company_address: "Address of company",
+            company_manager: "Manager of company",
+            phone: "Phone of company",
+            email: "User's E-mail",
+            login: "Login",
+            password: "Password",
+            send: 'Send',
+        },        
         auth: {
-            main: {
-                titleReg: 'Registration',
-                titleAuth: 'Auth',
-                send: 'Send',
-            },
-            company: {
-                title: "Title",
-                inn: "INN",
-                kpp: "KPP",
-                company_address: "Address of company",
-                company_manager: "Manager of company",
-                phone: "Phone of company",
-                email: "User's E-mail",
-                login: "Login",
-                password: "Password",
-            }
-        }
+            title: 'Auth',
+            login: 'Login',
+            password: 'Password',
+            remember: 'Remember me',
+            send: 'Send',
+        },
 
     };
 

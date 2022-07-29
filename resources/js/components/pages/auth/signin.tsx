@@ -14,6 +14,7 @@ import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import { Link, useHistory } from "react-router-dom";
 import { Props } from "../../interfaces";
+import Dictionary from "../../../dictionary";
 
 // useRef
 // import * as React,
@@ -48,6 +49,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
     const [checked, setChecked] = React.useState<boolean>(true);
     const ref = React.useRef(null);
     const history = useHistory();
+    const dict = Dictionary();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -73,13 +75,14 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
             <Box
                 sx={{
                     marginTop: 8,
+                    paddingTop: 4,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    Авторизация
+                    {dict.auth.title}
                 </Typography>
                 <Box
                     component="form"
@@ -92,7 +95,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         required
                         fullWidth
                         id="name"
-                        label="name"
+                        label={dict.auth.login}
                         name="name"
                         autoComplete="name"
                         autoFocus
@@ -102,7 +105,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label={dict.auth.password}
                         type="password"
                         id="password"
                         autoComplete="current-password"
@@ -117,7 +120,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                                 color="primary"
                             />
                         }
-                        label="Remember me"
+                        label={dict.auth.remember}
                     />
                     <Button
                         ref={ref}
@@ -126,12 +129,12 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Отправить
+                        {dict.auth.send}
                     </Button>
                 </Box>
                 <Grid container>
                     <Grid item>
-                        <Link to="/signup">Регистрация</Link>
+                        <Link to="/signup"> {dict.reg.title}</Link>
                     </Grid>
                 </Grid>
             </Box>

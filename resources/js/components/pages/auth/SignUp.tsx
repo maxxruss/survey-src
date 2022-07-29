@@ -92,7 +92,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                {dict.auth.main.titleReg}
+                {dict.reg.title}
                 </Typography>
                 <Box
                     component="form"
@@ -107,7 +107,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 required
                                 fullWidth
                                 id="title"
-                                label={dict.auth.company.title}
+                                label={dict.reg.company_title}
                                 autoFocus
                             />
                         </Grid>
@@ -116,7 +116,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 name="inn"
                                 fullWidth
                                 id="inn"
-                                label={dict.auth.company.inn}
+                                label={dict.reg.inn}
                                 autoFocus
                             />
                         </Grid>
@@ -125,7 +125,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 name="kpp"
                                 fullWidth
                                 id="title"
-                                label={dict.auth.company.kpp}
+                                label={dict.reg.kpp}
                                 autoFocus
                             />
                         </Grid>
@@ -134,7 +134,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 name="address"
                                 fullWidth
                                 id="address"
-                                label={dict.auth.company.company_address}
+                                label={dict.reg.company_address}
                                 autoFocus
                             />
                         </Grid>
@@ -144,7 +144,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 required
                                 fullWidth
                                 id="manager"
-                                label={dict.auth.company.company_manager}
+                                label={dict.reg.company_manager}
                                 autoFocus
                             />
                         </Grid>
@@ -154,7 +154,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 required
                                 fullWidth
                                 id="phone"
-                                label={dict.auth.company.phone}
+                                label={dict.reg.phone}
                                 name="phone"
                                 autoComplete="phone"
                             />
@@ -164,7 +164,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 required
                                 fullWidth
                                 id="email"
-                                label={dict.auth.company.email}
+                                label={dict.reg.email}
                                 name="email"
                                 autoComplete="email"
                             />
@@ -175,7 +175,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 required
                                 fullWidth
                                 id="name"
-                                label={dict.auth.company.login}
+                                label={dict.reg.login}
                                 autoFocus
                             />
                         </Grid>
@@ -184,7 +184,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 required
                                 fullWidth
                                 name="password"
-                                label={dict.auth.company.password}
+                                label={dict.reg.password}
                                 type="password"
                                 id="password"
                             />
@@ -196,11 +196,11 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {dict.auth.main.send}
+                        {dict.reg.send}
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to="/signin">{dict.auth.main.titleAuth}</Link>
+                            <Link to="/signin">{dict.auth.title}</Link>
                         </Grid>
                     </Grid>
                 </Box>
