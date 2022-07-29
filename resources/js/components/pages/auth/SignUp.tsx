@@ -67,41 +67,43 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        const formData = new FormData(event.currentTarget);
 
-        const title = data.get("title");
-        const inn = data.get("inn");
-        const kpp = data.get("kpp");
-        const address = data.get("address");
-        const manager = data.get("manager");
-        const phone = data.get("phone");
-        const email = data.get("email");
-        const name = data.get("name");
-        const password = data.get("password");
+        const data = {
+            title: formData.get("title"),
+            inn: formData.get("inn"),
+            kpp: formData.get("kpp"),
+            address: formData.get("address"),
+            manager: formData.get("manager"),
+            phone: formData.get("phone"),
+            email: formData.get("email"),
+            name: formData.get("name"),
+            password: formData.get("password"),
+        };
 
-        setErrors({
-            title: !title,
-            inn: !inn,
-            kpp: !kpp,
-            address: !address,
-            manager: !manager,
-            phone: !phone,
-            email: !email,
-            name: !name,
-            password: !password,
-        });
+        const fieldsErrors = {
+            title: !data.title,
+            inn: !data.inn,
+            kpp: !data.kpp,
+            address: !data.address,
+            manager: !data.manager,
+            phone: !data.phone,
+            email: !data.email,
+            name: !data.name,
+            password: !data.password,
+        };
+
+        setErrors(fieldsErrors);
+
+        // собираем массив значений с ошибками
+        const errorsArr = Object.values(fieldsErrors);
+
+        // если есть хоть одна ошибка - запрос не выполняется
+        if (errorsArr.find((el) => el === true)) return;
 
         const params = {
-            title,
-            inn,
-            kpp,
-            address,
-            manager,
-            phone,
-            email,
-            name,
-            password,
             method: "register",
+            ...data,
         };
 
         var response = await requestService.auth(params);
@@ -150,6 +152,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.inn}
+                                helperText={
+                                    errors.inn ? dict.error.fieldRequired : ""
+                                }
                                 name="inn"
                                 fullWidth
                                 id="inn"
@@ -159,6 +165,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.kpp}
+                                helperText={
+                                    errors.kpp ? dict.error.fieldRequired : ""
+                                }
                                 name="kpp"
                                 fullWidth
                                 id="title"
@@ -168,6 +178,12 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.address}
+                                helperText={
+                                    errors.address
+                                        ? dict.error.fieldRequired
+                                        : ""
+                                }
                                 name="address"
                                 fullWidth
                                 id="address"
@@ -177,6 +193,12 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.manager}
+                                helperText={
+                                    errors.manager
+                                        ? dict.error.fieldRequired
+                                        : ""
+                                }
                                 name="manager"
                                 required
                                 fullWidth
@@ -188,6 +210,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
 
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.phone}
+                                helperText={
+                                    errors.phone ? dict.error.fieldRequired : ""
+                                }
                                 required
                                 fullWidth
                                 id="phone"
@@ -198,6 +224,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.email}
+                                helperText={
+                                    errors.email ? dict.error.fieldRequired : ""
+                                }
                                 required
                                 fullWidth
                                 id="email"
@@ -208,6 +238,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.name}
+                                helperText={
+                                    errors.name ? dict.error.fieldRequired : ""
+                                }
                                 name="name"
                                 required
                                 fullWidth
@@ -218,6 +252,12 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.password}
+                                helperText={
+                                    errors.password
+                                        ? dict.error.fieldRequired
+                                        : ""
+                                }
                                 required
                                 fullWidth
                                 name="password"

@@ -59,11 +59,11 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const data = {
-            name: formData.get("name"),
+            login: formData.get("login"),
             password: formData.get("password"),
         };
 
-        const fieldsErrors = { login: !data.name, password: !data.password };
+        const fieldsErrors = { login: !data.login, password: !data.password };
 
         setErrors(fieldsErrors);
 
@@ -85,6 +85,15 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
             authDataLoaded(response.data);
             history.push("/");
         }
+    };
+
+    const rmError = (field: string) => {
+        setErrors((prev) => {
+            return { ...prev, [field]: false };
+        });
+
+        console.log("field: ", field);
+        console.log("errors: ", errors);
     };
 
     return (
@@ -115,17 +124,12 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         margin="normal"
                         required
                         fullWidth
-                        id="name"
+                        id="login"
                         label={dict.auth.login}
-                        name="name"
-                        autoComplete="name"
+                        name="login"
+                        autoComplete="login"
                         autoFocus
-                        onFocus={() =>
-                            setErrors({
-                                login: false,
-                                password: errors.password,
-                            })
-                        }
+                        onFocus={() => rmError("login")}
                     />
                     <TextField
                         error={errors.password}
@@ -140,12 +144,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        onFocus={() =>
-                            setErrors({
-                                login: errors.login,
-                                password: false,
-                            })
-                        }
+                        onFocus={() => rmError("password")}
                     />
                     <FormControlLabel
                         control={
