@@ -62,8 +62,6 @@ class AuthController extends Controller
             ]);
         }
 
-        // var_dump($company_id);die();
-
         $data_user = [
             'name' => $params->name,
             'email' => $params->email,

@@ -102,7 +102,9 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                 >
                     <TextField
                         error={errors.login}
-                        helperText={dict.error.fieldRequired}
+                        helperText={
+                            errors.login ? dict.error.fieldRequired : ""
+                        }
                         margin="normal"
                         required
                         fullWidth
@@ -120,7 +122,9 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                     />
                     <TextField
                         error={errors.password}
-                        helperText={dict.error.fieldRequired}
+                        helperText={
+                            errors.password ? dict.error.fieldRequired : ""
+                        }
                         margin="normal"
                         required
                         fullWidth
