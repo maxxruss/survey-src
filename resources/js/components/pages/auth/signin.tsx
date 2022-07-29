@@ -57,18 +57,25 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const name = data.get("name");
-        const password = data.get("password");
+        const formData = new FormData(event.currentTarget);
+        const data = {
+            name: formData.get("name"),
+            password: formData.get("password"),
+        };
 
-        setErrors({ login: !name, password: !password });
+        const fieldsErrors = { login: !data.name, password: !data.password };
 
-        console.log("event.currentTarget: ", event.currentTarget);
+        setErrors(fieldsErrors);
+
+        // собираем массив значений с ошибками
+        const errorsArr = Object.values(fieldsErrors);
+
+        // если есть хоть одна ошибка - запрос не выполняется
+        if (errorsArr.find((el) => el === true)) return;
 
         const params = {
+            ...data,
             remember: checked,
-            name: data.get("name"),
-            password: data.get("password"),
             method: "auth",
         };
 

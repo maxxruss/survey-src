@@ -53,21 +53,54 @@ const theme = createTheme();
 const SignUp = ({ authDataLoaded, requestService }: Props) => {
     const history = useHistory();
     const dict = Dictionary();
+    const [errors, setErrors] = React.useState({
+        title: false,
+        inn: false,
+        kpp: false,
+        address: false,
+        manager: false,
+        phone: false,
+        email: false,
+        name: false,
+        password: false,
+    });
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
+        const title = data.get("title");
+        const inn = data.get("inn");
+        const kpp = data.get("kpp");
+        const address = data.get("address");
+        const manager = data.get("manager");
+        const phone = data.get("phone");
+        const email = data.get("email");
+        const name = data.get("name");
+        const password = data.get("password");
+
+        setErrors({
+            title: !title,
+            inn: !inn,
+            kpp: !kpp,
+            address: !address,
+            manager: !manager,
+            phone: !phone,
+            email: !email,
+            name: !name,
+            password: !password,
+        });
+
         const params = {
-            title: data.get("title"),
-            inn: data.get("inn"),
-            kpp: data.get("kpp"),
-            address: data.get("address"),
-            manager: data.get("manager"),
-            phone: data.get("phone"),
-            email: data.get("email"),
-            name: data.get("name"),
-            password: data.get("password"),
+            title,
+            inn,
+            kpp,
+            address,
+            manager,
+            phone,
+            email,
+            name,
+            password,
             method: "register",
         };
 
@@ -92,7 +125,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                {dict.reg.title}
+                    {dict.reg.title}
                 </Typography>
                 <Box
                     component="form"
@@ -103,6 +136,10 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
+                                error={errors.title}
+                                helperText={
+                                    errors.title ? dict.error.fieldRequired : ""
+                                }
                                 name="title"
                                 required
                                 fullWidth
