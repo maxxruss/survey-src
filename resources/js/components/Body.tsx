@@ -38,16 +38,16 @@ const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
 
         if (response.result == "success") {
             const data = response.data;
-            console.log("data: ", data);
+            // console.log("data: ", data);
 
-            const dataUser = {
-                id: data.id,
-                name: data.name,
-                email: data.email,
-                role: data.company.role.title,
-            };
+            // const dataUser = {
+            //     id: data.id,
+            //     name: data.name,
+            //     email: data.email,
+            //     role: data.company.role.title,
+            // };
 
-            authDataLoaded(dataUser);
+            authDataLoaded(data);
         } else if (response.result == "failed") {
         }
 

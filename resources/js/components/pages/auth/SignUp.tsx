@@ -74,7 +74,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         var response = await requestService.auth(params);
 
         if ((response.result = "success")) {
-            console.log(response.data)
+            // console.log(response.data)
             authDataLoaded(response.data);
             history.push("/");
         }

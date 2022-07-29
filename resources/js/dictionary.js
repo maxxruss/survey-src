@@ -22,6 +22,9 @@ export default function Dictionary() {
             },
 
         },
+        error: {
+            fieldRequired: "Обязательное поле",
+        },
         reg: {
             title: 'Регистрация',
             company_title: "Наименование",
@@ -67,6 +70,9 @@ export default function Dictionary() {
                 main: "Survey",
             },
 
+        },
+        error: {
+            fieldRequired: "Required field",
         },
         reg: {
             title: "Registration",

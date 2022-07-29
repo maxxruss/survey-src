@@ -49,11 +49,21 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
     const [checked, setChecked] = React.useState<boolean>(true);
     const ref = React.useRef(null);
     const history = useHistory();
+    const [errors, setErrors] = React.useState({
+        login: false,
+        password: false,
+    });
     const dict = Dictionary();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        const name = data.get("name");
+        const password = data.get("password");
+
+        setErrors({ login: !name, password: !password });
+
+        console.log("event.currentTarget: ", event.currentTarget);
 
         const params = {
             remember: checked,
@@ -91,6 +101,8 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                     sx={{ mt: 1 }}
                 >
                     <TextField
+                        error={errors.login}
+                        helperText={dict.error.fieldRequired}
                         margin="normal"
                         required
                         fullWidth
@@ -99,8 +111,16 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         name="name"
                         autoComplete="name"
                         autoFocus
+                        onFocus={() =>
+                            setErrors({
+                                login: false,
+                                password: errors.password,
+                            })
+                        }
                     />
                     <TextField
+                        error={errors.password}
+                        helperText={dict.error.fieldRequired}
                         margin="normal"
                         required
                         fullWidth
@@ -109,6 +129,12 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onFocus={() =>
+                            setErrors({
+                                login: errors.login,
+                                password: false,
+                            })
+                        }
                     />
                     <FormControlLabel
                         control={

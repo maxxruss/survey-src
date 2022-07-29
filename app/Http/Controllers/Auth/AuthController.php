@@ -13,12 +13,24 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function getDataAutorizedUser()
+    {
+        $data = User::where('id', Auth::id())->with('company.role')->first();
+
+        return [
+            'id' => $data['id'],
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'role' => $data['company']['role']['title']
+        ];
+    }
+
     public function check()
     {
         if (Auth::check()) {
             return response()->json([
                 'result' => 'success',
-                'data' => User::where('id', Auth::id())->with('company.role')->first()
+                'data' => $this->getDataAutorizedUser()
             ]);
         } else {
             return response()->json([
@@ -39,11 +51,11 @@ class AuthController extends Controller
             'is_active' => true,
             'role_id' => 2
         ];
-       
+
 
         $company_id = Company::create($data_company)->id;
 
-        if(!$company_id) {
+        if (!$company_id) {
             return response()->json([
                 'result' => 'false',
                 'msg' => 'Не удалось создать компанию',
@@ -70,9 +82,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, true)) {
             $params->session()->regenerate();
+
             return response()->json([
                 'result' => 'success',
-                'data' => Auth::user()
+                'data' => $this->getDataAutorizedUser()
             ]);
         } else {
             return response()->json([
@@ -95,9 +108,7 @@ class AuthController extends Controller
             return response()->json([
                 'result' => 'success',
                 'check' => Auth::check(),
-                'data' => Auth::user(),
-                'type' => gettype($remember),
-                'remember' => $remember,
+                'data' => $this->getDataAutorizedUser()
             ]);
         } else {
             return response()->json([
