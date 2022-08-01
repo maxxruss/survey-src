@@ -65,32 +65,41 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         password: false,
     });
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
+    const [fields, setFields] = React.useState({
+        title: "",
+        inn: "",
+        kpp: "",
+        address: "",
+        manager: "",
+        phone: "",
+        email: "",
+        login: "",
+        password: "",
+    });
 
-        const data = {
-            title: formData.get("title"),
-            inn: formData.get("inn"),
-            kpp: formData.get("kpp"),
-            address: formData.get("address"),
-            manager: formData.get("manager"),
-            phone: formData.get("phone"),
-            email: formData.get("email"),
-            login: formData.get("login"),
-            password: formData.get("password"),
-        };
+    const handleSubmit = async () => {
+        let innError = false;
+        let kppError = false;
 
+        if (fields.inn && fields.inn.toString().length != 20) {            
+            innError = true;
+        }
+
+        if (fields.kpp && fields.kpp.toString().length != 20) {
+            kppError = true;
+        }
+
+        // валидация
         const fieldsErrors = {
-            title: !data.title,
-            inn: !data.inn,
-            kpp: !data.kpp,
-            address: !data.address,
-            manager: !data.manager,
-            phone: !data.phone,
-            email: !data.email,
-            login: !data.login,
-            password: !data.password,
+            title: !fields.title,
+            inn: innError,
+            kpp: kppError,
+            address: !fields.address,
+            manager: !fields.manager,
+            phone: !fields.phone,
+            email: !fields.email,
+            login: !fields.login,
+            password: !fields.password,
         };
 
         setErrors(fieldsErrors);
@@ -103,7 +112,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
 
         const params = {
             method: "register",
-            ...data,
+            ...fields,
         };
 
         var response = await requestService.auth(params);
@@ -113,6 +122,12 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
             authDataLoaded(response.data);
             history.push("/");
         }
+    };
+
+    const handleChange = (value: string | number, field: string) => {
+        setFields((prev) => {
+            return { ...prev, [field]: value };
+        });
     };
 
     const rmError = (field: string) => {
@@ -135,12 +150,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                 <Typography component="h1" variant="h5">
                     {dict.reg.title}
                 </Typography>
-                <Box
-                    component="form"
-                    noValidate
-                    onSubmit={handleSubmit}
-                    sx={{ mt: 3 }}
-                >
+                <Box component="form" noValidate sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -155,10 +165,14 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.company_title}
                                 autoFocus
                                 onFocus={() => rmError("title")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "title")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                type={"number"}
                                 error={errors.inn}
                                 helperText={
                                     errors.inn ? dict.error.fieldRequired : ""
@@ -169,6 +183,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.inn}
                                 autoFocus
                                 onFocus={() => rmError("inn")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "inn")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -183,6 +200,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.kpp}
                                 autoFocus
                                 onFocus={() => rmError("kpp")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "kpp")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -199,6 +219,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.company_address}
                                 autoFocus
                                 onFocus={() => rmError("address")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "address")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -216,6 +239,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.company_manager}
                                 autoFocus
                                 onFocus={() => rmError("manager")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "manager")
+                                }
                             />
                         </Grid>
 
@@ -232,6 +258,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 name="phone"
                                 autoComplete="phone"
                                 onFocus={() => rmError("phone")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "phone")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -247,6 +276,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 name="email"
                                 autoComplete="email"
                                 onFocus={() => rmError("email")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "email")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -262,6 +294,9 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 label={dict.reg.login}
                                 autoFocus
                                 onFocus={() => rmError("login")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "login")
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -279,14 +314,17 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                                 type="password"
                                 id="password"
                                 onFocus={() => rmError("password")}
+                                onChange={(e) =>
+                                    handleChange(e.target.value, "password")
+                                }
                             />
                         </Grid>
                     </Grid>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        onClick={() => handleSubmit()}
                     >
                         {dict.reg.send}
                     </Button>
