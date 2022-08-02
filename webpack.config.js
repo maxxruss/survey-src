@@ -76,7 +76,7 @@ module.exports = (env, argv) => {
             extensions: [".tsx", ".ts", ".js", "jsx"],
         },
         devServer: {
-            liveReload: false,
+            // liveReload: false,
             // historyApiFallback: true,
             headers: { "Access-Control-Allow-Origin": "*" },
         },

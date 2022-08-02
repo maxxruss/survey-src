@@ -148,7 +148,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    {dict.reg.title}
+                    {dict.reg.title}1
                 </Typography>
                 <Box component="form" noValidate sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
