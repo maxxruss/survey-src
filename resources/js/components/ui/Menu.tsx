@@ -19,13 +19,6 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import Dictionary from "../../dictionary";
-import { makeStyles } from "@mui/styles";
-
-const useStyles = makeStyles({
-    link: {
-        color:'inherit'
-    }
-})
 
 type StateProps = {
     role: string;
@@ -94,10 +87,6 @@ const MainMenu = ({ role }: StateProps) => {
     const menu = menuAllRoles(dict);
     const menuItems = menu[role];
     const location = useLocation();
-    const classes = useStyles()
-
-    // console.log("location: ", location);
-    // console.log("menuItems: ", menuItems);
 
     if (!menuItems) return null;
 
@@ -119,7 +108,7 @@ const MainMenu = ({ role }: StateProps) => {
                                     disablePadding
                                     component={NavLink}
                                     to={item.to}
-                                    className={classes.link}
+                                    className='custom-link'
                                 >
                                     <ListItemButton
                                         selected={location.pathname == item.to}

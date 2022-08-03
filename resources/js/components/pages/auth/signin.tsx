@@ -170,7 +170,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                 </Box>
                 <Grid container>
                     <Grid item>
-                        <Link to="/signup"> {dict.reg.title}</Link>
+                        <Link to="/signup">{dict.reg.title}</Link>
                     </Grid>
                 </Grid>
             </Box>

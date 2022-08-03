@@ -14,7 +14,7 @@ import Dictionary from "../../dictionary";
 import { useCookies } from "react-cookie";
 import { toggleDrawer, authLogOut } from "../../redux/actions";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link, NavLink } from "react-router-dom";
 import compose from "../../utils/compose";
 import withRequestService from "../hoc/with-request-service";
 
@@ -92,13 +92,15 @@ const ButtonAppBar = ({
                         </IconButton>
                     </Grid>
                     <Grid item xs={2} style={{ alignSelf: "center" }}>
-                        <Typography
-                            variant="h6"
-                            component="div"
-                            sx={{ flexGrow: 1 }}
-                        >
-                            {dict.appBarTitle}
-                        </Typography>
+                        <Box component={NavLink} to="/" className="custom-link">
+                            <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ flexGrow: 1 }}
+                            >
+                                {dict.appBarTitle}
+                            </Typography>
+                        </Box>
                     </Grid>
                     <Grid item xs={7}></Grid>
                     <Grid item xs={1} style={{ alignSelf: "center" }}>

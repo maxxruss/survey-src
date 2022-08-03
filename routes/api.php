@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\VerifyController;
+use App\Http\Controllers\Auth\VerifyController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Asker\AskerMainController;
 
@@ -24,7 +24,7 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::post('check', [AuthController::class, 'check']);
 Route::post('test', [TestController::class, 'test']);
 Route::post('asker/test', [AskerMainController::class, 'test']);
-Route::post('/verify/{token}', [VerifyController::class, 'VerifyEmail'])->name('verify');
+Route::post('verify', [VerifyController::class, 'verifyEmail']);
 
 
 Route::group(['middleware' => ['auth']], function () {

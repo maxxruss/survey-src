@@ -5,6 +5,7 @@ import { Container, Box, Paper } from "@mui/material";
 import Page404 from "./pages/404";
 import Home from "./pages/Home";
 import PleaseConfirm from "./pages/info/PleaseConfirm";
+import Verify from "./pages/info/Verify";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import Admin from "./pages/roles/admin/MainAdmin";
@@ -136,6 +137,7 @@ const Main = ({ auth, role }: Props) => {
                             <AuthorizedRoute exact path="/">
                                 <Home />
                             </AuthorizedRoute>
+                            <Route path="/verify" component={Verify} />
                             <Route path="*" component={Page404} />
                         </Switch>
                     </Box>

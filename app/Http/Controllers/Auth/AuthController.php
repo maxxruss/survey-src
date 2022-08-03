@@ -44,7 +44,7 @@ class AuthController extends Controller
     }
 
     public function register(Request $params)
-    {
+    {       
         $data_company = [
             'title' => $params->title,
             'inn' => $params->inn,
@@ -76,15 +76,19 @@ class AuthController extends Controller
 
         // $user = User::create($data_user)->toArray();
         $user = User::create($data_user);
-        // var_dump($user);die();
-
-        event(new Registered($user));
-
+        // $result = Mail::to($user)->send(new UserRegistered($user));
+        // $result = event(new Registered($user));
+        // var_dump($result);die();
+        $domain = url('');
+        $emeilHash = md5($user['email']);
+        $activationLink = "$domain/verify?token=$emeilHash";
+        // var_dump($activationLink);
+        // die();
 
         $details = array(
-            'login'=> $user['login'],
-            'body'=> 'Вам необходимо подтвердить ваш e-mail',
-        );    
+            'login' => $user['login'],
+            'link' => $activationLink,
+        );
 
         $mail_to = $user['email'];
         $subject = "Подтверждение e-mail";

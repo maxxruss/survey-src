@@ -10,7 +10,7 @@
 <body>
     <div style="padding: 20px;">
         <h2>Здравствуйте, <?php echo $details['login'] ?></h2>
-        <div><?php echo $details['body'] ?></div>
+        <div>Для активации аккаунта и подтверждения почты Вам необходимо пройти по <a href="<?php echo $details['link'] ?>">этой</a> ссылке.</div>
         <div>
             С уважением,<br>
             Survey Services

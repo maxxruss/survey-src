@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Auth;
 class AskerMainController extends Controller
 {
 
-    public function test(Request $params)
+    public function test(Request $request)
     {
+        $data = $request->json()->all();
         return response()->json([
             'result' => 'success',
-            'data' => $params->all(),
+            'data' => $data,
         ]);
     }
 

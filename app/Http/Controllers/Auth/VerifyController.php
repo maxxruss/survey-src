@@ -1,46 +1,42 @@
 <?php
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 
 
 class VerifyController extends Controller
 {
-    public function VerifyEmail($token = null)
+    public function VerifyEmail(Request $request)
     {
-    	if($token == null) {
+        $params = $request->json()->all();
+        $token = $params['token'];
 
-    		session()->flash('message', 'Invalid Login attempt');
+        if ($token == null) {
+            return response()->json([
+                'result' => 'success',
+                'token' => $token,
+            ]);
+        }
 
-    		return redirect()->route('login');
+        $user = User::where(DB::raw('md5("email")'), $token)->whereNull('email_verified_at')->first();
 
-    	}
+        if ($user != null) {
+            User::query()->where('id', '=', $user['id'])->update(['email_verified_at' => date('Y-m-d H:i:s')]);
 
-       $user = User::where('email_verification_token',$token)->first();
-
-       if($user == null ){
-
-       	session()->flash('message', 'Invalid Login attempt');
-
-        return redirect()->route('login');
-
-       }
-
-       $user->update([
-        
-        'email_verified' => 1,
-        'email_verified_at' => Carbon::now(),
-        'email_verification_token' => ''
-
-       ]);
-       
-       	session()->flash('message', 'Your account is activated, you can log in now');
-
-        return redirect()->route('login');
-
+            return response()->json([
+                'result' => 'success',
+                'user' => $user,
+            ]);
+        } else {
+            return response()->json([
+                'result' => 'failed',
+            ]);
+        }
     }
-
 }
