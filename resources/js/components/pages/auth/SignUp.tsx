@@ -119,8 +119,8 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
 
         if ((response.result = "success")) {
             // console.log(response.data)
-            authDataLoaded(response.data);
-            history.push("/");
+            // authDataLoaded(response.data);
+            history.push("/pleaseConfirm");
         }
     };
 

@@ -9,7 +9,7 @@
 
 <body>
     <div style="padding: 20px;">
-        <h1>Здравствуйте, <?php echo $details['login'] ?></h1>
+        <h2>Здравствуйте, <?php echo $details['login'] ?></h2>
         <div><?php echo $details['body'] ?></div>
         <div>
             С уважением,<br>

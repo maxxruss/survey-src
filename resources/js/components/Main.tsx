@@ -4,6 +4,7 @@ import withRequestService from "./hoc/with-request-service";
 import { Container, Box, Paper } from "@mui/material";
 import Page404 from "./pages/404";
 import Home from "./pages/Home";
+import PleaseConfirm from "./pages/info/PleaseConfirm";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import Admin from "./pages/roles/admin/MainAdmin";
@@ -52,7 +53,7 @@ const Main = ({ auth, role }: Props) => {
     }
 
     function AuthorizedRoute(props: RouteProps) {
-        const { children, exact, path } = props;        
+        const { children, exact, path } = props;
 
         return (
             <Route
@@ -110,6 +111,9 @@ const Main = ({ auth, role }: Props) => {
                             </UnAuthorizedRoute>
                             <UnAuthorizedRoute exact path="/signup">
                                 <SignUp />
+                            </UnAuthorizedRoute>
+                            <UnAuthorizedRoute exact path="/pleaseConfirm">
+                                <PleaseConfirm />
                             </UnAuthorizedRoute>
                             <AuthorizedRoute exact path="/admin">
                                 <Admin />
