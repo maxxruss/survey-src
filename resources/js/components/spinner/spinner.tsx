@@ -1,11 +1,16 @@
 import React from "react";
+import Grid from "@mui/material/Grid";
 
 const Spinner = () => {
     return (
-        <div className="lds-ripple">
-            <div></div>
-            <div></div>
-        </div>
+        <Grid container justifyContent="center">
+            <Grid item >
+                <div className="lds-ripple">
+                    <div></div>
+                    <div></div>
+                </div>
+            </Grid>
+        </Grid>
     );
 };
 
