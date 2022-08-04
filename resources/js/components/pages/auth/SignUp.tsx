@@ -20,7 +20,6 @@ type Props = {
     requestService: {
         auth: (method: object) => { result: string; data: string };
     };
-    authDataLoaded: (data: any) => {};
 };
 
 type StateProps = {
@@ -51,7 +50,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const SignUp = ({ authDataLoaded, requestService }: Props) => {
+const SignUp = ({ requestService }: Props) => {
     const history = useHistory();
     const [loading, setLoading] = React.useState(false);
 

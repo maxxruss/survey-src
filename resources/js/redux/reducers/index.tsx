@@ -2,10 +2,11 @@ type ActionType = {
     type: string;
     payload: {
         id: String;
-        name: String;
+        login: String;
         email: String;
         role: string;
         drawerStatus: boolean;
+        company: { [v: string]: any };
     };
 };
 
@@ -14,7 +15,7 @@ type StateType =
     | {
           auth: boolean;
           id: String;
-          name: String;
+          login: String;
           email: String;
           role: String;
           drawerStatus: boolean;
@@ -25,40 +26,43 @@ const reducer = (state: StateType, action: ActionType) => {
         return {
             auth: false,
             id: "",
-            name: "",
+            login: "",
             email: "",
             role: "",
+            company: null,
             drawerStatus: false,
         };
     }
     switch (action.type) {
-        case "FETCH_AUTH_SUCCESS":            
-
+        case "FETCH_AUTH_SUCCESS":
             return {
                 ...state,
                 auth: true,
                 id: action.payload.id,
-                name: action.payload.name,
+                login: action.payload.login,
                 email: action.payload.email,
                 role: action.payload.role,
+                company: action.payload.company,
             };
         case "FETCH_AUTH_FAILURE":
             return {
                 ...state,
                 auth: false,
                 id: "",
-                name: "",
+                login: "",
                 email: "",
                 role: "",
+                company: "",
             };
         case "AUTH_LOGOUT":
             return {
                 ...state,
                 auth: false,
                 id: "",
-                name: "",
+                login: "",
                 email: "",
                 role: "",
+                company: "",
             };
         case "DRAWER_TOGGLE":
             return {

@@ -23,12 +23,10 @@ Route::post('auth', [AuthController::class, 'auth']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('check', [AuthController::class, 'check']);
 Route::post('test', [TestController::class, 'test']);
-Route::post('asker/test', [AskerMainController::class, 'test']);
 Route::post('verify', [VerifyController::class, 'verifyEmail']);
 
-
 Route::group(['middleware' => ['auth']], function () {
-    //    Route::post('test', [TestController::class, 'test']);
+    Route::post('asker/test', [AskerMainController::class, 'test']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

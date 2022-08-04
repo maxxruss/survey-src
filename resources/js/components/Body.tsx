@@ -11,7 +11,6 @@ import Spinner from "./spinner";
 import Main from "./Main";
 import ButtonAppBar from "./ui/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box } from "@mui/system";
 
 interface Props {
     requestService: {
@@ -41,7 +40,6 @@ const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
             const data = response.data;
             authDataLoaded(data);
         }
-        // setTimeout(() => setLoading(false), 15000);
         setLoading(false);
     }
 

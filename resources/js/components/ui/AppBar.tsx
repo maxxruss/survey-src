@@ -14,7 +14,7 @@ import Dictionary from "../../dictionary";
 import { useCookies } from "react-cookie";
 import { toggleDrawer, authLogOut } from "../../redux/actions";
 import { connect } from "react-redux";
-import { useHistory, Link, NavLink } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import compose from "../../utils/compose";
 import withRequestService from "../hoc/with-request-service";
 

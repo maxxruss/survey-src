@@ -78,8 +78,7 @@ const Main = ({ auth, role }: Props) => {
 
     function UnAuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
-        // console.log("UnAuthorizedRoute path: ", path);
-        // console.log("UnAuthorizedRoute auth: ", auth);
+                
         return (
             <Route
                 exact={exact}

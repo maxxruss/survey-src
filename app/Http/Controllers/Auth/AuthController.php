@@ -25,7 +25,8 @@ class AuthController extends Controller
             'id' => $data['id'],
             'login' => $data['login'],
             'email' => $data['email'],
-            'role' => $data['company']['role']['title']
+            'role' => $data['company']['role']['title'],
+            'company' => $data['company']
         ];
     }
 
@@ -44,7 +45,7 @@ class AuthController extends Controller
     }
 
     public function register(Request $params)
-    {       
+    {
         $data_company = [
             'title' => $params->title,
             'inn' => $params->inn,
@@ -74,16 +75,10 @@ class AuthController extends Controller
             'email_verification_token' => Str::random(32)
         ];
 
-        // $user = User::create($data_user)->toArray();
         $user = User::create($data_user);
-        // $result = Mail::to($user)->send(new UserRegistered($user));
-        // $result = event(new Registered($user));
-        // var_dump($result);die();
         $domain = url('');
         $emeilHash = md5($user['email']);
         $activationLink = "$domain/verify?token=$emeilHash";
-        // var_dump($activationLink);
-        // die();
 
         $details = array(
             'login' => $user['login'],
@@ -99,30 +94,10 @@ class AuthController extends Controller
             $message->subject($subject);
         });
 
-        // var_dump($mail);die();
-
-        // \Mail::to($user->email)->send(new VerificationEmail($details));
-
-        // auth()->login($user);
-
-
-        // $credentials = [
-        //     'login' => $params->login,
-        //     'password' => $params->password,
-        // ];
-
-        // if (Auth::attempt($credentials, true)) {
-        // $params->session()->regenerate();
-
         return response()->json([
             'result' => 'success',
             'data' => $this->getDataAutorizedUser()
         ]);
-        // } else {
-        //     return response()->json([
-        //         'result' => 'false',
-        //     ]);
-        // }
     }
 
     public function auth(Request $request)

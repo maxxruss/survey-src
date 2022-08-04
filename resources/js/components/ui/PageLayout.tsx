@@ -1,7 +1,6 @@
 import React from "react";
-import { Grid, Paper } from "@mui/material";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Title } from "@mui/icons-material";
 
 type Props = {
     title: string;
@@ -10,10 +9,7 @@ type Props = {
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        // margin: "15px",
         padding: "15px",
-        // position: "relative",
-        // overflow: "hidden",
     },
     title: {
         // paddingLeft: '15px',
