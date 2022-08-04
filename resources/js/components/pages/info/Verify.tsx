@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import withRequestService from "../../hoc/with-request-service";
 import Spinner from "../../spinner";
+import { useHistory } from "react-router-dom";
 
 type Props = {
     requestService: {
@@ -13,6 +14,7 @@ type Props = {
 
 const Verify = ({ requestService }: Props) => {
     const dict = Dictionary();
+    const history = useHistory();
 
     const { search }: { search: string } = useLocation();
     const query = new URLSearchParams(search);
@@ -28,7 +30,12 @@ const Verify = ({ requestService }: Props) => {
             params,
         });
 
-        setVerify(response.result);
+        if (response.result) {
+            setVerify(response.result);
+            setTimeout(() => {
+                history.push("/");
+            }, 5000);
+        }
     }
 
     React.useEffect(() => {
@@ -47,7 +54,9 @@ const Verify = ({ requestService }: Props) => {
                     color="textPrimary"
                     gutterBottom
                 >
-                    {verify == "success" ? "Поздравляем!" : "Ошибка"}
+                    {verify == "success"
+                        ? dict.confirm.success.title
+                        : dict.confirm.error.title}
                 </Typography>
                 <Typography
                     variant="h5"
@@ -56,8 +65,8 @@ const Verify = ({ requestService }: Props) => {
                     paragraph
                 >
                     {verify == "success"
-                        ? "Ваша почта подтверждена"
-                        : "Пользователь не найден или уже подтвержден"}
+                        ? dict.confirm.success.text
+                        : dict.confirm.error.text}
                 </Typography>
             </Box>
         </>

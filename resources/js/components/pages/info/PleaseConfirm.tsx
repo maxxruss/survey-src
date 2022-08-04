@@ -1,9 +1,18 @@
 import React from "react";
 import Dictionary from "../../../dictionary";
 import { Box, Typography } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
 const PleaseConfirm = () => {
     const dict = Dictionary();
+    const history = useHistory();
+
+    React.useEffect(() => {
+        setTimeout(() => {
+            history.push("/");
+        }, 5000);
+    }, []);
+
     return (
         <>
             <Box pt={5}>
@@ -14,7 +23,7 @@ const PleaseConfirm = () => {
                     color="textPrimary"
                     gutterBottom
                 >
-                    {dict.reg.appeal}
+                    {dict.confirm.appeal}
                 </Typography>
                 <Typography
                     variant="h5"
@@ -22,7 +31,7 @@ const PleaseConfirm = () => {
                     color="textSecondary"
                     paragraph
                 >
-                    {dict.reg.please_confirm}
+                    {dict.confirm.please_confirm}
                 </Typography>
             </Box>
         </>

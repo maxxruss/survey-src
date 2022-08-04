@@ -14,6 +14,8 @@ import compose from "../../../utils/compose";
 import * as actions from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
 import Dictionary from "../../../dictionary";
+import Spinner from "../../spinner";
+
 
 type Props = {
     requestService: {
@@ -52,6 +54,8 @@ const theme = createTheme();
 
 const SignUp = ({ authDataLoaded, requestService }: Props) => {
     const history = useHistory();
+    const [loading, setLoading] = React.useState(false);
+
     const dict = Dictionary();
     const [errors, setErrors] = React.useState({
         title: false,
@@ -81,7 +85,7 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         let innError = false;
         let kppError = false;
 
-        if (fields.inn && fields.inn.toString().length != 20) {            
+        if (fields.inn && fields.inn.toString().length != 20) {
             innError = true;
         }
 
@@ -115,11 +119,12 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
             ...fields,
         };
 
+        setLoading(true);
+
         var response = await requestService.auth(params);
 
         if ((response.result = "success")) {
-            // console.log(response.data)
-            // authDataLoaded(response.data);
+            setLoading(false);
             history.push("/pleaseConfirm");
         }
     };
@@ -135,6 +140,8 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
             return { ...prev, [field]: false };
         });
     };
+
+    if (loading) return <Spinner />;
 
     return (
         <Container component="main" maxWidth="xs">

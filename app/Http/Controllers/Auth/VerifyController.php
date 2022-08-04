@@ -19,8 +19,7 @@ class VerifyController extends Controller
 
         if ($token == null) {
             return response()->json([
-                'result' => 'success',
-                'token' => $token,
+                'result' => 'failed',
             ]);
         }
 
@@ -31,7 +30,7 @@ class VerifyController extends Controller
 
             return response()->json([
                 'result' => 'success',
-                'user' => $user,
+                // 'user' => $user,
             ]);
         } else {
             return response()->json([

@@ -37,8 +37,7 @@ export default function Dictionary() {
             login: "Логин",
             password: "Пароль",
             send: 'Отправить',
-            appeal: 'Уважаемый пользователь!',
-            please_confirm: 'На указанную Вами почту отправлено письмо. Для активации аккаунта и подтверждения почты пройдите по ссылке указанной в письме',
+
         },
         auth: {
             title: 'Авторизация',
@@ -46,6 +45,12 @@ export default function Dictionary() {
             password: 'Пароль',
             remember: 'Запомнить меня',
             send: 'Отправить',
+        },
+        confirm: {
+            appeal: 'Уважаемый пользователь!',
+            please_confirm: 'На указанную Вами почту отправлено письмо. Для активации аккаунта и подтверждения почты пройдите по ссылке указанной в письме',
+            success: { title: "Поздравляем!", text: "Ваша почта подтверждена" },
+            error: { title: "Ошибка", text: "Пользователь не найден или уже подтвержден" }
         },
         askers: {
             userFirstName: "Имя пользователя",
@@ -87,10 +92,8 @@ export default function Dictionary() {
             email: "User's E-mail",
             login: "Login",
             password: "Password",
-            send: 'Send',
-            appeal: 'Dear user!',
-            please_confirm: 'An email has been sent to the email address you specified. For account activation and confirm email address you need follow link signed in letter',
-        },        
+            send: 'Send'
+        },
         auth: {
             title: 'Auth',
             login: 'Login',
@@ -98,6 +101,18 @@ export default function Dictionary() {
             remember: 'Remember me',
             send: 'Send',
         },
+        confirm: {
+            appeal: 'Dear user!',
+            please_confirm: 'An email has been sent to the email address you specified. For account activation and confirm email address you need follow link signed in letter',
+            success: { title: "Congratulation!", text: "Your email has been confirmed" },
+            error: { title: "Error", text: "The user has not been found or has already been confirmed." }
+
+        },
+        askers: {
+            userFirstName: "first name",
+            userMiddleName: "middle name",
+            userLastName: "last name",
+        }
 
     };
 
