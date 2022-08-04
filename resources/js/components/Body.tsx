@@ -58,7 +58,7 @@ const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
         authCheck();
     }, []);
 
-    if (loading) return <Spinner />;
+    if (!loading) return <Spinner />;
 
     return (
         <>
