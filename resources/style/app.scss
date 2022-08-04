@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'spinner';
+@import "variables";
+@import "spinner";
 
 .menu-wrap {
     display: flex;
@@ -14,8 +14,17 @@
     z-index: 100;
 }
 
-.main-content {
-    margin-top: 64px;
+// .main-content {
+//     height: calc(100vh - 64px);
+// }
+
+.main-content-container {
+    height: 100%;
+}
+
+.main-content-paper {
+    height: auto;
+    min-height: 100%;
 }
 
 .menu-selected {

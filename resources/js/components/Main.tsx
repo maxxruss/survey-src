@@ -101,49 +101,47 @@ const Main = ({ auth, role }: Props) => {
     }
 
     return (
-        <div className="main-content">
+        <Box pt={"64px"} sx={{ height: "100vh" }}>
             <Drawer />
-            <Container component="main">
-                <Paper elevation={3}>
-                    <Box sx={{ height: "100vh" }}>
-                        <Switch>
-                            <UnAuthorizedRoute exact path="/signin">
-                                <SignIn />
-                            </UnAuthorizedRoute>
-                            <UnAuthorizedRoute exact path="/signup">
-                                <SignUp />
-                            </UnAuthorizedRoute>
-                            <UnAuthorizedRoute exact path="/pleaseConfirm">
-                                <PleaseConfirm />
-                            </UnAuthorizedRoute>
-                            <AuthorizedRoute exact path="/admin">
-                                <Admin />
-                            </AuthorizedRoute>
-                            <AuthorizedRoute exact path="/admin/listaskers">
-                                <AdminListAskers />
-                            </AuthorizedRoute>
-                            <AuthorizedRoute exact path="/asker">
-                                <Asker />
-                            </AuthorizedRoute>
-                            <AuthorizedRoute exact path="/asker/surveys">
-                                <AskerSurveys />
-                            </AuthorizedRoute>
-                            <AuthorizedRoute exact path="/asker/analytics">
-                                <AskerAnalytics />
-                            </AuthorizedRoute>
-                            <AuthorizedRoute exact path="/responder">
-                                <Responder />
-                            </AuthorizedRoute>
-                            <AuthorizedRoute exact path="/">
-                                <Home />
-                            </AuthorizedRoute>
-                            <Route path="/verify" component={Verify} />
-                            <Route path="*" component={Page404} />
-                        </Switch>
-                    </Box>
+            <Container component="main" className="main-content-container">
+                <Paper elevation={3} className="main-content-paper">
+                    <Switch>
+                        <UnAuthorizedRoute exact path="/signin">
+                            <SignIn />
+                        </UnAuthorizedRoute>
+                        <UnAuthorizedRoute exact path="/signup">
+                            <SignUp />
+                        </UnAuthorizedRoute>
+                        <UnAuthorizedRoute exact path="/pleaseConfirm">
+                            <PleaseConfirm />
+                        </UnAuthorizedRoute>
+                        <AuthorizedRoute exact path="/admin">
+                            <Admin />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/admin/listaskers">
+                            <AdminListAskers />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/asker">
+                            <Asker />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/asker/surveys">
+                            <AskerSurveys />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/asker/analytics">
+                            <AskerAnalytics />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/responder">
+                            <Responder />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/">
+                            <Home />
+                        </AuthorizedRoute>
+                        <Route path="/verify" component={Verify} />
+                        <Route path="*" component={Page404} />
+                    </Switch>
                 </Paper>
             </Container>
-        </div>
+        </Box>
     );
 };
 

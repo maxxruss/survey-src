@@ -11,6 +11,7 @@ import Spinner from "./spinner";
 import Main from "./Main";
 import ButtonAppBar from "./ui/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
+import { Box } from "@mui/system";
 
 interface Props {
     requestService: {
@@ -38,19 +39,9 @@ const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
 
         if (response.result == "success") {
             const data = response.data;
-            // console.log("data: ", data);
-
-            // const dataUser = {
-            //     id: data.id,
-            //     name: data.name,
-            //     email: data.email,
-            //     role: data.company.role.title,
-            // };
-
             authDataLoaded(data);
-        } else if (response.result == "failed") {
         }
-
+        // setTimeout(() => setLoading(false), 15000);
         setLoading(false);
     }
 
@@ -58,14 +49,14 @@ const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
         authCheck();
     }, []);
 
-    if (!loading) return <Spinner />;
+    const content = loading ? <Spinner /> : <Main />;
 
     return (
         <>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <ButtonAppBar />
-                <Main />
+                {content}
             </ThemeProvider>
         </>
     );

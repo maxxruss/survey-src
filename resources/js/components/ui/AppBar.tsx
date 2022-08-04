@@ -74,22 +74,30 @@ const ButtonAppBar = ({
         event.stopPropagation();
         toggleDrawer(!drawerStatus);
     };
-
+    const Burger = () => {
+        if (!auth) {
+            return null;
+        } else {
+            return (
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                    onClick={(e) => onToggleDrawer(e)}
+                >
+                    <MenuIcon />
+                </IconButton>
+            );
+        }
+    };
     return (
         <AppBar position="fixed" color="primary">
             <Toolbar>
                 <Grid container>
                     <Grid item xs={1}>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                            onClick={(e) => onToggleDrawer(e)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
+                        <Burger />
                     </Grid>
                     <Grid item xs={2} style={{ alignSelf: "center" }}>
                         <Box component={NavLink} to="/" className="custom-link">

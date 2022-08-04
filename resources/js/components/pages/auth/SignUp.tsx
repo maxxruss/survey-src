@@ -16,7 +16,6 @@ import { useHistory } from "react-router-dom";
 import Dictionary from "../../../dictionary";
 import Spinner from "../../spinner";
 
-
 type Props = {
     requestService: {
         auth: (method: object) => { result: string; data: string };
@@ -42,7 +41,7 @@ function Copyright(props: any) {
         >
             {"Copyright © "}
             <Link color="inherit" to="/">
-                Your Website
+                Survey services
             </Link>{" "}
             {new Date().getFullYear()}
             {"."}
@@ -147,7 +146,6 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: 8,
                     paddingTop: 4,
                     display: "flex",
                     flexDirection: "column",
@@ -337,12 +335,14 @@ const SignUp = ({ authDataLoaded, requestService }: Props) => {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to="/signin">{dict.auth.title}</Link>
+                            <Button component={Link} to="/signin">
+                                {dict.auth.title}
+                            </Button>
                         </Grid>
                     </Grid>
                 </Box>
             </Box>
-            <Copyright sx={{ mt: 5 }} />
+            {/* <Copyright sx={{ mt: 5 }} /> */}
         </Container>
     );
 };

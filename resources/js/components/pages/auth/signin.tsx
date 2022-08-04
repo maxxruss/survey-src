@@ -100,7 +100,6 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
-                    marginTop: 8,
                     paddingTop: 4,
                     display: "flex",
                     flexDirection: "column",
@@ -170,11 +169,13 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                 </Box>
                 <Grid container>
                     <Grid item>
-                        <Link to="/signup">{dict.reg.title}</Link>
+                        <Button component={Link} to="/signup">
+                            {dict.reg.title}
+                        </Button>
                     </Grid>
                 </Grid>
             </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
+            {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
         </Container>
     );
 };
