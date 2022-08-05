@@ -26,7 +26,7 @@ Route::post('test', [TestController::class, 'test']);
 Route::post('verify', [VerifyController::class, 'verifyEmail']);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::post('asker/test', [AskerMainController::class, 'test']);
+    Route::post('asker/saveProfile', [AskerMainController::class, 'tessaveProfilet']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

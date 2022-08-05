@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class AskerMainController extends Controller
 {
 
-    public function test(Request $request)
+    public function saveProfile(Request $request)
     {
         $data = $request->json()->all();
         return response()->json([

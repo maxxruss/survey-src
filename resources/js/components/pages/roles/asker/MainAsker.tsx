@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Button } from "@mui/material";
 import withRequestService from "../../../hoc/with-request-service";
 import PageLayout from "../../../ui/PageLayout";
 import { connect } from "react-redux";
@@ -26,11 +26,13 @@ type StateProps = {
     role: string;
     company: { [v: string]: any };
 };
-type PropsUseState = {
-    title: string;
-    disabled: boolean;
-    value: { [v: string]: any };
-} | [];
+type PropsData =
+    | {
+          title: string;
+          disabled: boolean;
+          value: string;
+      }[]
+    | [];
 
 const useStyles = makeStyles({
     titleGrid: {
@@ -55,36 +57,22 @@ const MainAsker = ({
     company,
 }: Props) => {
     const classes = useStyles();
-    const [data, setData] = useState<PropsUseState>([]);
+    const [needSave, setNeedSave] = useState<boolean>(true);
+    const initData = [
+        { title: "id", value: id, disabled: true },
+        { title: "login", value: login, disabled: false },
+        { title: "email", value: email, disabled: true },
+        { title: "role", value: role, disabled: true },
+        { title: "active", value: company.is_active, disabled: true },
+        { title: "kpp", value: company.kpp, disabled: false },
+        { title: "inn", value: company.inn, disabled: false },
+        { title: "manager", value: company.manager, disabled: false },
+        { title: "phone", value: company.phone, disabled: false },
+        { title: "title", value: company.title, disabled: false },
+        { title: "create", value: company.created_at, disabled: true },
+    ];
 
-    const getData = async () => {
-        const params = {
-            id: 1,
-            name: "max",
-            password: 12345,
-            method: "test",
-        };
-
-        let response = await requestService.request({
-            url: "asker/test",
-            params,
-        });
-        console.log("response: ", response);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    // let response = await getData(requestService)
-
-    // var response = ;
-    // console.log("response: ", response);
-
-    // if (response.result == "success") {
-    //     console.log("response.data: ", response.data.params);
-    // }
-    setData([
+    const [newData, setNewData] = useState<PropsData>([
         { title: "id", value: id, disabled: true },
         { title: "login", value: login, disabled: false },
         { title: "email", value: email, disabled: true },
@@ -99,48 +87,98 @@ const MainAsker = ({
     ]);
 
     const setField = (value: string, field: string) => {
-        const index = data.findIndex((el) => {
-            return el.title == field;
+        const updatedData = newData.map((el) => {
+            return el.title == field ? { ...el, value } : el;
         });
 
-        setData([...data, data[index].value : value])
+        setNewData(updatedData);
+        checkForChanges(updatedData);
+    };
 
-        data[index].value = value;
+    const save = async () => {
+        const params = {
+            newData,
+        };
 
-        console.log("data: ", data);
+        const response = await requestService.request({
+            url: "asker/saveProfile",
+            params,
+        });
+        
+        console.log("response: ", response);
+    };
+
+
+
+    const reset = () => {
+        setNewData(initData);
+    };
+
+    const checkForChanges = (updatedData: PropsData) => {
+        let changesCount = 0;
+        initData.forEach((initEl) => {
+            updatedData.forEach((newEl) => {
+                if (
+                    initEl.title == newEl.title &&
+                    initEl.value != newEl.value
+                ) {
+                    changesCount++;
+                }
+            });
+        });
+
+        changesCount ? setNeedSave(false) : setNeedSave(true);
     };
 
     return (
         <PageLayout title="Главная">
-            <Grid container direction={"column"} spacing={3}>
-                {data.map((item, i) => {
-                    return (
-                        <Grid
-                            item
-                            container
-                            direction={"row"}
-                            key={item.title + i}
+            <Grid container spacing={4}>
+                <Grid item container direction={"column"} spacing={3}>
+                    {newData.map((item, i) => {
+                        return (
+                            <Grid
+                                item
+                                container
+                                direction={"row"}
+                                key={item.title + i}
+                            >
+                                <Grid item className={classes.titleGrid} xs={6}>
+                                    {item.title}
+                                </Grid>
+                                <Grid item className={classes.dataGrid} xs={3}>
+                                    <TextField
+                                        size="small"
+                                        disabled={item.disabled}
+                                        value={item.value}
+                                        onChange={(e) =>
+                                            setField(e.target.value, item.title)
+                                        }
+                                        variant="outlined"
+                                        style={{
+                                            width: "100%",
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+                <Grid item container justifyContent="center" spacing={4}>
+                    <Grid item>
+                        <Button variant="outlined" onClick={() => reset()}>
+                            Сбросить
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button
+                            variant="contained"
+                            disabled={needSave}
+                            onClick={() => save()}
                         >
-                            <Grid item className={classes.titleGrid} xs={6}>
-                                {item.title}
-                            </Grid>
-                            <Grid item className={classes.dataGrid} xs={3}>
-                                <TextField
-                                    size="small"
-                                    disabled={item.disabled}
-                                    value={item.value}
-                                    onChange={(e) =>
-                                        setField(e.target.value, item.title)
-                                    }
-                                    variant="outlined"
-                                    style={{
-                                        width: "100%",
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                    );
-                })}
+                            Сохранить
+                        </Button>
+                    </Grid>
+                </Grid>
             </Grid>
         </PageLayout>
     );
