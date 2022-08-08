@@ -13,9 +13,18 @@ use Illuminate\Support\Facades\Auth;
 class AskerMainController extends Controller
 {
 
+    public function saveCompany(Request $request)
+    {
+        $data = $request->all();
+        return response()->json([
+            'result' => 'success',
+            'data' => $data,
+        ]);
+    }
+
     public function saveProfile(Request $request)
     {
-        $data = $request->json()->all();
+        $data = $request->all();
         return response()->json([
             'result' => 'success',
             'data' => $data,

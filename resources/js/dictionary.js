@@ -16,6 +16,7 @@ export default function Dictionary() {
                 main: "Главная",
                 surveys: "Опросы",
                 analytics: "Аналитика",
+                profile: "Профиль"
             },
             responder: {
                 main: "Опрос",
@@ -72,6 +73,7 @@ export default function Dictionary() {
                 main: "Main",
                 surveys: "Surveys",
                 analytics: "Analytics",
+                profile: "Profile"
             },
             responder: {
                 main: "Survey",

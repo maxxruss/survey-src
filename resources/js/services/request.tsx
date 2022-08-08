@@ -46,7 +46,8 @@ export const request = ({ url, params }: Params) => {
     return fetch(`${_BASE_URL}/${url}`, {
         method: "post",
         headers: {
-            "content-type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+            "Content-Type": "application/json",
             // "x-xsrf-token": token,
         },
         body: JSON.stringify(params),

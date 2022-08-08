@@ -10,9 +10,10 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import Admin from "./pages/roles/admin/MainAdmin";
 import AdminListAskers from "./pages/roles/admin/AdminListAskers";
-import Asker from "./pages/roles/asker/MainAsker";
+import AskerMain from "./pages/roles/asker/AskerMain";
 import AskerSurveys from "./pages/roles/asker/AskerSurveys";
 import AskerAnalytics from "./pages/roles/asker/AskerAnalytics";
+import AskerProfile from "./pages/roles/asker/AskerProfile";
 import Responder from "./pages/roles/responder/MainResponder";
 import Drawer from "./ui/Drawer";
 import { connect } from "react-redux";
@@ -40,11 +41,12 @@ type MapRoutes = {
 
 const mapRoutes: MapRoutes = {
     admin: ["/admin", "/admin/listaskers"],
-    asker: ["/asker", "/asker/surveys", "/asker/analytics"],
+    asker: ["/asker", "/asker/surveys", "/asker/analytics", "/asker/profile"],
     responder: ["/responder"],
 };
 
 const Main = ({ auth, role }: Props) => {
+    // Защита маршрутов, каждая роль имеет право ходить только по разрешенным маршрутам
     function ProtectRole(path: string, children: any) {
         if (mapRoutes[role].indexOf(path) != -1) {
             return children;
@@ -78,7 +80,7 @@ const Main = ({ auth, role }: Props) => {
 
     function UnAuthorizedRoute(props: RouteProps) {
         const { children, exact, path } = props;
-                
+
         return (
             <Route
                 exact={exact}
@@ -121,13 +123,16 @@ const Main = ({ auth, role }: Props) => {
                             <AdminListAskers />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker">
-                            <Asker />
+                            <AskerMain />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker/surveys">
                             <AskerSurveys />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker/analytics">
                             <AskerAnalytics />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/asker/profile">
+                            <AskerProfile />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/responder">
                             <Responder />

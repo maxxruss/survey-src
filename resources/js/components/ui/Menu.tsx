@@ -7,13 +7,13 @@ import {
     ListItemIcon,
     ListItemText,
     Divider,
-    Icon
+    Icon,
 } from "@mui/material";
-
 import {
     PublicOutlined,
     FormatListBulletedOutlined,
     AnalyticsOutlined,
+    FaceOutlined,
 } from "@mui/icons-material";
 
 import { NavLink, useLocation } from "react-router-dom";
@@ -64,6 +64,11 @@ const menuAllRoles: Menu = (dict) => {
                 icon: <AnalyticsOutlined />,
                 title: dict.menu.asker.analytics,
             },
+            {
+                to: "/asker/profile",
+                icon: <FaceOutlined />,
+                title: dict.menu.asker.profile,
+            },
         ],
         responder: [
             {
@@ -108,7 +113,7 @@ const MainMenu = ({ role }: StateProps) => {
                                     disablePadding
                                     component={NavLink}
                                     to={item.to}
-                                    className='custom-link'
+                                    className="custom-link"
                                 >
                                     <ListItemButton
                                         selected={location.pathname == item.to}

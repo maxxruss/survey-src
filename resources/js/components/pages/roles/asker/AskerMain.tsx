@@ -10,20 +10,10 @@ type Props = {
     requestService: {
         request: (method: object) => { result: string; data: any };
     };
-    auth: boolean;
-    id: string;
-    login: string;
-    email: string;
-    role: string;
     company: { [v: string]: any };
 };
 
 type StateProps = {
-    auth: boolean;
-    id: string;
-    login: string;
-    email: string;
-    role: string;
     company: { [v: string]: any };
 };
 type PropsData =
@@ -47,44 +37,24 @@ const useStyles = makeStyles({
     },
 });
 
-const MainAsker = ({
-    requestService,
-    auth,
-    id,
-    login,
-    email,
-    role,
-    company,
-}: Props) => {
+const AskerMain = ({ requestService, company }: Props) => {
     const classes = useStyles();
     const [needSave, setNeedSave] = useState<boolean>(true);
     const initData = [
-        { title: "id", value: id, disabled: true },
-        { title: "login", value: login, disabled: false },
-        { title: "email", value: email, disabled: true },
-        { title: "role", value: role, disabled: true },
-        { title: "active", value: company.is_active, disabled: true },
+        { title: "title", value: company.title, disabled: false },
+        {
+            title: "active",
+            value: company.is_active ? "Активна" : "Неактивна",
+            disabled: true,
+        },
         { title: "kpp", value: company.kpp, disabled: false },
         { title: "inn", value: company.inn, disabled: false },
         { title: "manager", value: company.manager, disabled: false },
         { title: "phone", value: company.phone, disabled: false },
-        { title: "title", value: company.title, disabled: false },
         { title: "create", value: company.created_at, disabled: true },
     ];
 
-    const [newData, setNewData] = useState<PropsData>([
-        { title: "id", value: id, disabled: true },
-        { title: "login", value: login, disabled: false },
-        { title: "email", value: email, disabled: true },
-        { title: "role", value: role, disabled: true },
-        { title: "active", value: company.is_active, disabled: true },
-        { title: "kpp", value: company.kpp, disabled: false },
-        { title: "inn", value: company.inn, disabled: false },
-        { title: "manager", value: company.manager, disabled: false },
-        { title: "phone", value: company.phone, disabled: false },
-        { title: "title", value: company.title, disabled: false },
-        { title: "create", value: company.created_at, disabled: true },
-    ]);
+    const [newData, setNewData] = useState<PropsData>(initData);
 
     const setField = (value: string, field: string) => {
         const updatedData = newData.map((el) => {
@@ -97,18 +67,16 @@ const MainAsker = ({
 
     const save = async () => {
         const params = {
-            newData,
+            ...newData,
         };
 
         const response = await requestService.request({
-            url: "asker/saveProfile",
+            url: "asker/saveCompany",
             params,
         });
-        
-        console.log("response: ", response);
+
+        // console.log("response: ", response);
     };
-
-
 
     const reset = () => {
         setNewData(initData);
@@ -184,18 +152,11 @@ const MainAsker = ({
     );
 };
 
-const mapStateToProps = ({
-    auth,
-    id,
-    login,
-    email,
-    role,
-    company,
-}: StateProps) => {
-    return { auth, id, login, email, role, company };
+const mapStateToProps = ({ company }: StateProps) => {
+    return { company };
 };
 
 export default compose(
     connect(mapStateToProps),
     withRequestService()
-)(MainAsker);
+)(AskerMain);
