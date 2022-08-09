@@ -30,3 +30,10 @@ export const toggleDrawer = (drawerStatus: boolean) => {
         payload: { drawerStatus },
     };
 };
+
+export const setCompany = (data: any) => {
+    return {
+        type: "SET_COMPANY",
+        payload: data,
+    };
+};

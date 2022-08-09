@@ -69,6 +69,11 @@ const reducer = (state: StateType, action: ActionType) => {
                 ...state,
                 drawerStatus: action.payload.drawerStatus,
             };
+        case "SET_COMPANY":
+            return {
+                ...state,
+                company: action.payload.company,
+            };
         default:
             return state;
     }
