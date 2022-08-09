@@ -37,3 +37,10 @@ export const setCompany = (data: any) => {
         payload: data,
     };
 };
+
+export const setUser = (data: any) => {
+    return {
+        type: "SET_USER",
+        payload: data,
+    };
+};

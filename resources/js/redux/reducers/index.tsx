@@ -74,6 +74,11 @@ const reducer = (state: StateType, action: ActionType) => {
                 ...state,
                 company: action.payload.company,
             };
+        case "SET_USER":
+            return {
+                ...state,
+                login: action.payload.login,
+            };
         default:
             return state;
     }

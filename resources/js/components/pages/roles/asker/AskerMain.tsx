@@ -34,11 +34,6 @@ type PropsData = {
     [date: string]: PropsItem;
 };
 
-// interface PropsRowData {
-//     children?: React.ReactNode;
-//     item: PropsItem;
-// }
-
 const useStyles = makeStyles({
     titleGrid: {
         paddingRight: "35px",
