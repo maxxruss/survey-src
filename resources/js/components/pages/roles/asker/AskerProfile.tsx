@@ -11,8 +11,12 @@ import { bindActionCreators } from "redux";
 
 type Props = {
     requestService: {
-        request: (method: object) => { result: string; data: any };
+        request: (method: object) => {
+            result: string;
+            data: { login: string };
+        };
     };
+    setUser: { (login: { login: string }): void };
     id: string;
     login: string;
     email: string;
@@ -54,7 +58,14 @@ const useStyles = makeStyles({
     },
 });
 
-const AskerProfile = ({ requestService, id, login, email, role }: Props) => {
+const AskerProfile = ({
+    requestService,
+    setUser,
+    id,
+    login,
+    email,
+    role,
+}: Props) => {
     const classes = useStyles();
     const [disabledSave, setDisabledSave] = useState<boolean>(true);
     const [snack, setSnack] = useState<SnackProps>({
@@ -127,7 +138,6 @@ const AskerProfile = ({ requestService, id, login, email, role }: Props) => {
     };
 
     const RowData = (item: PropsItem) => {
-        // const { item } = props;
         return (
             <Grid item container direction={"row"}>
                 <Grid item className={classes.titleGrid} xs={6}>
@@ -169,13 +179,10 @@ const AskerProfile = ({ requestService, id, login, email, role }: Props) => {
                 <Grid container spacing={4}>
                     <Grid item container direction={"column"} spacing={3}>
                         {/* элементы в виде js функции а не в виде jsx элемента, чтобы измегать перерисовки всех полей после изменения и потери фокуса на инпуте */}
-                        {RowData(newData.title)}
-                        {RowData(newData.active)}
-                        {RowData(newData.inn)}
-                        {RowData(newData.kpp)}
-                        {RowData(newData.manager)}
-                        {RowData(newData.phone)}
-                        {RowData(newData.create)}
+                        {RowData(newData.id)}
+                        {RowData(newData.login)}
+                        {RowData(newData.email)}
+                        {RowData(newData.role)}
                     </Grid>
                     <Grid item container justifyContent="center" spacing={4}>
                         <Grid item>

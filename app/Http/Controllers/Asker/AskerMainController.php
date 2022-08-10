@@ -38,17 +38,16 @@ class AskerMainController extends Controller
             $result = Company::query()->where('id', $company_id)->update($update);
 
             if ($result) {
-                $newData = $company = Company::where('id', $company_id)->first();
+               $company = Company::where('id', $company_id)->first();
                 return response()->json([
                     'result' => 'success',
-                    'data' => $newData,
+                    'data' => $company,
                 ]);
             } else {
                 return response()->json([
                     'result' => 'failed'
                 ]);
             }
-           
         } else {
             return response()->json([
                 'result' => 'no_changes'
@@ -58,11 +57,28 @@ class AskerMainController extends Controller
 
     public function saveProfile(Request $request)
     {
-        $data = $request->all();
-        return response()->json([
-            'result' => 'success',
-            'data' => $data,
-        ]);
+        $request = $request->all();
+        $user = User::where('id', Auth::id())->first();
+
+        if ($user->login != $request['login']) {
+            $result = User::query()->where('id', $user->id)->update(['login' => $request['login']]);
+
+            if ($result) {
+                $user = User::where('id', $user->id)->first();
+                return response()->json([
+                    'result' => 'success',
+                    'data' => $user,
+                ]);
+            } else {
+                return response()->json([
+                    'result' => 'failed'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'result' => 'no_changes'
+            ]);
+        }
     }
 
     public function register(Request $params)

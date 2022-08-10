@@ -138,7 +138,6 @@ const AskerMain = ({ requestService, setCompany, company }: Props) => {
     };
 
     const RowData = (item: PropsItem) => {
-        // const { item } = props;
         return (
             <Grid item container direction={"row"}>
                 <Grid item className={classes.titleGrid} xs={6}>

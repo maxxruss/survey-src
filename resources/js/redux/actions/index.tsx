@@ -38,9 +38,9 @@ export const setCompany = (data: any) => {
     };
 };
 
-export const setUser = (data: any) => {
+export const setUser = (login: string) => {
     return {
         type: "SET_USER",
-        payload: data,
+        payload: login,
     };
 };

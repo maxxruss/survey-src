@@ -75,6 +75,7 @@ const reducer = (state: StateType, action: ActionType) => {
                 company: action.payload.company,
             };
         case "SET_USER":
+            console.log("SET_USER: ", action.payload)
             return {
                 ...state,
                 login: action.payload.login,
