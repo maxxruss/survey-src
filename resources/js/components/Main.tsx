@@ -11,7 +11,8 @@ import SignUp from "./pages/auth/SignUp";
 import Admin from "./pages/roles/admin/MainAdmin";
 import AdminListAskers from "./pages/roles/admin/AdminListAskers";
 import AskerMain from "./pages/roles/asker/AskerMain";
-import AskerSurveys from "./pages/roles/asker/AskerSurveys";
+import AskerSurveyList from "./pages/roles/asker/AskerSurveyList";
+import AskerSurveyAdd from "./pages/roles/asker/AskerSurveyAdd";
 import AskerAnalytics from "./pages/roles/asker/AskerAnalytics";
 import AskerProfile from "./pages/roles/asker/AskerProfile";
 import Responder from "./pages/roles/responder/MainResponder";
@@ -41,7 +42,13 @@ type MapRoutes = {
 
 const mapRoutes: MapRoutes = {
     admin: ["/admin", "/admin/listaskers"],
-    asker: ["/asker", "/asker/surveys", "/asker/analytics", "/asker/profile"],
+    asker: [
+        "/asker",
+        "/asker/surveys",
+        "/asker/analytics",
+        "/asker/profile",
+        "/asker/survey/add",
+    ],
     responder: ["/responder"],
 };
 
@@ -126,7 +133,10 @@ const Main = ({ auth, role }: Props) => {
                             <AskerMain />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker/surveys">
-                            <AskerSurveys />
+                            <AskerSurveyList />
+                        </AuthorizedRoute>
+                        <AuthorizedRoute exact path="/asker/survey/add">
+                            <AskerSurveyAdd />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker/analytics">
                             <AskerAnalytics />

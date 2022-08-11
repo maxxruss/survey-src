@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\Auth\VerifyController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Asker\AskerMainController;
@@ -22,12 +21,14 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('auth', [AuthController::class, 'auth']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('check', [AuthController::class, 'check']);
-Route::post('test', [TestController::class, 'test']);
 Route::post('verify', [VerifyController::class, 'verifyEmail']);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::post('asker/saveProfile', [AskerMainController::class, 'saveProfile']);
-    Route::post('asker/saveCompany', [AskerMainController::class, 'saveCompany']);
+    Route::group(['prefix' => 'asker'], function () {
+        Route::post('saveProfile', [AskerMainController::class, 'saveProfile']);
+        Route::post('saveCompany', [AskerMainController::class, 'saveCompany']);
+        Route::post('getSurveys', [AskerMainController::class, 'getSurveys']);
+    });
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

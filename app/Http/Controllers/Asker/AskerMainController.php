@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Survey;
+use App\Models\Question;
+use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
 
 class AskerMainController extends Controller
 {
-
     public function saveCompany(Request $request)
     {
         $request = $request->all();
@@ -38,7 +40,7 @@ class AskerMainController extends Controller
             $result = Company::query()->where('id', $company_id)->update($update);
 
             if ($result) {
-               $company = Company::where('id', $company_id)->first();
+                $company = Company::where('id', $company_id)->first();
                 return response()->json([
                     'result' => 'success',
                     'data' => $company,
@@ -81,82 +83,11 @@ class AskerMainController extends Controller
         }
     }
 
-    public function register(Request $params)
+    public function getSurveys()
     {
-        $name = $params->name;
-        $email = $params->email;
-        $password = $params->password;
-
-        $data = [
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,
-            'role_id' => 2,
-        ];
-
-        $user = User::create($data);
-        auth()->login($user);
-
-
-        $credentials = [
-            'name' => $name,
-            'password' => $password,
-        ];
-
-        if (Auth::attempt($credentials, true)) {
-            $params->session()->regenerate();
-            return response()->json([
-                'result' => 'success',
-                'data' => Auth::user()
-            ]);
-        } else {
-            return response()->json([
-                'result' => 'false',
-            ]);
-        }
-    }
-
-    public function auth(Request $request)
-    {
-        $remember = $request->remember;
-        $credentials = $request->validate([
-            'name' => 'required',
-            'password' => 'required',
-        ]);
-
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-
-            return response()->json([
-                'result' => 'success',
-                'check' => Auth::check(),
-                'data' => Auth::user(),
-                'type' => gettype($remember),
-                'remember' => $remember,
-            ]);
-        } else {
-            return response()->json([
-                'result' => 'false',
-            ]);
-        }
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        $result = '';
-
-        if (!Auth::check()) {
-            $result = 'success';
-        } else {
-            $result = 'failed';
-        }
-
         return response()->json([
-            'result' => $result
+            'result' => "success",
+            'data' => Survey::all()
         ]);
     }
 }
