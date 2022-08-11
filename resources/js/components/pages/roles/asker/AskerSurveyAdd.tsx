@@ -44,15 +44,36 @@ const useStyles = makeStyles({
 
 const AskerSurveyAdd = ({ requestService }: Props) => {
     const classes = useStyles();
-    const [questions, setQuestins] = useState<QuestionProps[]>([]);
+    const [questions, setQuestions] = useState<QuestionProps[]>([]);
 
     // const [expanded, setExpanded] = React.useState<string | false>(false);
 
     const addQuestion = () => {
-        setQuestins((prev) => {
+        setQuestions((prev) => {
             return [...prev, { text: "", answers: [""] }];
         });
     };
+
+    const setQuestionText = (i: number, value: string) => {
+        // console.log("i: ", i);
+        // console.log("value: ", value);
+        // const newArray = [...questions];
+        // newArray[i].text = value;
+        // setQuestions((prev) => {
+        //     return [...prev, [i]: { text: value, answers: [""] }];
+        // });
+    };
+
+    const deleteItem = (i: number) => {
+        setQuestions((prev) => {
+            prev.splice(i, 1);
+            return [...prev];
+        });
+    };
+
+    useEffect(() => {
+        console.log(questions);
+    }, [questions]);
 
     // const getData = async () => {
     //     const response = await requestService.request({
@@ -95,13 +116,16 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
                                                   className={classes.itemCenter}
                                               >
                                                   <TextField
+                                                      fullWidth
+                                                      multiline
                                                       value={item.text}
-                                                      onChange={(value) =>
-                                                          setQuestionText(
-                                                              "login",
-                                                              value.target.value
-                                                          )
-                                                      }
+                                                      onChange={(e) => {
+                                                          item.text =
+                                                              e.target.value;
+                                                          setQuestions([
+                                                              ...questions,
+                                                          ]);
+                                                      }}
                                                   />
                                               </Grid>
                                               <Grid
@@ -117,7 +141,12 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
                                                       </Button>
                                                   </Grid>
                                                   <Grid item>
-                                                      <Button variant="outlined">
+                                                      <Button
+                                                          variant="outlined"
+                                                          onClick={() =>
+                                                              deleteItem(i)
+                                                          }
+                                                      >
                                                           Удалить
                                                       </Button>
                                                   </Grid>
