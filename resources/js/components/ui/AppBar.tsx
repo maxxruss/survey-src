@@ -5,7 +5,6 @@ import {
     Toolbar,
     Typography,
     Button,
-    Switch,
     IconButton,
     Grid,
 } from "@mui/material";
@@ -117,13 +116,7 @@ const ButtonAppBar = ({
                         </Box>
                     </Grid>
                     <Grid item xs={7}></Grid>
-                    <Grid item xs={1} style={{ alignSelf: "center" }}>
-                        {/* <Switch
-                            checked={cookies.lang == "en"}
-                            onChange={handleChange}
-                            inputProps={{ "aria-label": "controlled" }}
-                            color="secondary"
-                        /> */}
+                    <Grid item xs={1} style={{ alignSelf: "center" }}>                        
                         <ToggleButtonGroup
                             value={cookies.lang}
                             exclusive

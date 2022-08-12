@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Button, Paper } from "@mui/material";
+import { Grid, Button, Paper, IconButton } from "@mui/material";
 import PageLayout from "../../../ui/PageLayout";
 import withRequestService from "../../../hoc/with-request-service";
 import { connect } from "react-redux";
@@ -9,6 +9,15 @@ import { Snackbar, Alert } from "@mui/material";
 import { setCompany } from "../../../../redux/actions";
 import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
+import { Delete, Edit } from "@mui/icons-material";
 
 type Props = {
     requestService: {
@@ -67,44 +76,53 @@ const AskerSurveyList = ({ requestService }: Props) => {
                         </Button>
                     </Grid>
                 </Grid>
-                <Grid item container spacing={2} direction={"column"}>
-                    {!surveys.length
-                        ? null
-                        : surveys.map((item) => {
-                              return (
-                                  <Grid item key={item.id}>
-                                      <Paper elevation={3}>
-                                          <Grid container p={2}>
-                                              <Grid
-                                                  item
-                                                  xs={8}
-                                                  className={classes.itemCenter}
-                                              >
-                                                  {item.title}
-                                              </Grid>
-                                              <Grid
-                                                  item
-                                                  container
-                                                  xs={4}
-                                                  justifyContent={"end"}
-                                                  spacing={2}
-                                              >
-                                                  <Grid item>
-                                                      <Button variant="outlined">
-                                                          Редактировать
-                                                      </Button>
-                                                  </Grid>
-                                                  <Grid item>
-                                                      <Button variant="outlined">
-                                                          Удалить
-                                                      </Button>
-                                                  </Grid>
-                                              </Grid>
-                                          </Grid>
-                                      </Paper>
-                                  </Grid>
-                              );
-                          })}
+
+                <Grid item container justifyContent={"end"}>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Название</TableCell>
+                                    <TableCell align="right">
+                                        Действия
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {surveys.map((row, i) => (
+                                    <TableRow
+                                        key={row.title + i}
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {row.title}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <IconButton
+                                                color="primary"
+                                                aria-label="upload picture"
+                                                component="span"
+                                            >
+                                                <Edit />
+                                            </IconButton>
+                                            <IconButton
+                                                color="primary"
+                                                aria-label="upload picture"
+                                                component="span"
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
             </Grid>
         </PageLayout>

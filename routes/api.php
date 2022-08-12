@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('saveProfile', [AskerMainController::class, 'saveProfile']);
         Route::post('saveCompany', [AskerMainController::class, 'saveCompany']);
         Route::post('getSurveys', [AskerMainController::class, 'getSurveys']);
+        Route::post('survey/add', [AskerMainController::class, 'addSurvey']);
     });
 });
 

@@ -90,4 +90,14 @@ class AskerMainController extends Controller
             'data' => Survey::all()
         ]);
     }
+
+    public function addSurvey(Request $request)
+    {
+
+        
+        return response()->json([
+            'result' => "success",
+            'data' => $request->all()
+        ]);
+    }
 }
