@@ -17,6 +17,8 @@ import { Snackbar, Alert } from "@mui/material";
 import { setCompany } from "../../../../redux/actions";
 import { bindActionCreators } from "redux";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useHistory } from "react-router-dom";
+
 
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -57,6 +59,7 @@ const useStyles = makeStyles({
 
 const AskerSurveyAdd = ({ requestService }: Props) => {
     const classes = useStyles();
+    const history = useHistory();
     const [title, setTitle] = useState<String>("");
     const [questions, setQuestions] = useState<QuestionProps[]>([]);
 
@@ -103,9 +106,9 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
         });
     };
 
-    useEffect(() => {
-        console.log(questions);
-    }, [questions]);
+    // useEffect(() => {
+    //     console.log(questions);
+    // }, [questions]);
 
     // const getData = async () => {
     //     const response = await requestService.request({
@@ -130,7 +133,7 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
         });
 
         if (response.result == "success") {
-            console.log(response.data);
+            history.push('/asker/surveys')
         }
     };
 

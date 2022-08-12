@@ -59,6 +59,19 @@ const AskerSurveyList = ({ requestService }: Props) => {
         }
     };
 
+    const onDelete = async (id:number) => {
+        const params = {id};
+
+        const response = await requestService.request({
+            url: "asker/deleteSurvey",
+            params
+        });
+
+        if (response.result == "success") {
+            getData()
+        }
+    };
+
     useEffect(() => {
         getData();
     }, []);
@@ -114,6 +127,7 @@ const AskerSurveyList = ({ requestService }: Props) => {
                                                 color="primary"
                                                 aria-label="upload picture"
                                                 component="span"
+                                                onClick={() => onDelete(row.id)}
                                             >
                                                 <Delete />
                                             </IconButton>

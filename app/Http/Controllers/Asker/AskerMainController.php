@@ -91,6 +91,15 @@ class AskerMainController extends Controller
         ]);
     }
 
+    public function deleteSurvey(Request $request)
+    {
+        $result =  Survey::where('id', $request->id)->delete();
+
+        return response()->json([
+            'result' => $result ? "success" : "failed",
+        ]);
+    }
+
     public function addSurvey(Request $request)
     {
         // $data = $request->all();
