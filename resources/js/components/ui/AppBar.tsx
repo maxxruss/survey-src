@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { useHistory, NavLink } from "react-router-dom";
 import compose from "../../utils/compose";
 import withRequestService from "../hoc/with-request-service";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 type Props = {
     auth: boolean;
@@ -44,13 +45,16 @@ const ButtonAppBar = ({
     const [cookies, setCookie] = useCookies();
     const dict = Dictionary();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let lang = "";
-        if (event.target.checked) {
-            lang = "en";
-        } else {
-            lang = "ru";
-        }
+    const handleChange = (
+        event: React.MouseEvent<HTMLElement>,
+        lang: string | null
+    ) => {
+        // let lang = "";
+        // if (event.target.checked) {
+        //     lang = "en";
+        // } else {
+        //     lang = "ru";
+        // }
 
         setCookie("lang", lang);
     };
@@ -74,6 +78,7 @@ const ButtonAppBar = ({
         event.stopPropagation();
         toggleDrawer(!drawerStatus);
     };
+
     const Burger = () => {
         if (!auth) {
             return null;
@@ -92,6 +97,7 @@ const ButtonAppBar = ({
             );
         }
     };
+
     return (
         <AppBar position="fixed" color="primary">
             <Toolbar>
@@ -112,12 +118,25 @@ const ButtonAppBar = ({
                     </Grid>
                     <Grid item xs={7}></Grid>
                     <Grid item xs={1} style={{ alignSelf: "center" }}>
-                        <Switch
+                        {/* <Switch
                             checked={cookies.lang == "en"}
                             onChange={handleChange}
                             inputProps={{ "aria-label": "controlled" }}
                             color="secondary"
-                        />
+                        /> */}
+                        <ToggleButtonGroup
+                            value={cookies.lang}
+                            exclusive
+                            onChange={handleChange}
+                            aria-label="text alignment"
+                        >
+                            <ToggleButton value="ru" aria-label="left aligned">
+                                {"RUS"}
+                            </ToggleButton>
+                            <ToggleButton value="en" aria-label="right aligned">
+                                {"ENG"}
+                            </ToggleButton>
+                        </ToggleButtonGroup>
                     </Grid>
                     <Grid item xs={1} style={{ alignSelf: "center" }}>
                         {!auth ? null : (
