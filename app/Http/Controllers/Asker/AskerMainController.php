@@ -93,11 +93,56 @@ class AskerMainController extends Controller
 
     public function addSurvey(Request $request)
     {
+        // $data = $request->all();
 
-        
+        $survey_id = Survey::create(['title' => $request->title])->id;
+
+        if (!$survey_id) {
+            return response()->json([
+                'result' => "failed",
+                'msg' => "error survey save",
+            ]);
+        }
+
+
+        foreach ($request->questions as $question) {
+            $create_data = array(
+                'survey_id' => $survey_id,
+                'text' => $question['text'],
+            );
+
+            $question_id = Question::create($create_data)->id;
+
+            if (!$question_id) {
+                return response()->json([
+                    'result' => "failed",
+                    'msg' => "error questions save",
+                ]);
+            }
+
+            foreach ($question['answers'] as $answer) {
+                // var_dump('$answer: ', $answer);
+                // die();
+
+                $create_data = array(
+                    'question_id' => $question_id,
+                    'text' => $answer,
+                );
+
+                $answer_id = Answer::create($create_data)->id;
+
+                if (!$answer_id) {
+                    return response()->json([
+                        'result' => "failed",
+                        'msg' => "error answers save",
+                    ]);
+                }
+            }
+        }
+
         return response()->json([
             'result' => "success",
-            'data' => $request->all()
+            'survey_id' => $survey_id,
         ]);
     }
 }

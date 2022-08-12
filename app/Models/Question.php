@@ -12,16 +12,9 @@ class Question extends Model
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'title',
-    //     'inn',
-    //     'kpp',
-    //     'address',
-    //     'manager',
-    //     'phone',
-    //     'is_active',
-    //     'role_id'
-    // ];
+    protected $fillable = [
+        'survey_id', 'text'
+    ];
 
     // public function role() {
     //     return $this->hasOne(Role::class, "id", "role_id");

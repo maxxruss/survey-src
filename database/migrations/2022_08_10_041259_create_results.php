@@ -16,11 +16,11 @@ class CreateResults extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->integer('question_id');
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->integer('answer_id')->nullable();
-            $table->foreign('answer_id')->references('id')->on('answers');
+            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
             $table->integer('responder_id');
-            $table->foreign('responder_id')->references('id')->on('responders');
+            $table->foreign('responder_id')->references('id')->on('responders')->onDelete('cascade');
             $table->string('own_answer')->nullable();
             $table->timestamps();
         });
