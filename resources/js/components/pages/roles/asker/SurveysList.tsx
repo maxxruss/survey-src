@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     },
 });
 
-const AskerSurveyList = ({ requestService }: Props) => {
+const SurveysList = ({ requestService }: Props) => {
     const classes = useStyles();
     const history = useHistory();
     const [surveys, setSurveys] = useState<SurveyProps[]>([]);
@@ -59,16 +59,16 @@ const AskerSurveyList = ({ requestService }: Props) => {
         }
     };
 
-    const onDelete = async (id:number) => {
-        const params = {id};
+    const onDelete = async (id: number) => {
+        const params = { id };
 
         const response = await requestService.request({
             url: "asker/deleteSurvey",
-            params
+            params,
         });
 
         if (response.result == "success") {
-            getData()
+            getData();
         }
     };
 
@@ -83,7 +83,7 @@ const AskerSurveyList = ({ requestService }: Props) => {
                     <Grid item>
                         <Button
                             variant="outlined"
-                            onClick={() => history.push("/asker/survey/add")}
+                            onClick={() => history.push("/asker/survey?id=new")}
                         >
                             Добавить
                         </Button>
@@ -120,6 +120,12 @@ const AskerSurveyList = ({ requestService }: Props) => {
                                                 color="primary"
                                                 aria-label="upload picture"
                                                 component="span"
+                                                onClick={() =>
+                                                    history.push(
+                                                        "/asker/survey?id=" +
+                                                            row.id
+                                                    )
+                                                }
                                             >
                                                 <Edit />
                                             </IconButton>
@@ -143,4 +149,4 @@ const AskerSurveyList = ({ requestService }: Props) => {
     );
 };
 
-export default withRequestService()(AskerSurveyList);
+export default withRequestService()(SurveysList);

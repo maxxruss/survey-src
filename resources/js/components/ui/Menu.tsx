@@ -55,7 +55,7 @@ const menuAllRoles: Menu = (dict) => {
                 title: dict.menu.asker.main,
             },
             {
-                to: "/asker/surveys",
+                to: "/asker/surveyslist",
                 icon: <FormatListBulletedOutlined />,
                 title: dict.menu.asker.surveys,
             },

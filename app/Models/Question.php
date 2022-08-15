@@ -16,7 +16,8 @@ class Question extends Model
         'survey_id', 'text'
     ];
 
-    // public function role() {
-    //     return $this->hasOne(Role::class, "id", "role_id");
-    // }
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, "question_id", "id");
+    }
 }

@@ -40,16 +40,17 @@ type Params = {
         [v: string]: string | number;
     };
     url: string;
+    method: "post" | "get";
 };
 
-export const request = ({ url, params }: Params) => {
+export const request = ({ url, params, method = "post" }: Params) => {
     return fetch(`${_BASE_URL}/${url}`, {
-        method: "post",
+        method,
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             // "x-xsrf-token": token,
         },
-        body: JSON.stringify(params),
+        body: method == "post" ? JSON.stringify(params) : null,
     }).then((data) => data.json());
 };

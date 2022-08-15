@@ -58,7 +58,7 @@ const useStyles = makeStyles({
     },
 });
 
-const AskerProfile = ({
+const Profile = ({
     requestService,
     setUser,
     id,
@@ -216,4 +216,4 @@ const mapDispatchToProps = (dispatch: any) =>
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     withRequestService()
-)(AskerProfile);
+)(Profile);

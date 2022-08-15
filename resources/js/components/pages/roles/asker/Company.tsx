@@ -47,7 +47,7 @@ const useStyles = makeStyles({
     },
 });
 
-const AskerMain = ({ requestService, setCompany, company }: Props) => {
+const Company = ({ requestService, setCompany, company }: Props) => {
     const classes = useStyles();
     const [disabledSave, setDisabledSave] = useState<boolean>(true);
     const [snack, setSnack] = useState<SnackProps>({
@@ -219,4 +219,4 @@ const mapDispatchToProps = (dispatch: any) =>
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     withRequestService()
-)(AskerMain);
+)(Company);

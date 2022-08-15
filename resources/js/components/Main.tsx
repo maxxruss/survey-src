@@ -10,11 +10,11 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import Admin from "./pages/roles/admin/MainAdmin";
 import AdminListAskers from "./pages/roles/admin/AdminListAskers";
-import AskerMain from "./pages/roles/asker/AskerMain";
-import AskerSurveyList from "./pages/roles/asker/AskerSurveyList";
-import AskerSurveyAdd from "./pages/roles/asker/AskerSurveyAdd";
-import AskerAnalytics from "./pages/roles/asker/AskerAnalytics";
-import AskerProfile from "./pages/roles/asker/AskerProfile";
+import AskerCompany from "./pages/roles/asker/Company";
+import AskerSurveysList from "./pages/roles/asker/SurveysList";
+import AskerSurvey from "./pages/roles/asker/Survey";
+import AskerAnalytics from "./pages/roles/asker/Analytics";
+import AskerProfile from "./pages/roles/asker/Profile";
 import Responder from "./pages/roles/responder/MainResponder";
 import Drawer from "./ui/Drawer";
 import { connect } from "react-redux";
@@ -44,17 +44,17 @@ const mapRoutes: MapRoutes = {
     admin: ["/admin", "/admin/listaskers"],
     asker: [
         "/asker",
-        "/asker/surveys",
+        "/asker/surveyslist",
         "/asker/analytics",
         "/asker/profile",
-        "/asker/survey/add",
+        "/asker/survey",
     ],
     responder: ["/responder"],
 };
 
 const Main = ({ auth, role }: Props) => {
     // Защита маршрутов, каждая роль имеет право ходить только по разрешенным маршрутам
-    function ProtectRole(path: string, children: any) {
+    function ProtectRole(path: string, children: JSX.Element) {
         if (mapRoutes[role].indexOf(path) != -1) {
             return children;
         } else {
@@ -130,13 +130,13 @@ const Main = ({ auth, role }: Props) => {
                             <AdminListAskers />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker">
-                            <AskerMain />
+                            <AskerCompany />
                         </AuthorizedRoute>
-                        <AuthorizedRoute exact path="/asker/surveys">
-                            <AskerSurveyList />
+                        <AuthorizedRoute exact path="/asker/surveyslist">
+                            <AskerSurveysList />
                         </AuthorizedRoute>
-                        <AuthorizedRoute exact path="/asker/survey/add">
-                            <AskerSurveyAdd />
+                        <AuthorizedRoute exact path="/asker/survey">
+                            <AskerSurvey />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/asker/analytics">
                             <AskerAnalytics />

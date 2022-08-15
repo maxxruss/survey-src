@@ -2,12 +2,12 @@ import React from "react";
 import { Grid } from "@mui/material";
 import PageLayout from "../../../ui/PageLayout";
 
-const AskerAnalytics = () => {
+const Analytics = () => {
     return (
         <PageLayout title="Аналитика">
-            <Grid>{"AskerAnalytics"}</Grid>
+            <Grid>{"Analytics"}</Grid>
         </PageLayout>
     );
 };
 
-export default AskerAnalytics;
+export default Analytics;

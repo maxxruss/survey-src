@@ -17,8 +17,7 @@ import { Snackbar, Alert } from "@mui/material";
 import { setCompany } from "../../../../redux/actions";
 import { bindActionCreators } from "redux";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useHistory } from "react-router-dom";
-
+import { useHistory, useLocation } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -32,12 +31,13 @@ import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Edit } from "@mui/icons-material";
 
 type Props = {
     requestService: {
         request: (method: object) => {
             result: string;
-            data: QuestionProps[];
+            data: { title: string; questions: QuestionProps[] };
         };
     };
 };
@@ -48,7 +48,7 @@ type Survey = {
 
 type QuestionProps = {
     text: string;
-    answers: [string];
+    answers: { id?: number; text: string }[];
 };
 
 const useStyles = makeStyles({
@@ -57,9 +57,12 @@ const useStyles = makeStyles({
     },
 });
 
-const AskerSurveyAdd = ({ requestService }: Props) => {
+const Survey = ({ requestService }: Props) => {
     const classes = useStyles();
     const history = useHistory();
+    const { search }: { search: string } = useLocation();
+    const query = new URLSearchParams(search);
+    const id = query.get("id");
     const [title, setTitle] = useState<String>("");
     const [questions, setQuestions] = useState<QuestionProps[]>([]);
 
@@ -67,7 +70,7 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
 
     const addQuestion = () => {
         setQuestions((prev) => {
-            return [...prev, { text: "", answers: [""] }];
+            return [...prev, { text: "", answers: [{ text: "" }] }];
         });
     };
 
@@ -90,7 +93,7 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
 
     const addAnswer = (i: number) => {
         setQuestions((prev) => {
-            prev[i].answers.push("");
+            prev[i].answers.push({ text: "" });
             return [...prev];
         });
     };
@@ -101,7 +104,7 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
         text: string
     ) => {
         setQuestions((prev) => {
-            prev[questionIndex].answers[answerIndex] = text;
+            prev[questionIndex].answers[answerIndex].text = text;
             return [...prev];
         });
     };
@@ -110,19 +113,26 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
     //     console.log(questions);
     // }, [questions]);
 
-    // const getData = async () => {
-    //     const response = await requestService.request({
-    //         url: "asker/getSurveys",
-    //     });
+    const getData = async () => {
+        const response = await requestService.request({
+            url: "asker/getSurvey/" + id,
+            method: "get",
+        });
 
-    //     if (response.result == "success") {
-    //         setSurveys(response.data);
-    //     }
-    // };
+        if (response.result == "success") {
+            const { title, questions } = response.data;
+            setTitle(title);
+            setQuestions(questions);
+            console.log("response: ", response);
+            // setSurveys(response.data);
+        }
+    };
 
-    // useEffect(() => {
-    //     getData();
-    // }, []);
+    useEffect(() => {
+        if (id != "new") {
+            getData();
+        }
+    }, [id]);
 
     const save = async () => {
         const params = { title, questions };
@@ -133,16 +143,25 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
         });
 
         if (response.result == "success") {
-            history.push('/asker/surveys')
+            history.push("/asker/surveyslist");
         }
     };
 
-    // useEffect(() => {
-    //     getData();
-    // }, []);
+    const edit = async () => {
+        const params = { id, title, questions };
+
+        const response = await requestService.request({
+            url: "asker/survey/edit",
+            params,
+        });
+
+        if (response.result == "success") {
+            history.push("/asker/surveyslist");
+        }
+    };
 
     return (
-        <PageLayout title="Новый опрос">
+        <PageLayout title={id == "new" ? "Новый опрос" : `Опрос # ${id}`}>
             <Grid container spacing={2}>
                 <Grid
                     item
@@ -237,6 +256,9 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
                                                               <Grid
                                                                   item
                                                                   xs={12}
+                                                                  key={
+                                                                      answer.id
+                                                                  }
                                                               >
                                                                   <TextField
                                                                       label={
@@ -245,7 +267,7 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
                                                                       fullWidth
                                                                       multiline
                                                                       value={
-                                                                          answer
+                                                                          answer.text
                                                                       }
                                                                       onChange={(
                                                                           e
@@ -271,7 +293,10 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
                           })}
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined" onClick={() => save()}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => (id == "new" ? save() : edit())}
+                    >
                         Сохранить
                     </Button>
                 </Grid>
@@ -280,4 +305,4 @@ const AskerSurveyAdd = ({ requestService }: Props) => {
     );
 };
 
-export default withRequestService()(AskerSurveyAdd);
+export default withRequestService()(Survey);

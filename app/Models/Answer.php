@@ -14,9 +14,5 @@ class Answer extends Model
      */
     protected $fillable = [
         'question_id', 'text'
-    ];
-
-    // public function role() {
-    //     return $this->hasOne(Role::class, "id", "role_id");
-    // }
+    ];   
 }
