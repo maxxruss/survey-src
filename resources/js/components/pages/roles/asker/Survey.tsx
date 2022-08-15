@@ -134,7 +134,7 @@ const Survey = ({ requestService }: Props) => {
         }
     }, [id]);
 
-    const save = async () => {
+    const addSurvey = async () => {
         const params = { title, questions };
 
         const response = await requestService.request({
@@ -147,7 +147,7 @@ const Survey = ({ requestService }: Props) => {
         }
     };
 
-    const edit = async () => {
+    const editSurvey = async () => {
         const params = { id, title, questions };
 
         const response = await requestService.request({
@@ -295,7 +295,7 @@ const Survey = ({ requestService }: Props) => {
                 <Grid item>
                     <Button
                         variant="outlined"
-                        onClick={() => (id == "new" ? save() : edit())}
+                        onClick={() => (id == "new" ? addSurvey() : editSurvey())}
                     >
                         Сохранить
                     </Button>

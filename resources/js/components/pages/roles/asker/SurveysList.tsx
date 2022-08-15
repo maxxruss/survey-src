@@ -51,7 +51,7 @@ const SurveysList = ({ requestService }: Props) => {
 
     const getData = async () => {
         const response = await requestService.request({
-            url: "asker/getSurveys",
+            url: "asker/surveys/getlist",
         });
 
         if (response.result == "success") {
@@ -63,7 +63,7 @@ const SurveysList = ({ requestService }: Props) => {
         const params = { id };
 
         const response = await requestService.request({
-            url: "asker/deleteSurvey",
+            url: "asker/survey/delete",
             params,
         });
 
