@@ -113,18 +113,20 @@ class SurveyController extends Controller
             $survey_model->title = $title;
         }
 
+        // var_dump($request->questions);
+        // die();
+
         foreach ($survey_model->questions as $question_model) {
             $need_delete_question = true;
 
             foreach ($request->questions as $question_request) {
-                // var_dump($question_model['id']);
-                // die();
+
                 if ($question_model['id'] == $question_request['id']) {
                     $need_delete_question = false;
-                }
 
-                if ($question_model->text != $question_request['text']) {
-                    $question_model->text = $question_request['text'];
+                    if ($question_model->text != $question_request['text']) {
+                        $question_model->text = $question_request['text'];
+                    }
                 }
             }
             if ($need_delete_question) {
@@ -132,11 +134,15 @@ class SurveyController extends Controller
             }
         }
 
+        // var_dump($survey_model);
+        // die();
+
         $result = $survey_model->push();
 
-
-        var_dump($result);
+         var_dump($result);
         die();
+
+
 
 
 

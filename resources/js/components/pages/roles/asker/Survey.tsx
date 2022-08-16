@@ -48,7 +48,7 @@ type Survey = {
 
 type QuestionProps = {
     text: string;
-    answers: { id?: number; text: string }[];
+    answers: { id?: number | string; text: string }[];
 };
 
 const useStyles = makeStyles({
@@ -70,7 +70,7 @@ const Survey = ({ requestService }: Props) => {
 
     const addQuestion = () => {
         setQuestions((prev) => {
-            return [...prev, { text: "", answers: [{ text: "" }] }];
+            return [...prev, { id: "new", text: "", answers: [{ text: "" }] }];
         });
     };
 
@@ -93,7 +93,7 @@ const Survey = ({ requestService }: Props) => {
 
     const addAnswer = (i: number) => {
         setQuestions((prev) => {
-            prev[i].answers.push({ text: "" });
+            prev[i].answers.push({ id: "new", text: "" });
             return [...prev];
         });
     };
@@ -295,7 +295,9 @@ const Survey = ({ requestService }: Props) => {
                 <Grid item>
                     <Button
                         variant="outlined"
-                        onClick={() => (id == "new" ? addSurvey() : editSurvey())}
+                        onClick={() =>
+                            id == "new" ? addSurvey() : editSurvey()
+                        }
                     >
                         Сохранить
                     </Button>
