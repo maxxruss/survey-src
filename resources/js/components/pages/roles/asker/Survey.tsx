@@ -191,106 +191,78 @@ const Survey = ({ requestService }: Props) => {
                     {!questions.length
                         ? null
                         : questions.map((question, i) => {
-                              return (
-                                  <Grid item key={i}>
-                                      <Paper elevation={3}>
-                                          <Grid container p={2}>
-                                              <Grid item container>
-                                                  <Grid
-                                                      item
-                                                      xs={8}
-                                                      className={
-                                                          classes.itemCenter
-                                                      }
-                                                      mb={2}
-                                                  >
-                                                      <TextField
-                                                          label={"Вопрос"}
-                                                          fullWidth
-                                                          multiline
-                                                          value={question.text}
-                                                          onChange={(e) => {
-                                                              question.text =
-                                                                  e.target.value;
-                                                              setQuestions([
-                                                                  ...questions,
-                                                              ]);
-                                                          }}
-                                                      />
-                                                  </Grid>
-                                                  <Grid
-                                                      item
-                                                      container
-                                                      xs={4}
-                                                      justifyContent={"end"}
-                                                      spacing={2}
-                                                  >
-                                                      <Grid item>
-                                                          <Button
-                                                              variant="outlined"
-                                                              onClick={() =>
-                                                                  addAnswer(i)
-                                                              }
-                                                          >
-                                                              Добавить ответ
-                                                          </Button>
-                                                      </Grid>
-                                                      <Grid item>
-                                                          <Button
-                                                              variant="outlined"
-                                                              onClick={() =>
-                                                                  deleteQuestion(
-                                                                      i
-                                                                  )
-                                                              }
-                                                          >
-                                                              Удалить
-                                                          </Button>
-                                                      </Grid>
-                                                  </Grid>
-                                              </Grid>
-                                              <Grid item container spacing={2}>
-                                                  {question.answers.map(
-                                                      (answer, j) => {
-                                                          return (
-                                                              <Grid
-                                                                  item
-                                                                  xs={12}
-                                                                  key={
-                                                                      answer.id
-                                                                  }
-                                                              >
-                                                                  <TextField
-                                                                      label={
-                                                                          "Ответ"
-                                                                      }
-                                                                      fullWidth
-                                                                      multiline
-                                                                      value={
-                                                                          answer.text
-                                                                      }
-                                                                      onChange={(
-                                                                          e
-                                                                      ) => {
-                                                                          setAnswer(
-                                                                              i,
-                                                                              j,
-                                                                              e
-                                                                                  .target
-                                                                                  .value
-                                                                          );
-                                                                      }}
-                                                                  />
-                                                              </Grid>
-                                                          );
-                                                      }
-                                                  )}
-                                              </Grid>
-                                          </Grid>
-                                      </Paper>
-                                  </Grid>
-                              );
-                          })}
+                            return (
+                                <Grid item key={i}>
+                                    <Paper elevation={3}>
+                                        <Grid container p={2}>
+                                            <Grid item container>
+                                                <Grid
+                                                    item
+                                                    xs={8}
+                                                    className={classes.itemCenter}
+                                                    mb={2}
+                                                >
+                                                    <TextField
+                                                        label={"Вопрос"}
+                                                        fullWidth
+                                                        multiline
+                                                        value={question.text}
+                                                        onChange={(e) => {
+                                                            question.text = e.target.value;
+                                                            setQuestions([...questions]);
+                                                        }}
+                                                    />
+                                                </Grid>
+                                                <Grid
+                                                    item
+                                                    container
+                                                    xs={4}
+                                                    justifyContent={"end"}
+                                                    spacing={2}
+                                                >
+                                                    <Grid item>
+                                                        <Button
+                                                            variant="outlined"
+                                                            onClick={() => addAnswer(i)}
+                                                        >
+                                                            Добавить ответ
+                                                        </Button>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Button
+                                                            variant="outlined"
+                                                            onClick={() => deleteQuestion(i)}>
+                                                            Удалить
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item container spacing={2}>
+                                                {question.answers.map(
+                                                    (answer, j) => {
+                                                        return (
+                                                            <Grid
+                                                                item
+                                                                xs={12}
+                                                                key={answer.id}
+                                                            >
+                                                                <TextField
+                                                                    label={"Ответ"}
+                                                                    fullWidth
+                                                                    multiline
+                                                                    value={answer.text}
+                                                                    onChange={(e) => { setAnswer(i, j, e.target.value) }}
+                                                                />
+                                                            </Grid>
+                                                        );
+                                                    }
+                                                )}
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>
+                                </Grid>
+                            );
+                        })}
                 </Grid>
                 <Grid item>
                     <Button

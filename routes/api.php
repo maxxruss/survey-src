@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'asker'], function () {
         Route::post('saveProfile', [AskerMainController::class, 'saveProfile']);
         Route::post('saveCompany', [AskerMainController::class, 'saveCompany']);
-        Route::post('getlist', [SurveyController::class, 'getlist']);
+        Route::post('survey/getlist', [SurveyController::class, 'getlist']);
         Route::post('survey/add', [SurveyController::class, 'add']);
         Route::post('survey/edit', [SurveyController::class, 'edit']);
         Route::post('survey/delete', [SurveyController::class, 'delete']);
