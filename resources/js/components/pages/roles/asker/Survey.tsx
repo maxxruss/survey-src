@@ -10,34 +10,15 @@ import {
 } from "@mui/material";
 import PageLayout from "../../../ui/PageLayout";
 import withRequestService from "../../../hoc/with-request-service";
-import { connect } from "react-redux";
-import compose from "../../../../utils/compose";
 import { makeStyles } from "@mui/styles";
-import { Snackbar, Alert } from "@mui/material";
-import { setCompany } from "../../../../redux/actions";
-import { bindActionCreators } from "redux";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useHistory, useLocation } from "react-router-dom";
-
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Edit } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 type Props = {
     requestService: {
         request: (method: object) => {
             result: string;
-            data: { title: string; questions: QuestionProps[] };
+            data: { id: string, title: string; questions: QuestionProps };
         };
     };
 };
@@ -47,9 +28,10 @@ type Survey = {
 };
 
 type QuestionProps = {
+    id: string;
     text: string;
     answers: { id?: number | string; text: string }[];
-};
+}[];
 
 const useStyles = makeStyles({
     itemCenter: {
@@ -62,32 +44,13 @@ const Survey = ({ requestService }: Props) => {
     const history = useHistory();
     const { search }: { search: string } = useLocation();
     const query = new URLSearchParams(search);
-    const id = query.get("id");
+    const [id, setId] = useState<string | null>(query.get("id"));
     const [title, setTitle] = useState<String>("");
-    const [questions, setQuestions] = useState<QuestionProps[]>([]);
-
-    // const [expanded, setExpanded] = React.useState<string | false>(false);
+    const [questions, setQuestions] = useState<QuestionProps>([{ id: "new", text: "", answers: [{ text: "" }] }]);
 
     const addQuestion = () => {
         setQuestions((prev) => {
             return [...prev, { id: "new", text: "", answers: [{ text: "" }] }];
-        });
-    };
-
-    const setQuestionText = (i: number, value: string) => {
-        // console.log("i: ", i);
-        // console.log("value: ", value);
-        // const newArray = [...questions];
-        // newArray[i].text = value;
-        // setQuestions((prev) => {
-        //     return [...prev, [i]: { text: value, answers: [""] }];
-        // });
-    };
-
-    const deleteQuestion = (i: number) => {
-        setQuestions((prev) => {
-            prev.splice(i, 1);
-            return [...prev];
         });
     };
 
@@ -109,22 +72,57 @@ const Survey = ({ requestService }: Props) => {
         });
     };
 
-    // useEffect(() => {
-    //     console.log(questions);
-    // }, [questions]);
+    const deleteAnswer = (questionIndex: number, answerIndex: number) => {
+        setQuestions((prev) => {
+            prev[questionIndex].answers.splice(answerIndex, 1);
+            return [...prev];
+        });
+    }
 
-    const getData = async () => {
+    const deleteQuestion = (i: number) => {
+        setQuestions((prev) => {
+            prev.splice(i, 1);
+            return [...prev];
+        });
+    };
+
+    const saveNewSurvey = async () => {
+        const params = { title, questions };
+
         const response = await requestService.request({
-            url: "asker/getSurvey/" + id,
+            url: "asker/survey/add",
+            params,
+        });
+
+        if (response.result == "success") {
+            setId(response.data.id);
+        }
+    };
+
+    const saveEditSurvey = async () => {
+        const params = { id, title, questions };
+
+        const response = await requestService.request({
+            url: "asker/survey/edit",
+            params,
+        });
+
+        if (response.result == "success") {
+            getData();
+        }
+    };
+
+    const getData = async (surveyId = id) => {
+        const response = await requestService.request({
+            url: "asker/getSurvey/" + surveyId,
             method: "get",
         });
 
         if (response.result == "success") {
-            const { title, questions } = response.data;
+            const { id, title, questions } = response.data;
+            setId(id);
             setTitle(title);
             setQuestions(questions);
-            console.log("response: ", response);
-            // setSurveys(response.data);
         }
     };
 
@@ -134,31 +132,10 @@ const Survey = ({ requestService }: Props) => {
         }
     }, [id]);
 
-    const addSurvey = async () => {
-        const params = { title, questions };
+    useEffect(() => {
+        console.log(questions)
+    }, [questions]);
 
-        const response = await requestService.request({
-            url: "asker/survey/add",
-            params,
-        });
-
-        if (response.result == "success") {
-            history.push("/asker/surveyslist");
-        }
-    };
-
-    const editSurvey = async () => {
-        const params = { id, title, questions };
-
-        const response = await requestService.request({
-            url: "asker/survey/edit",
-            params,
-        });
-
-        if (response.result == "success") {
-            history.push("/asker/surveyslist");
-        }
-    };
 
     return (
         <PageLayout title={id == "new" ? "Новый опрос" : `Опрос # ${id}`}>
@@ -169,7 +146,7 @@ const Survey = ({ requestService }: Props) => {
                     justifyContent={"space-between"}
                     spacing={2}
                 >
-                    <Grid item xs={10} className={classes.itemCenter}>
+                    <Grid item xs={12}>
                         <TextField
                             label="Название опроса"
                             fullWidth
@@ -177,14 +154,6 @@ const Survey = ({ requestService }: Props) => {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button
-                            variant="outlined"
-                            onClick={() => addQuestion()}
-                        >
-                            Добавить вопрос
-                        </Button>
                     </Grid>
                 </Grid>
                 <Grid item container spacing={2} direction={"column"}>
@@ -195,7 +164,7 @@ const Survey = ({ requestService }: Props) => {
                                 <Grid item key={i}>
                                     <Paper elevation={3}>
                                         <Grid container p={2}>
-                                            <Grid item container>
+                                            <Grid item container spacing={2}>
                                                 <Grid
                                                     item
                                                     xs={8}
@@ -217,22 +186,21 @@ const Survey = ({ requestService }: Props) => {
                                                     item
                                                     container
                                                     xs={4}
-                                                    justifyContent={"end"}
                                                     spacing={2}
                                                 >
                                                     <Grid item>
                                                         <Button
                                                             variant="outlined"
-                                                            onClick={() => addAnswer(i)}
+                                                            onClick={() => addQuestion()}
                                                         >
-                                                            Добавить ответ
+                                                            Добавить вопрос
                                                         </Button>
                                                     </Grid>
                                                     <Grid item>
                                                         <Button
                                                             variant="outlined"
                                                             onClick={() => deleteQuestion(i)}>
-                                                            Удалить
+                                                            Удалить вопрос
                                                         </Button>
                                                     </Grid>
                                                 </Grid>
@@ -241,22 +209,41 @@ const Survey = ({ requestService }: Props) => {
                                                 {question.answers.map(
                                                     (answer, j) => {
                                                         return (
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                key={answer.id}
-                                                            >
-                                                                <TextField
-                                                                    label={"Ответ"}
-                                                                    fullWidth
-                                                                    multiline
-                                                                    value={answer.text}
-                                                                    onChange={(e) => { setAnswer(i, j, e.target.value) }}
-                                                                />
+                                                            <Grid item container spacing={2} key={answer.id}>
+                                                                <Grid
+                                                                    item
+                                                                    xs={11}
+                                                                >
+                                                                    <TextField
+                                                                        label={"Ответ"}
+                                                                        fullWidth
+                                                                        multiline
+                                                                        value={answer.text}
+                                                                        onChange={(e) => { setAnswer(i, j, e.target.value) }}
+                                                                    />
+                                                                </Grid>
+                                                                <Grid item xs={1}>
+                                                                    <Button
+                                                                        color="primary"
+                                                                        variant="outlined"
+                                                                        aria-label="upload picture"
+                                                                        onClick={() => deleteAnswer(i, j)}
+                                                                    >
+                                                                        <Delete />
+                                                                    </Button>
+                                                                </Grid>
                                                             </Grid>
                                                         );
                                                     }
                                                 )}
+                                                <Grid item>
+                                                    <Button
+                                                        variant="outlined"
+                                                        onClick={() => addAnswer(i)}
+                                                    >
+                                                        Добавить ответ
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
                                     </Paper>
@@ -268,7 +255,7 @@ const Survey = ({ requestService }: Props) => {
                     <Button
                         variant="outlined"
                         onClick={() =>
-                            id == "new" ? addSurvey() : editSurvey()
+                            id == "new" ? saveNewSurvey() : saveEditSurvey()
                         }
                     >
                         Сохранить

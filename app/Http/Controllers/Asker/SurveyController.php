@@ -47,8 +47,6 @@ class SurveyController extends Controller
 
     public function add(Request $request)
     {
-        // $data = $request->all();
-
         $survey_id = Survey::create(['title' => $request->title])->id;
 
         if (!$survey_id) {
@@ -75,12 +73,9 @@ class SurveyController extends Controller
             }
 
             foreach ($question['answers'] as $answer) {
-                // var_dump('$answer: ', $answer);
-                // die();
-
                 $create_data = array(
                     'question_id' => $question_id,
-                    'text' => $answer,
+                    'text' => $answer['text'],
                 );
 
                 $answer_id = Answer::create($create_data)->id;
@@ -96,7 +91,7 @@ class SurveyController extends Controller
 
         return response()->json([
             'result' => "success",
-            'survey_id' => $survey_id,
+            'data' => array('id' => $survey_id),
         ]);
     }
 
@@ -112,9 +107,6 @@ class SurveyController extends Controller
         if ($survey_model->title != $title) {
             $survey_model->title = $title;
         }
-
-        // var_dump($request->questions);
-        // die();
 
         $question_for_delete = [];
 
@@ -136,15 +128,7 @@ class SurveyController extends Controller
             // Запоминаем, каких вопросов уже нет, чтобы удалить их
             if ($need_delete) {
                 $question_for_delete[] = $question_model['id'];
-                // $result = $question_model->delete();
-                // $result = $question_model->delete();
-                // $model = $survey_model->questions->find($question_model['id'])->delete();
-                // var_dump($model);
-                // var_dump($survey_model);
-                // die();
             }
-
-            // unset($question_model);
         }
 
         // Добавляем новые вопросы
@@ -159,25 +143,11 @@ class SurveyController extends Controller
             }
         }
 
-        // var_dump($question_for_delete);
-        // die();
-
         // Записываем связанные модели - добавляем новые и изменяем существующие
         $result = $survey_model->push();
 
         // Удаляем вопросы
         $delete = Question::whereIn('id', $question_for_delete)->delete();
-
-        // $model = $survey_model->questions->find($question_model['id'])->delete();
-
-        // var_dump($request->questions);
-        // var_dump($delete);
-        // die();
-
-
-
-
-
 
         return response()->json([
             'result' => "success",
@@ -206,19 +176,10 @@ class SurveyController extends Controller
             // Запоминаем, каких вопросов уже нет, чтобы удалить их
             if ($need_delete) {
                 $answers_for_delete[] = $answer_model['id'];
-                // $result = $question_model->delete();
-                // $result = $question_model->delete();
-                // $model = $survey_model->questions->find($question_model['id'])->delete();
-                // var_dump($model);
-                // var_dump($survey_model);
-                // die();
             }
-
-            // unset($question_model);
         }
 
         // Добавляем новые вопросы
-        // var_dump($question_request);die();
         foreach ($question_request['answers'] as $answer_request) {
             if ($answer_request['id'] == 'new' && $answer_request['text'] != null) {
                 $new_answer = new Answer([
@@ -230,13 +191,7 @@ class SurveyController extends Controller
             }
         }
 
-        // var_dump($question_for_delete);
-        // die();
-
-        // Записываем связанные модели - добавляем новые и изменяем существующие
-        // $result = $survey_model->push();
-
         // Удаляем вопросы
-        // $delete = Question::whereIn('id', $question_for_delete)->delete();
+        $delete = Answer::whereIn('id', $answers_for_delete)->delete();
     }
 }
