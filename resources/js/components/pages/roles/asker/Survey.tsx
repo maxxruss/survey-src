@@ -161,7 +161,7 @@ const Survey = ({ requestService }: Props) => {
                         ? null
                         : questions.map((question, i) => {
                             return (
-                                <Grid item key={i}>
+                                <Grid item key={`question_${i}`}>
                                     <Paper elevation={3}>
                                         <Grid container p={2}>
                                             <Grid item container spacing={2}>
@@ -191,14 +191,6 @@ const Survey = ({ requestService }: Props) => {
                                                     <Grid item>
                                                         <Button
                                                             variant="outlined"
-                                                            onClick={() => addQuestion()}
-                                                        >
-                                                            Добавить вопрос
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Button
-                                                            variant="outlined"
                                                             onClick={() => deleteQuestion(i)}>
                                                             Удалить вопрос
                                                         </Button>
@@ -209,7 +201,7 @@ const Survey = ({ requestService }: Props) => {
                                                 {question.answers.map(
                                                     (answer, j) => {
                                                         return (
-                                                            <Grid item container spacing={2} key={answer.id}>
+                                                            <Grid item container spacing={2} key={`answer${answer.id}`}>
                                                                 <Grid
                                                                     item
                                                                     xs={11}
@@ -250,6 +242,14 @@ const Survey = ({ requestService }: Props) => {
                                 </Grid>
                             );
                         })}
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant="outlined"
+                        onClick={() => addQuestion()}
+                    >
+                        Добавить вопрос
+                    </Button>
                 </Grid>
                 <Grid item>
                     <Button
