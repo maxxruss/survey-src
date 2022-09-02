@@ -11,6 +11,8 @@ import Spinner from "./spinner";
 import Main from "./Main";
 import ButtonAppBar from "./ui/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
+import { useCookies } from "react-cookie";
+
 
 interface Props {
     requestService: {
@@ -20,6 +22,7 @@ interface Props {
         };
     };
     authDataLoaded: (data: { [v: string]: any }) => {};
+    setLanguage: (lang: string) => {};
     getLang: () => {};
     cookies: {
         set: (arg1: String, arg2: String) => {};
@@ -27,9 +30,19 @@ interface Props {
     };
 }
 
-const Body: React.FC<Props> = ({ requestService, authDataLoaded }) => {
+const Body: React.FC<Props> = ({ requestService, authDataLoaded, setLanguage }) => {
     const theme = getTheme();
     const [loading, setLoading] = useState<boolean>(true);
+    const [cookies, setCookie] = useCookies();
+    const { lang } = cookies;
+    let language = lang
+
+    if (!language) {
+        language = 'ru'
+        setCookie("lang", language);
+    }
+
+    setLanguage(language)
 
     async function authCheck() {
         const response = await requestService.auth({

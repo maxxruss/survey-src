@@ -9,9 +9,9 @@ import {
     Grid,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Dictionary from "../../dictionary";
+// import Dictionary from "../../dictionary";
 import { useCookies } from "react-cookie";
-import { toggleDrawer, authLogOut } from "../../redux/actions";
+import { toggleDrawer, authLogOut, setLanguage } from "../../redux/actions";
 import { connect } from "react-redux";
 import { useHistory, NavLink } from "react-router-dom";
 import compose from "../../utils/compose";
@@ -20,33 +20,52 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 type Props = {
     auth: boolean;
+    lang: string;
     drawerStatus: boolean;
     toggleDrawer: (v: boolean) => {};
     authLogOut: () => {};
     requestService: {
         auth: (method: object) => { result: string };
     };
+    setLanguage: (lang: string) => {}
 };
 
 type StateProps = {
     auth: boolean;
+    lang: string;
     drawerStatus: boolean;
+};
+
+type dictTypes = {
+    [key: string]: {
+        [key: string]: string
+    };
+};
+
+
+const dict: dictTypes = {
+    appBarTitle: { en: "Survey", ru: "Опросник" },
+    logout: { en: "logout", ru: "Выйти" },
 };
 
 const ButtonAppBar = ({
     auth,
+    lang,
     drawerStatus,
     toggleDrawer,
     authLogOut,
     requestService,
+    setLanguage
 }: Props) => {
     const history = useHistory();
     const [cookies, setCookie] = useCookies();
-    const dict = Dictionary();
+    // const dict = Dictionary();
+
+    // console.log('lang: ', lang)
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
-        lang: string | null
+        lang: string
     ) => {
         // let lang = "";
         // if (event.target.checked) {
@@ -56,6 +75,7 @@ const ButtonAppBar = ({
         // }
 
         setCookie("lang", lang);
+        setLanguage(lang)
     };
 
     const logout = async () => {
@@ -111,14 +131,14 @@ const ButtonAppBar = ({
                                 component="div"
                                 sx={{ flexGrow: 1 }}
                             >
-                                {dict.appBarTitle}
+                                {dict.appBarTitle[lang]}
                             </Typography>
                         </Box>
                     </Grid>
                     <Grid item xs={7}></Grid>
-                    <Grid item xs={1} style={{ alignSelf: "center" }}>                        
+                    <Grid item xs={1} style={{ alignSelf: "center" }}>
                         <ToggleButtonGroup
-                            value={cookies.lang}
+                            value={lang}
                             exclusive
                             onChange={handleChange}
                             aria-label="text alignment"
@@ -134,7 +154,7 @@ const ButtonAppBar = ({
                     <Grid item xs={1} style={{ alignSelf: "center" }}>
                         {!auth ? null : (
                             <Button color="inherit" onClick={() => logout()}>
-                                {dict.logout}
+                                {dict.logout[lang]}
                             </Button>
                         )}
                     </Grid>
@@ -144,11 +164,11 @@ const ButtonAppBar = ({
     );
 };
 
-const mapStateToProps = ({ auth, drawerStatus }: StateProps) => {
-    return { auth, drawerStatus };
+const mapStateToProps = ({ auth, lang, drawerStatus }: StateProps) => {
+    return { auth, lang, drawerStatus };
 };
 
-const mapDispathToProps = { toggleDrawer, authLogOut };
+const mapDispathToProps = { toggleDrawer, authLogOut, setLanguage };
 
 export default compose(
     withRequestService(),

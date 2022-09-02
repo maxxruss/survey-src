@@ -14,18 +14,18 @@ import {
     FormatListBulletedOutlined,
     AnalyticsOutlined,
     FaceOutlined,
+    PeopleOutline
 } from "@mui/icons-material";
-
 import { NavLink, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-import Dictionary from "../../dictionary";
 
 type StateProps = {
     role: string;
+    lang: string;
 };
 
-type Menu = {
-    (dict: any): {
+type MenuTypes = {
+    (dict: dictTypes, lang: string): {
         [v: string]: {
             to: string;
             icon: JSX.Element | string;
@@ -34,40 +34,68 @@ type Menu = {
     };
 };
 
-const menuAllRoles: Menu = (dict) => {
+type dictTypes = {
+    [key: string]: {
+        [key: string]: { [key: string]: string }
+    };
+};
+
+const dict: dictTypes = {
+    admin: {
+        main: { en: "Main", ru: "Главная" },
+        list: { en: "ist of askers", ru: "Список заказчиков" },
+    },
+    asker: {
+        main: { en: "Main", ru: "Главная" },
+        surveys: { en: "Surveys", ru: "Опросы" },
+        analytics: { en: "Analytics", ru: "Аналитика" },
+        profile: { en: "Profile", ru: "Профиль" }
+    },
+    responder: {
+        main: { en: "Survey", ru: "Опрос" },
+    }
+
+};
+
+const menuAllRoles: MenuTypes = (dict, lang) => {
     const menu = {
         admin: [
             {
                 to: "/admin",
                 icon: "info",
-                title: dict.menu.admin.main,
+                title: dict.admin.main[lang],
             },
             {
                 to: "/admin/listaskers",
                 icon: "info",
-                title: dict.menu.admin.list,
+                title: dict.admin.list[lang],
             },
         ],
         asker: [
             {
                 to: "/asker",
                 icon: <PublicOutlined />,
-                title: dict.menu.asker.main,
+                title: dict.asker.main[lang],
             },
             {
                 to: "/asker/surveyslist",
                 icon: <FormatListBulletedOutlined />,
-                title: dict.menu.asker.surveys,
+                title: dict.asker.surveys[lang],
             },
             {
                 to: "/asker/analytics",
                 icon: <AnalyticsOutlined />,
-                title: dict.menu.asker.analytics,
+                title: dict.asker.analytics[lang],
             },
             {
                 to: "/asker/profile",
                 icon: <FaceOutlined />,
-                title: dict.menu.asker.profile,
+                title: dict.asker.profile[lang],
+            },
+            {
+                to: "/asker/responders",
+                icon: <PeopleOutline />,
+                title: dict.asker.profile[lang],
             },
         ],
         responder: [
@@ -87,11 +115,13 @@ const menuAllRoles: Menu = (dict) => {
     return menu;
 };
 
-const MainMenu = ({ role }: StateProps) => {
-    const dict = Dictionary();
-    const menu = menuAllRoles(dict);
+const Menu = ({ role, lang }: StateProps) => {
+    // const dict = Dictionary();
+    const menu = menuAllRoles(dict, lang);
     const menuItems = menu[role];
     const location = useLocation();
+
+    // console.log('lang: ', _.lang())
 
     if (!menuItems) return null;
 
@@ -143,8 +173,8 @@ const MainMenu = ({ role }: StateProps) => {
     );
 };
 
-const mapStateToProps = ({ role }: StateProps) => {
-    return { role };
+const mapStateToProps = ({ role, lang }: StateProps) => {
+    return { role, lang };
 };
 
-export default connect(mapStateToProps)(MainMenu);
+export default connect(mapStateToProps)(Menu);

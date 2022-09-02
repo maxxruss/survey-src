@@ -1,25 +1,33 @@
+// reducer - должен быть чистой функцией (pure function):
+// 1. Возвращаемое значение зависит только от переданных аргументов
+// 2. не имеет побочных эффектов - не изменяет глобальные переменные или не записывает в БД
+
 type ActionType = {
     type: string;
     payload: {
-        id: String;
-        login: String;
-        email: String;
+        auth: boolean;
+        id: string;
+        login: string;
+        email: string;
         role: string;
+        company: { [v: string]: any } | {};
         drawerStatus: boolean;
-        company: { [v: string]: any };
-    };
+        lang: string;
+    } ;
 };
 
 type StateType =
     | undefined
     | {
-          auth: boolean;
-          id: String;
-          login: String;
-          email: String;
-          role: String;
-          drawerStatus: boolean;
-      };
+        auth: boolean;
+        id: string;
+        login: string;
+        email: string;
+        role: string;
+        company: { [v: string]: any } | {},
+        drawerStatus: boolean;
+        lang: string;
+    };
 
 const reducer = (state: StateType, action: ActionType) => {
     if (state === undefined) {
@@ -29,8 +37,9 @@ const reducer = (state: StateType, action: ActionType) => {
             login: "",
             email: "",
             role: "",
-            company: null,
+            company: {},
             drawerStatus: false,
+            lang: '',
         };
     }
     switch (action.type) {
@@ -52,7 +61,7 @@ const reducer = (state: StateType, action: ActionType) => {
                 login: "",
                 email: "",
                 role: "",
-                company: "",
+                company: {},
             };
         case "AUTH_LOGOUT":
             return {
@@ -62,7 +71,7 @@ const reducer = (state: StateType, action: ActionType) => {
                 login: "",
                 email: "",
                 role: "",
-                company: "",
+                company: {},
             };
         case "DRAWER_TOGGLE":
             return {
@@ -75,10 +84,14 @@ const reducer = (state: StateType, action: ActionType) => {
                 company: action.payload.company,
             };
         case "SET_USER":
-            console.log("SET_USER: ", action.payload)
             return {
                 ...state,
                 login: action.payload.login,
+            };
+        case "SET_LANGUAGE":
+            return {
+                ...state,
+                lang: action.payload.lang,
             };
         default:
             return state;
