@@ -3,10 +3,7 @@ import {
     Grid,
     Button,
     Paper,
-    TextField,
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
+    TextField
 } from "@mui/material";
 import PageLayout from "../../../ui/PageLayout";
 import withRequestService from "../../../hoc/with-request-service";
@@ -148,6 +145,7 @@ const Survey = ({ requestService }: Props) => {
                 >
                     <Grid item xs={12}>
                         <TextField
+                            size="small"
                             label="Название опроса"
                             fullWidth
                             multiline
@@ -172,7 +170,8 @@ const Survey = ({ requestService }: Props) => {
                                                     mb={2}
                                                 >
                                                     <TextField
-                                                        label={"Вопрос"}
+                                                        size="small"
+                                                        label={"Вопрос " + (i + 1)}
                                                         fullWidth
                                                         multiline
                                                         value={question.text}
@@ -207,7 +206,8 @@ const Survey = ({ requestService }: Props) => {
                                                                     xs={11}
                                                                 >
                                                                     <TextField
-                                                                        label={"Ответ"}
+                                                                        size="small"
+                                                                        label={"Ответ " + (j + 1)}
                                                                         fullWidth
                                                                         multiline
                                                                         value={answer.text}
