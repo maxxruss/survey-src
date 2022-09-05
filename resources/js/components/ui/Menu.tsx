@@ -18,6 +18,7 @@ import {
 } from "@mui/icons-material";
 import { NavLink, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
+import { DictTypes2Level } from "../TS/Types"
 
 type StateProps = {
     role: string;
@@ -25,7 +26,7 @@ type StateProps = {
 };
 
 type MenuTypes = {
-    (dict: dictTypes, lang: string): {
+    (dict: DictTypes2Level, lang: string): {
         [v: string]: {
             to: string;
             icon: JSX.Element | string;
@@ -34,13 +35,7 @@ type MenuTypes = {
     };
 };
 
-type dictTypes = {
-    [key: string]: {
-        [key: string]: { [key: string]: string }
-    };
-};
-
-const dict: dictTypes = {
+const dict: DictTypes2Level = {
     admin: {
         main: { en: "Main", ru: "Главная" },
         list: { en: "ist of askers", ru: "Список заказчиков" },
@@ -49,7 +44,8 @@ const dict: dictTypes = {
         main: { en: "Main", ru: "Главная" },
         surveys: { en: "Surveys", ru: "Опросы" },
         analytics: { en: "Analytics", ru: "Аналитика" },
-        profile: { en: "Profile", ru: "Профиль" }
+        profile: { en: "Profile", ru: "Профиль" },
+        responders: { en: "Responders", ru: "Респонденты" }
     },
     responder: {
         main: { en: "Survey", ru: "Опрос" },
@@ -95,7 +91,7 @@ const menuAllRoles: MenuTypes = (dict, lang) => {
             {
                 to: "/asker/responders",
                 icon: <PeopleOutline />,
-                title: dict.asker.profile[lang],
+                title: dict.asker.responders[lang],
             },
         ],
         responder: [
