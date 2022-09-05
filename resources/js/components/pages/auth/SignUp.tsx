@@ -13,21 +13,31 @@ import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import * as actions from "../../../redux/actions";
 import { useHistory } from "react-router-dom";
-import Dictionary from "../../../dictionary";
 import Spinner from "../../spinner";
+import { DictTypes } from "../../TS/Types";
 
-type Props = {
+type RegTypes = {
     requestService: {
         auth: (method: object) => { result: string; data: string };
     };
+    lang: string;
 };
 
-type StateProps = {
-    id: string;
-    role: string;
-    token: string;
-    org: string;
-    login: string;
+const dict: DictTypes = {
+    title: { en: "Registration", ru: 'Регистрация' },
+    login: { en: "Login", ru: 'Логин' },
+    password: { en: "Password", ru: 'Пароль' },
+    remember: { en: "Remember me", ru: 'Запомнить меня' },
+    send: { en: "Send", ru: 'Отправить' },
+    fieldRequired: { en: "Required field", ru: 'Обязательное поле' },
+    authTitle: { en: "Auth", ru: 'Авторизация' },
+    companyTitle: { en: "Title", ru: 'Наименование' },
+    inn: { en: "INN", ru: 'ИНН' },
+    kpp: { en: "KPP", ru: 'КПП' },
+    companyAddress: { en: "Address of company", ru: 'Адрес компании' },
+    companyManager: { en: "Manager of company", ru: 'ФИО менеджера компании' },
+    phone: { en: "Phone of company", ru: 'Телефон компании' },
+    email: { en: "User's E-mail", ru: 'Электронная почта пользователя' },
 };
 
 function Copyright(props: any) {
@@ -50,11 +60,10 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const SignUp = ({ requestService }: Props) => {
+const SignUp = ({ requestService, lang }: RegTypes) => {
     const history = useHistory();
     const [loading, setLoading] = React.useState(false);
 
-    const dict = Dictionary();
     const [errors, setErrors] = React.useState({
         title: false,
         inn: false,
@@ -152,7 +161,7 @@ const SignUp = ({ requestService }: Props) => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    {dict.reg.title}
+                    {dict.title[lang]}
                 </Typography>
                 <Box component="form" noValidate sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
@@ -160,13 +169,13 @@ const SignUp = ({ requestService }: Props) => {
                             <TextField
                                 error={errors.title}
                                 helperText={
-                                    errors.title ? dict.error.fieldRequired : ""
+                                    errors.title ? dict.fieldRequired[lang] : ""
                                 }
                                 name="title"
                                 required
                                 fullWidth
                                 id="title"
-                                label={dict.reg.company_title}
+                                label={dict.companyTitle[lang]}
                                 autoFocus
                                 onFocus={() => rmError("title")}
                                 onChange={(e) =>
@@ -179,12 +188,12 @@ const SignUp = ({ requestService }: Props) => {
                                 type={"number"}
                                 error={errors.inn}
                                 helperText={
-                                    errors.inn ? dict.error.fieldRequired : ""
+                                    errors.inn ? dict.fieldRequired[lang] : ""
                                 }
                                 name="inn"
                                 fullWidth
                                 id="inn"
-                                label={dict.reg.inn}
+                                label={dict.inn[lang]}
                                 autoFocus
                                 onFocus={() => rmError("inn")}
                                 onChange={(e) =>
@@ -196,12 +205,12 @@ const SignUp = ({ requestService }: Props) => {
                             <TextField
                                 error={errors.kpp}
                                 helperText={
-                                    errors.kpp ? dict.error.fieldRequired : ""
+                                    errors.kpp ? dict.fieldRequired[lang] : ""
                                 }
                                 name="kpp"
                                 fullWidth
                                 id="kpp"
-                                label={dict.reg.kpp}
+                                label={dict.kpp[lang]}
                                 autoFocus
                                 onFocus={() => rmError("kpp")}
                                 onChange={(e) =>
@@ -214,13 +223,13 @@ const SignUp = ({ requestService }: Props) => {
                                 error={errors.address}
                                 helperText={
                                     errors.address
-                                        ? dict.error.fieldRequired
+                                        ? dict.fieldRequired[lang]
                                         : ""
                                 }
                                 name="address"
                                 fullWidth
                                 id="address"
-                                label={dict.reg.company_address}
+                                label={dict.companyAddress[lang]}
                                 autoFocus
                                 onFocus={() => rmError("address")}
                                 onChange={(e) =>
@@ -233,14 +242,14 @@ const SignUp = ({ requestService }: Props) => {
                                 error={errors.manager}
                                 helperText={
                                     errors.manager
-                                        ? dict.error.fieldRequired
+                                        ? dict.fieldRequired[lang]
                                         : ""
                                 }
                                 name="manager"
                                 required
                                 fullWidth
                                 id="manager"
-                                label={dict.reg.company_manager}
+                                label={dict.companyManager[lang]}
                                 autoFocus
                                 onFocus={() => rmError("manager")}
                                 onChange={(e) =>
@@ -253,12 +262,12 @@ const SignUp = ({ requestService }: Props) => {
                             <TextField
                                 error={errors.phone}
                                 helperText={
-                                    errors.phone ? dict.error.fieldRequired : ""
+                                    errors.phone ? dict.fieldRequired[lang] : ""
                                 }
                                 required
                                 fullWidth
                                 id="phone"
-                                label={dict.reg.phone}
+                                label={dict.phone[lang]}
                                 name="phone"
                                 autoComplete="phone"
                                 onFocus={() => rmError("phone")}
@@ -271,12 +280,12 @@ const SignUp = ({ requestService }: Props) => {
                             <TextField
                                 error={errors.email}
                                 helperText={
-                                    errors.email ? dict.error.fieldRequired : ""
+                                    errors.email ? dict.fieldRequired[lang] : ""
                                 }
                                 required
                                 fullWidth
                                 id="email"
-                                label={dict.reg.email}
+                                label={dict.email[lang]}
                                 name="email"
                                 autoComplete="email"
                                 onFocus={() => rmError("email")}
@@ -289,13 +298,13 @@ const SignUp = ({ requestService }: Props) => {
                             <TextField
                                 error={errors.login}
                                 helperText={
-                                    errors.login ? dict.error.fieldRequired : ""
+                                    errors.login ? dict.fieldRequired[lang] : ""
                                 }
                                 name="login"
                                 required
                                 fullWidth
                                 id="login"
-                                label={dict.reg.login}
+                                label={dict.login[lang]}
                                 autoFocus
                                 onFocus={() => rmError("login")}
                                 onChange={(e) =>
@@ -308,13 +317,13 @@ const SignUp = ({ requestService }: Props) => {
                                 error={errors.password}
                                 helperText={
                                     errors.password
-                                        ? dict.error.fieldRequired
+                                        ? dict.fieldRequired[lang]
                                         : ""
                                 }
                                 required
                                 fullWidth
                                 name="password"
-                                label={dict.reg.password}
+                                label={dict.password[lang]}
                                 type="password"
                                 id="password"
                                 onFocus={() => rmError("password")}
@@ -330,12 +339,12 @@ const SignUp = ({ requestService }: Props) => {
                         sx={{ mt: 3, mb: 2 }}
                         onClick={() => handleSubmit()}
                     >
-                        {dict.reg.send}
+                        {dict.send[lang]}
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Button component={Link} to="/signin">
-                                {dict.auth.title}
+                                {dict.authTitle[lang]}
                             </Button>
                         </Grid>
                     </Grid>
@@ -346,8 +355,8 @@ const SignUp = ({ requestService }: Props) => {
     );
 };
 
-const mapStateToProps = ({ id, role, token, org, login }: StateProps) => {
-    return { id, role, token, org, login };
+const mapStateToProps = ({ lang }: {lang: string}) => {
+    return { lang };
 };
 
 const mapDispatchToProps = (dispatch: any) =>

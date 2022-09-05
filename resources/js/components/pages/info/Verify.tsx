@@ -1,19 +1,28 @@
 import React from "react";
-import Dictionary from "../../../dictionary";
 import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import withRequestService from "../../hoc/with-request-service";
 import Spinner from "../../spinner";
 import { useHistory } from "react-router-dom";
+import { DictTypes } from "../../TS/Types";
+import compose from "../../../utils/compose";
+import { connect } from "react-redux";
+
+const dict: DictTypes = {
+    successTitle: { en: "Congratulation!", ru: 'Поздравляем!' },
+    successText: { en: "Your email has been confirmed", ru: 'Ваша почта подтверждена' },
+    errorTitle: { en: "Error!", ru: 'Ошибка!' },
+    errorText: { en: "The user has not been found or has already been confirmed.", ru: 'Пользователь не найден или уже подтвержден' }
+};
 
 type Props = {
     requestService: {
         request: (method: object) => { result: string; data: any };
     };
+    lang: string;
 };
 
-const Verify = ({ requestService }: Props) => {
-    const dict = Dictionary();
+const Verify = ({ requestService, lang }: Props) => {
     const history = useHistory();
 
     const { search }: { search: string } = useLocation();
@@ -55,8 +64,8 @@ const Verify = ({ requestService }: Props) => {
                     gutterBottom
                 >
                     {verify == "success"
-                        ? dict.confirm.success.title
-                        : dict.confirm.error.title}
+                        ? dict.successTitle[lang]
+                        : dict.errorTitle[lang]}
                 </Typography>
                 <Typography
                     variant="h5"
@@ -65,12 +74,19 @@ const Verify = ({ requestService }: Props) => {
                     paragraph
                 >
                     {verify == "success"
-                        ? dict.confirm.success.text
-                        : dict.confirm.error.text}
+                        ? dict.successText[lang]
+                        : dict.errorText[lang]}
                 </Typography>
             </Box>
         </>
     );
 };
 
-export default withRequestService()(Verify);
+const mapStateToProps = ({ lang }: { lang: string }) => {
+    return { lang };
+};
+
+export default compose(
+    withRequestService(),
+    connect(mapStateToProps)
+)(Verify);

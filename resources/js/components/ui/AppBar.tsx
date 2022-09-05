@@ -9,7 +9,6 @@ import {
     Grid,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-// import Dictionary from "../../dictionary";
 import { useCookies } from "react-cookie";
 import { toggleDrawer, authLogOut, setLanguage } from "../../redux/actions";
 import { connect } from "react-redux";
@@ -17,6 +16,7 @@ import { useHistory, NavLink } from "react-router-dom";
 import compose from "../../utils/compose";
 import withRequestService from "../hoc/with-request-service";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { DictTypes } from "../TS/Types";
 
 type Props = {
     auth: boolean;
@@ -36,14 +36,8 @@ type StateProps = {
     drawerStatus: boolean;
 };
 
-type dictTypes = {
-    [key: string]: {
-        [key: string]: string
-    };
-};
 
-
-const dict: dictTypes = {
+const dict: DictTypes = {
     appBarTitle: { en: "Survey", ru: "Опросник" },
     logout: { en: "logout", ru: "Выйти" },
 };
@@ -59,9 +53,6 @@ const ButtonAppBar = ({
 }: Props) => {
     const history = useHistory();
     const [cookies, setCookie] = useCookies();
-    // const dict = Dictionary();
-
-    // console.log('lang: ', lang)
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,

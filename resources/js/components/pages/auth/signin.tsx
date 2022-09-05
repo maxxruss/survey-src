@@ -13,19 +13,20 @@ import { bindActionCreators } from "redux";
 import withRequestService from "../../hoc/with-request-service";
 import compose from "../../../utils/compose";
 import { Link, useHistory } from "react-router-dom";
-import { Props } from "../../interfaces";
-import Dictionary from "../../../dictionary";
+import { DictTypes } from "../../TS/Types";
 
-// useRef
-// import * as React,
+type AuthTypes = {
+    authLogOut: () => void;
+    requestService: {
+        auth: (method: object) => {
+            result: string;
+            data: { [v: string]: string | number };
+        };
+    };
+    authDataLoaded: (data: { [v: string]: string | number }) => void;
+    lang: string;
+}
 
-type StateProps = {
-    id: string;
-    role: string;
-    token: string;
-    org: string;
-    login: string;
-};
 
 function Copyright(props: any) {
     return (
@@ -45,7 +46,17 @@ function Copyright(props: any) {
     );
 }
 
-const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
+const dict: DictTypes = {
+    title: { en: "Auth", ru: 'Авторизация' },
+    login: { en: "Login", ru: 'Логин' },
+    password: { en: "Password", ru: 'Пароль' },
+    remember: { en: "Remember me", ru: 'Запомнить меня' },
+    send: { en: "Send", ru: 'Отправить' },
+    fieldRequired: { en: "Required field", ru: 'Обязательное поле' },
+    regTitle: { en: "Registration", ru: 'Регистрация' },
+};
+
+const SignIn: React.FC<AuthTypes> = ({ requestService, authDataLoaded, lang }) => {
     const [checked, setChecked] = React.useState<boolean>(true);
     const ref = React.useRef(null);
     const history = useHistory();
@@ -53,7 +64,6 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
         login: false,
         password: false,
     });
-    const dict = Dictionary();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -91,9 +101,6 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
         setErrors((prev) => {
             return { ...prev, [field]: false };
         });
-
-        console.log("field: ", field);
-        console.log("errors: ", errors);
     };
 
     return (
@@ -107,7 +114,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    {dict.auth.title}
+                    {dict.title[lang]}
                 </Typography>
                 <Box
                     component="form"
@@ -118,13 +125,13 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                     <TextField
                         error={errors.login}
                         helperText={
-                            errors.login ? dict.error.fieldRequired : ""
+                            errors.login ? dict.fieldRequired[lang] : ""
                         }
                         margin="normal"
                         required
                         fullWidth
                         id="login"
-                        label={dict.auth.login}
+                        label={dict.login[lang]}
                         name="login"
                         autoComplete="login"
                         autoFocus
@@ -133,13 +140,13 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                     <TextField
                         error={errors.password}
                         helperText={
-                            errors.password ? dict.error.fieldRequired : ""
+                            errors.password ? dict.fieldRequired[lang] : ""
                         }
                         margin="normal"
                         required
                         fullWidth
                         name="password"
-                        label={dict.auth.password}
+                        label={dict.password[lang]}
                         type="password"
                         id="password"
                         autoComplete="current-password"
@@ -155,7 +162,7 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                                 color="primary"
                             />
                         }
-                        label={dict.auth.remember}
+                        label={dict.remember[lang]}
                     />
                     <Button
                         ref={ref}
@@ -164,13 +171,13 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {dict.auth.send}
+                        {dict.send[lang]}
                     </Button>
                 </Box>
                 <Grid container>
                     <Grid item>
                         <Button component={Link} to="/signup">
-                            {dict.reg.title}
+                            {dict.regTitle[lang]}
                         </Button>
                     </Grid>
                 </Grid>
@@ -180,8 +187,8 @@ const SignIn: React.FC<Props> = ({ requestService, authDataLoaded }) => {
     );
 };
 
-const mapStateToProps = ({ id, role, token, org, login }: StateProps) => {
-    return { id, role, token, org, login };
+const mapStateToProps = ({ lang }: { lang: string }) => {
+    return { lang };
 };
 
 const mapDispatchToProps = (dispatch: any) =>

@@ -116,7 +116,6 @@ const menuAllRoles: MenuTypes = (dict, lang) => {
 };
 
 const Menu = ({ role, lang }: StateProps) => {
-    // const dict = Dictionary();
     const menu = menuAllRoles(dict, lang);
     const menuItems = menu[role];
     const location = useLocation();
