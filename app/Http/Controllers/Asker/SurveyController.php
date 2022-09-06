@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\Survey;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Responder;
 use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
@@ -21,6 +22,22 @@ class SurveyController extends Controller
         return response()->json([
             'result' => "success",
             'data' => Survey::all()
+        ]);
+    }
+
+    public function getResponders()
+    {
+        $company_id = User::where('id', Auth::id())->first()['company_id'];
+        $data = Responder::select('*')
+            ->join('company_responders', 'company_responders.responder_id', 'responders.id')
+            ->where('company_responders.company_id', $company_id)
+            ->get()
+            ->toArray();
+
+
+        return response()->json([
+            'result' => "success",
+            'data' => $data
         ]);
     }
 
