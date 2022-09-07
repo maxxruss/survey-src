@@ -33,7 +33,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('survey/edit', [SurveyController::class, 'edit']);
         Route::post('survey/delete', [SurveyController::class, 'delete']);
         Route::get('getSurvey/{id}', [SurveyController::class, 'getSurvey']);
-        Route::get('responders/getlist', [SurveyController::class, 'getResponders']);
+        Route::get('responders/getlist', [SurveyController::class, 'getRespondersList']);
+        Route::get('getResponder/{id}', [SurveyController::class, 'getResponder']);
     });
 });
 

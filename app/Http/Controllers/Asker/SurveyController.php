@@ -25,7 +25,7 @@ class SurveyController extends Controller
         ]);
     }
 
-    public function getResponders()
+    public function getRespondersList()
     {
         $company_id = User::where('id', Auth::id())->first()['company_id'];
         $data = Responder::select('*')
@@ -34,6 +34,18 @@ class SurveyController extends Controller
             ->get()
             ->toArray();
 
+
+        return response()->json([
+            'result' => "success",
+            'data' => $data
+        ]);
+    }
+
+    public function getResponder($id)
+    {
+        $data = Responder::select('*')
+            ->where('responders.id', $id)
+            ->first();
 
         return response()->json([
             'result' => "success",
