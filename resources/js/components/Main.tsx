@@ -15,7 +15,7 @@ import AskerSurveysList from "./pages/roles/asker/SurveysList";
 import AskerSurvey from "./pages/roles/asker/Survey";
 import AskerAnalytics from "./pages/roles/asker/Analytics";
 import AskerProfile from "./pages/roles/asker/Profile";
-import AskerResponders from "./pages/roles/asker/Responders";
+import AskerRespondersList from "./pages/roles/asker/RespondersList";
 import Responder from "./pages/roles/responder/MainResponder";
 import Drawer from "./ui/Drawer";
 import { connect } from "react-redux";
@@ -49,7 +49,7 @@ const mapRoutes: MapRoutes = {
         "/asker/analytics",
         "/asker/profile",
         "/asker/survey",
-        "/asker/responders"
+        "/asker/respondersList"
     ],
     responder: ["/responder"],
 };
@@ -146,8 +146,8 @@ const Main = ({ auth, role }: Props) => {
                         <AuthorizedRoute exact path="/asker/profile">
                             <AskerProfile />
                         </AuthorizedRoute>
-                        <AuthorizedRoute exact path="/asker/responders">
-                            <AskerResponders />
+                        <AuthorizedRoute exact path="/asker/respondersList">
+                            <AskerRespondersList />
                         </AuthorizedRoute>
                         <AuthorizedRoute exact path="/responder">
                             <Responder />

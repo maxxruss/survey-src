@@ -89,7 +89,7 @@ const menuAllRoles: MenuTypes = (dict, lang) => {
                 title: dict.asker.profile[lang],
             },
             {
-                to: "/asker/responders",
+                to: "/asker/respondersList",
                 icon: <PeopleOutline />,
                 title: dict.asker.responders[lang],
             },
