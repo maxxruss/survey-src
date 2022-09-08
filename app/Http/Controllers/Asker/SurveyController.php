@@ -53,6 +53,36 @@ class SurveyController extends Controller
         ]);
     }
 
+    public function saveResponder(Request $request)
+    {
+        $id = $request->id;
+
+        if ($id == 'new') {
+            $data = array(
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'is_active' => $request->is_active,
+                'email' => $request->email,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            );
+
+            $id = Responder::insertGetId($data);
+        }
+
+        // $data = Responder::select('*')
+        //     ->where('responders.id', $id)
+        //     ->first();
+
+        return response()->json([
+            'result' => "success",
+            'data' => ['id' => $id]
+        ]);
+    }
+
+
+
     public function getSurvey($id)
     {
         $data = Survey::where('id', $id)

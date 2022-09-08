@@ -70,6 +70,11 @@ const RespondersList = ({ requestService }: PropTypes) => {
         // }
     };
 
+    const saveSuccess = () => {
+        setOpenEdit(false)
+        console.log('success')
+    }
+
     useEffect(() => {
         getData();
     }, []);
@@ -87,6 +92,7 @@ const RespondersList = ({ requestService }: PropTypes) => {
                 open={openEdit}
                 id={userId}
                 close={() => setOpenEdit(false)}
+                onSuccess={() => saveSuccess()}
             />
             <PageLayout title="Участники">
                 <Grid container spacing={2} direction="row">

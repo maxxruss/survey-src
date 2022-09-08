@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('getSurvey/{id}', [SurveyController::class, 'getSurvey']);
         Route::get('responders/getlist', [SurveyController::class, 'getRespondersList']);
         Route::get('getResponder/{id}', [SurveyController::class, 'getResponder']);
+        Route::post('responder/save', [SurveyController::class, 'saveResponder']);
     });
 });
 
