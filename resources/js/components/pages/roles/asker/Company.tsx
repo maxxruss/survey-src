@@ -90,7 +90,7 @@ const Company = ({ requestService, setCompany, company }: Props) => {
         };
 
         const response = await requestService.request({
-            url: "asker/saveCompany",
+            url: "asker/company/save",
             params,
         });
 

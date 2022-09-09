@@ -1,17 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Asker;
-
-use App\Exceptions\Response\BadParameterValueException;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Responder;
 
-class AskerMainController extends Controller
+class ProfileController extends Controller
 {
     public function saveCompany(Request $request)
     {
@@ -78,5 +75,5 @@ class AskerMainController extends Controller
                 'result' => 'no_changes'
             ]);
         }
-    }
+    }    
 }

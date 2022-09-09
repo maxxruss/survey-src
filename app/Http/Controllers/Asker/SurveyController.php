@@ -1,19 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Asker;
-
-use App\Exceptions\Response\BadParameterValueException;
 use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use App\Models\Company;
 use App\Models\Survey;
 use App\Models\Question;
 use App\Models\Answer;
-use App\Models\Responder;
-use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
@@ -24,64 +16,6 @@ class SurveyController extends Controller
             'data' => Survey::all()
         ]);
     }
-
-    public function getRespondersList()
-    {
-        $company_id = User::where('id', Auth::id())->first()['company_id'];
-        $data = Responder::select('*')
-            ->join('company_responders', 'company_responders.responder_id', 'responders.id')
-            ->where('company_responders.company_id', $company_id)
-            ->get()
-            ->toArray();
-
-
-        return response()->json([
-            'result' => "success",
-            'data' => $data
-        ]);
-    }
-
-    public function getResponder($id)
-    {
-        $data = Responder::select('*')
-            ->where('responders.id', $id)
-            ->first();
-
-        return response()->json([
-            'result' => "success",
-            'data' => $data
-        ]);
-    }
-
-    public function saveResponder(Request $request)
-    {
-        $id = $request->id;
-
-        if ($id == 'new') {
-            $data = array(
-                'first_name' => $request->first_name,
-                'middle_name' => $request->middle_name,
-                'last_name' => $request->last_name,
-                'is_active' => $request->is_active,
-                'email' => $request->email,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            );
-
-            $id = Responder::insertGetId($data);
-        }
-
-        // $data = Responder::select('*')
-        //     ->where('responders.id', $id)
-        //     ->first();
-
-        return response()->json([
-            'result' => "success",
-            'data' => ['id' => $id]
-        ]);
-    }
-
-
 
     public function getSurvey($id)
     {

@@ -97,7 +97,7 @@ const Profile = ({
         };
 
         const response = await requestService.request({
-            url: "asker/saveProfile",
+            url: "asker/profile/save",
             params,
         });
 

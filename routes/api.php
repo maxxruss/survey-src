@@ -4,8 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerifyController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Asker\AskerMainController;
+use App\Http\Controllers\Asker\ResponderController;
 use App\Http\Controllers\Asker\SurveyController;
+use App\Http\Controllers\Asker\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +27,17 @@ Route::post('verify', [VerifyController::class, 'verifyEmail']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'asker'], function () {
-        Route::post('saveProfile', [AskerMainController::class, 'saveProfile']);
-        Route::post('saveCompany', [AskerMainController::class, 'saveCompany']);
+        Route::post('profile/save', [ProfileController::class, 'saveProfile']);
+        Route::post('company/save', [ProfileController::class, 'saveCompany']);
+        Route::get('responders/getlist', [ResponderController::class, 'getRespondersList']);
+        Route::get('responders/{id}', [ResponderController::class, 'getResponder']);
+        Route::post('responders/save', [ResponderController::class, 'saveResponder']);
         Route::post('survey/getlist', [SurveyController::class, 'getlist']);
         Route::post('survey/add', [SurveyController::class, 'add']);
         Route::post('survey/edit', [SurveyController::class, 'edit']);
         Route::post('survey/delete', [SurveyController::class, 'delete']);
         Route::get('getSurvey/{id}', [SurveyController::class, 'getSurvey']);
-        Route::get('responders/getlist', [SurveyController::class, 'getRespondersList']);
-        Route::get('getResponder/{id}', [SurveyController::class, 'getResponder']);
-        Route::post('responder/save', [SurveyController::class, 'saveResponder']);
+
     });
 });
 

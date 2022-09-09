@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Responder;
+
 
 class Company extends Model
 {
@@ -23,7 +25,19 @@ class Company extends Model
         'role_id'
     ];
 
-    public function role() {
+    public function role()
+    {
         return $this->hasOne(Role::class, "id", "role_id");
+    }
+
+    /*Ответственные, связанные с собранием.*/
+    //belongsToMany:
+    // Модель, с которой связываемся, 
+    // название соединительной таблицы, 
+    // столбец соединительной таблицы (который относится к таблице, с которой связываемся), 
+    // столбец соединительной таблицы (который относится к текущей модели)
+    public function responders()
+    {
+        return $this->belongsToMany(Responder::class, 'company_responders', 'company_id', 'responder_id');
     }
 }

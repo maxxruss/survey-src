@@ -99,7 +99,7 @@ const ResponderEdit = ({ requestService, id, open, close, lang, onSuccess }: Pro
         if (!validate()) return
 
         const response = await requestService.request({
-            url: "asker/responder/save",
+            url: "asker/responders/save",
             params: data
         });
 
@@ -110,7 +110,7 @@ const ResponderEdit = ({ requestService, id, open, close, lang, onSuccess }: Pro
 
     const getData = async (respondent_id: number | string | null) => {
         const response = await requestService.request({
-            url: "asker/getResponder/" + respondent_id,
+            url: "asker/responders/" + respondent_id,
             method: "get",
         });
 

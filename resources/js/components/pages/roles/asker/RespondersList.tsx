@@ -33,7 +33,7 @@ type PropTypes = {
     requestService: {
         request: (method: object) => {
             result: string;
-            data: UsersTypes;
+            data: { responders: UsersTypes };
         };
     };
 };
@@ -52,7 +52,7 @@ const RespondersList = ({ requestService }: PropTypes) => {
         });
 
         if (response.result == "success") {
-            setData(response.data);
+            setData(response.data.responders);
         }
     };
 
