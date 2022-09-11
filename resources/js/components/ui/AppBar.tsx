@@ -4,15 +4,14 @@ import {
     Box,
     Toolbar,
     Typography,
-    Button,
     IconButton,
     Grid,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useCookies } from "react-cookie";
-import { toggleDrawer, authLogOut, setLanguage } from "../../redux/actions";
+import { toggleDrawer, setLanguage } from "../../redux/actions";
 import { connect } from "react-redux";
-import { useHistory, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import compose from "../../utils/compose";
 import withRequestService from "../hoc/with-request-service";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
@@ -23,7 +22,6 @@ type Props = {
     lang: string;
     drawerStatus: boolean;
     toggleDrawer: (v: boolean) => {};
-    authLogOut: () => {};
     requestService: {
         auth: (method: object) => { result: string };
     };
@@ -46,39 +44,18 @@ const ButtonAppBar = ({
     auth,
     lang,
     drawerStatus,
-    toggleDrawer,
-    authLogOut,
-    requestService,
+    toggleDrawer,    
     setLanguage
 }: Props) => {
-    const history = useHistory();
     const [cookies, setCookie] = useCookies();
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
         lang: string
     ) => {
-        // let lang = "";
-        // if (event.target.checked) {
-        //     lang = "en";
-        // } else {
-        //     lang = "ru";
-        // }
-
         setCookie("lang", lang);
         setLanguage(lang)
-    };
-
-    const logout = async () => {
-        var response = await requestService.auth({
-            method: "logout",
-        });
-
-        if (response.result == "success") {
-            authLogOut();
-            history.push("/signin");
-        }
-    };
+    };    
 
     const onToggleDrawer = (
         event: React.KeyboardEvent | React.MouseEvent
@@ -127,7 +104,7 @@ const ButtonAppBar = ({
                         </Box>
                     </Grid>
                     <Grid item xs={7}></Grid>
-                    <Grid item xs={1} style={{ alignSelf: "center" }}>
+                    <Grid item xs={2} style={{ alignSelf: "center" }}>
                         <ToggleButtonGroup
                             value={lang}
                             exclusive
@@ -141,14 +118,7 @@ const ButtonAppBar = ({
                                 {"ENG"}
                             </ToggleButton>
                         </ToggleButtonGroup>
-                    </Grid>
-                    <Grid item xs={1} style={{ alignSelf: "center" }}>
-                        {!auth ? null : (
-                            <Button color="inherit" onClick={() => logout()}>
-                                {dict.logout[lang]}
-                            </Button>
-                        )}
-                    </Grid>
+                    </Grid>                    
                 </Grid>
             </Toolbar>
         </AppBar>
@@ -159,7 +129,7 @@ const mapStateToProps = ({ auth, lang, drawerStatus }: StateProps) => {
     return { auth, lang, drawerStatus };
 };
 
-const mapDispathToProps = { toggleDrawer, authLogOut, setLanguage };
+const mapDispathToProps = { toggleDrawer, setLanguage };
 
 export default compose(
     withRequestService(),

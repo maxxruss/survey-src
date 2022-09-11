@@ -14,15 +14,23 @@ import {
     FormatListBulletedOutlined,
     AnalyticsOutlined,
     FaceOutlined,
-    PeopleOutline
+    PeopleOutline,
+    MeetingRoomOutlined
 } from "@mui/icons-material";
-import { NavLink, useLocation } from "react-router-dom";
+import { useHistory, NavLink, useLocation } from "react-router-dom";
+import { authLogOut } from "../../redux/actions";
+import withRequestService from "../hoc/with-request-service";
+import compose from "../../utils/compose";
 import { connect } from "react-redux";
 import { DictTypes2Level } from "../TS/Types"
 
 type StateProps = {
     role: string;
     lang: string;
+    authLogOut: () => {};
+    requestService: {
+        auth: (method: object) => { result: string };
+    };
 };
 
 type MenuTypes = {
@@ -49,8 +57,10 @@ const dict: DictTypes2Level = {
     },
     responder: {
         main: { en: "Survey", ru: "Опрос" },
+    },
+    common: {
+        logout: { en: "Logout", ru: "Выход" }
     }
-
 };
 
 const menuAllRoles: MenuTypes = (dict, lang) => {
@@ -111,12 +121,23 @@ const menuAllRoles: MenuTypes = (dict, lang) => {
     return menu;
 };
 
-const Menu = ({ role, lang }: StateProps) => {
+
+const Menu = ({ role, lang, authLogOut, requestService }: StateProps) => {
     const menu = menuAllRoles(dict, lang);
     const menuItems = menu[role];
     const location = useLocation();
+    const history = useHistory();
 
-    // console.log('lang: ', _.lang())
+    const logout = async () => {
+        var response = await requestService.auth({
+            method: "logout",
+        });
+
+        if (response.result == "success") {
+            authLogOut();
+            history.push("/signin");
+        }
+    };
 
     if (!menuItems) return null;
 
@@ -157,8 +178,11 @@ const Menu = ({ role, lang }: StateProps) => {
                 <nav aria-label="secondary mailbox folders">
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemText primary="Trash" />
+                            <ListItemButton onClick={() => logout()} >
+                                <ListItemIcon>
+                                    <Icon><MeetingRoomOutlined /></Icon>
+                                </ListItemIcon>
+                                <ListItemText primary={dict.common.logout[lang]} />
                             </ListItemButton>
                         </ListItem>
                     </List>
@@ -172,4 +196,10 @@ const mapStateToProps = ({ role, lang }: StateProps) => {
     return { role, lang };
 };
 
-export default connect(mapStateToProps)(Menu);
+const mapDispathToProps = { authLogOut };
+
+export default compose(
+    withRequestService(),
+    connect(mapStateToProps, mapDispathToProps)
+)(Menu);
+
