@@ -38,6 +38,6 @@ class Company extends Model
     // столбец соединительной таблицы (который относится к текущей модели)
     public function responders()
     {
-        return $this->belongsToMany(Responder::class, 'company_responders', 'company_id', 'responder_id');
+        return $this->belongsToMany(Responder::class, 'company_responders', 'company_id', 'responder_id')->withTimestamps();
     }
 }

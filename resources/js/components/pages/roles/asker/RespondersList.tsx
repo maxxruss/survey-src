@@ -33,7 +33,7 @@ type PropTypes = {
     requestService: {
         request: (method: object) => {
             result: string;
-            data: { responders: UsersTypes };
+            data:  UsersTypes ;
         };
     };
 };
@@ -43,7 +43,6 @@ const RespondersList = ({ requestService }: PropTypes) => {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [openEdit, setOpenEdit] = useState<boolean>(false);
     const [userId, setUserId] = useState<UserIdTypes>(null);
-    const [action, setAction] = useState();
 
     const getData = async () => {
         const response = await requestService.request({
@@ -52,27 +51,24 @@ const RespondersList = ({ requestService }: PropTypes) => {
         });
 
         if (response.result == "success") {
-            setData(response.data.responders);
+            setData(response.data);
         }
     };
 
     const onDelete = async (id: UserIdTypes) => {
-        // const params = { id };
-        console.log("onDelete: ", id);
+       const response = await requestService.request({
+            url: "asker/responders/delete/" + id,
+            method: "get",
+        });
 
-        // const response = await requestService.request({
-        //     url: "asker/survey/delete",
-        //     params,
-        // });
-
-        // if (response.result == "success") {
-        //     getData();
-        // }
+        if (response.result == "success") {
+            getData();
+        }
     };
 
     const saveSuccess = () => {
         setOpenEdit(false)
-        console.log('success')
+        getData();
     }
 
     useEffect(() => {
@@ -132,8 +128,9 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                 </TableHead>
                                 <TableBody>
                                     {data.map((user) => (
+                                        console.log('user: ', user),
                                         <TableRow
-                                            key={user.id}
+                                            key={'user' + user.id}
                                             sx={{
                                                 "&:last-child td, &:last-child th":
                                                     { border: 0 },

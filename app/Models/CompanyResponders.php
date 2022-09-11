@@ -12,7 +12,4 @@ class CompanyResponders extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'question_id', 'text'
-    ];   
 }

@@ -14,11 +14,12 @@ class ResponderController extends Controller
     public function getRespondersList()
     {
         $company_id = User::where('id', Auth::id())->first()['company_id'];
-        $data = Company::find($company_id)->with('responders')->first();
+        $data = Company::find($company_id)->with('responders')->get()->toArray();
+        $responders = $data[0]['responders'];       
 
         return response()->json([
             'result' => "success",
-            'data' => $data
+            'data' => $responders
         ]);
     }
 
@@ -67,8 +68,6 @@ class ResponderController extends Controller
             $responder->save();
         }
 
-
-
         // $data = Responder::select('*')
         //     ->where('responders.id', $id)
         //     ->first();
@@ -76,6 +75,15 @@ class ResponderController extends Controller
         return response()->json([
             'result' => "success",
             'data' => ['id' => $id]
+        ]);
+    }
+
+    public function removeResponder($id)
+    {
+        $result =  Responder::where('id', $id)->delete();
+
+        return response()->json([
+            'result' => $result ? "success" : "failed",
         ]);
     }
 }
