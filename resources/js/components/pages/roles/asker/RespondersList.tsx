@@ -25,6 +25,7 @@ type UsersTypes = {
     middle_name: string;
     first_name: string;
     is_active: string;
+    created_at: string;
 }[];
 
 type UserIdTypes = number | string | null;
@@ -33,7 +34,7 @@ type PropTypes = {
     requestService: {
         request: (method: object) => {
             result: string;
-            data:  UsersTypes ;
+            data: UsersTypes;
         };
     };
 };
@@ -56,7 +57,7 @@ const RespondersList = ({ requestService }: PropTypes) => {
     };
 
     const onDelete = async (id: UserIdTypes) => {
-       const response = await requestService.request({
+        const response = await requestService.request({
             url: "asker/responders/delete/" + id,
             method: "get",
         });
@@ -112,7 +113,8 @@ const RespondersList = ({ requestService }: PropTypes) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>E-mail</TableCell>
+                                        <TableCell>Создан</TableCell>
+                                        <TableCell align="right">E-mail</TableCell>
                                         <TableCell align="right">
                                             Фамилия
                                         </TableCell>
@@ -140,6 +142,9 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                                 component="th"
                                                 scope="row"
                                             >
+                                                {user.created_at}
+                                            </TableCell>
+                                            <TableCell align="right">
                                                 {user.email}
                                             </TableCell>
                                             <TableCell align="right">
@@ -163,10 +168,10 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                                     component="span"
                                                     onClick={() => {
                                                         setUserId(user.id),
-                                                            setDialogOpen(true);
+                                                            setOpenEdit(true);
                                                     }}
                                                 >
-                                                    <Delete />
+                                                    <Edit />
                                                 </IconButton>
                                                 <IconButton
                                                     color="primary"
@@ -174,10 +179,10 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                                     component="span"
                                                     onClick={() => {
                                                         setUserId(user.id),
-                                                            setOpenEdit(true);
+                                                            setDialogOpen(true);
                                                     }}
                                                 >
-                                                    <Edit />
+                                                    <Delete />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>

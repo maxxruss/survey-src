@@ -14,8 +14,16 @@ class ResponderController extends Controller
     public function getRespondersList()
     {
         $company_id = User::where('id', Auth::id())->first()['company_id'];
-        $data = Company::find($company_id)->with('responders')->get()->toArray();
-        $responders = $data[0]['responders'];       
+        $responders = Company::find($company_id)
+            ->responders
+            // ->with('responders')
+            // ->first()
+            // ->getRelation('responders')     
+            ->sortByDesc('created_at') //сортирует коллекцию, но ключи не изменяет, в результате получается массив с ключами не по порядку, из-за этого на фронте трансформируется в объект
+            ->values() // сбрасывается ключи после сортировки
+            ->toArray();
+        // var_dump($responders);die();
+        // $responders = $data[0]['responders'];
 
         return response()->json([
             'result' => "success",

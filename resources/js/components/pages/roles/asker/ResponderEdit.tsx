@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
-import PageLayout from "../../../ui/PageLayout";
 import withRequestService from "../../../hoc/with-request-service";
 import compose from "../../../../utils/compose";
 import { connect } from "react-redux";
 import {
     Grid,
     Button,
-    Paper,
-    IconButton,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     TextField,
+    Switch
 } from "@mui/material";
 import { DictTypes } from "../../../TS/Types";
 
@@ -57,7 +54,7 @@ const ResponderEdit = ({ requestService, id, open, close, lang, onSuccess }: Pro
         first_name: "",
         middle_name: "",
         last_name: "",
-        is_active: false,
+        is_active: true,
         email: "",
     };
     const [data, setData] = useState<UserTypes>(initData);
@@ -124,11 +121,12 @@ const ResponderEdit = ({ requestService, id, open, close, lang, onSuccess }: Pro
         if (open && id && id != "new") getData(id);
     }, [id, open]);
 
-    const onChange = (value: string | number, field: string) => {
+    const onChange = (value: string | number | boolean, field: string) => {
         setData((prev) => {
             return { ...prev, [field]: value };
         });
     };
+
 
     return (
         <Dialog
@@ -197,6 +195,19 @@ const ResponderEdit = ({ requestService, id, open, close, lang, onSuccess }: Pro
                                     errors.email ? dict.fieldRequired[lang] : ""
                                 }
                             />
+                        </Grid>
+                        <Grid item container xs={12}>
+                            <Grid item>
+                                <Switch
+                                    checked={data.is_active}
+                                    onChange={() =>
+                                        onChange(!data.is_active, "is_active")
+                                    }
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />
+                            </Grid>
+                            <Grid item alignSelf={'center'}>{data.is_active ? 'Активен' : 'Неактивен'}</Grid>
+
                         </Grid>
                     </Grid>
                 </DialogContent>
