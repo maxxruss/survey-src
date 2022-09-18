@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import PageLayout from "../../../ui/PageLayout";
-import withRequestService from "../../../hoc/with-request-service";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import PageLayout from "../../../../ui/PageLayout";
+import withRequestService from "../../../../hoc/with-request-service";
 import { makeStyles } from "@mui/styles";
 import { Tab, Tabs, Box } from '@mui/material';
 import Content from './Content'
+import Participants from './Participants'
 
 type Props = {
     requestService: {
@@ -87,7 +88,7 @@ const Survey = ({ requestService }: Props) => {
                     <Content setId={setId} id={id} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    <Participants/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Item Three

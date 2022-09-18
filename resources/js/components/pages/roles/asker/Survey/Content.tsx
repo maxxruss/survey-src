@@ -5,7 +5,7 @@ import {
     Paper,
     TextField
 } from "@mui/material";
-import withRequestService from "../../../hoc/with-request-service";
+import withRequestService from "../../../../hoc/with-request-service";
 import { makeStyles } from "@mui/styles";
 import { Delete } from "@mui/icons-material";
 
