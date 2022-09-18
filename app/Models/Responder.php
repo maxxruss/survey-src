@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Responder extends Model
 {
@@ -11,6 +13,12 @@ class Responder extends Model
     protected $casts = [
         'created_at' => 'datetime:d.m.Y H:i',
     ];
+
+    // Для получения аттрибута created_at выставляем часовой пояс МСК
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->setTimezone("Europe/Moscow")->format('d.m.Y H:i');
+    }
 
     public function companies()
     {

@@ -7,6 +7,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    TableSortLabel,
     Paper,
     IconButton,
     Grid,
@@ -16,6 +17,8 @@ import withRequestService from "../../../hoc/with-request-service";
 import ConfirmDialog from "../../../ui/ConfirmDialog";
 import { Delete, Edit } from "@mui/icons-material";
 import ResponderEdit from "./ResponderEdit";
+
+type OrderTypes = 'asc' | 'desc';
 
 type UsersTypes = {
     id: number;
@@ -42,6 +45,7 @@ type PropTypes = {
 const RespondersList = ({ requestService }: PropTypes) => {
     const [data, setData] = useState<UsersTypes>([]);
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const [direction, setDirection] = useState<OrderTypes>('desc');
     const [openEdit, setOpenEdit] = useState<boolean>(false);
     const [userId, setUserId] = useState<UserIdTypes>(null);
 
@@ -72,9 +76,30 @@ const RespondersList = ({ requestService }: PropTypes) => {
         getData();
     }
 
+    const toggleDirection = () => {
+        const newDirection = direction == 'desc' ? 'asc' : 'desc'
+        setDirection(newDirection)
+
+        setData((prev_data) => {
+            return prev_data.sort((a, b) => {
+                let result = newDirection == 'desc' ? 1 : -1
+                if (a.created_at < b.created_at) {
+                    return result;
+                }
+                if (a.created_at > b.created_at) {
+                    return -result;
+                }
+
+                return 0;
+            })
+        })
+
+    }
+
     useEffect(() => {
         getData();
     }, []);
+
 
     return (
         <>
@@ -113,7 +138,15 @@ const RespondersList = ({ requestService }: PropTypes) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Создан</TableCell>
+                                        <TableCell>
+                                            <TableSortLabel
+                                                active
+                                                direction={direction}
+                                                onClick={() => toggleDirection()}
+                                            >
+                                                Создан
+                                            </TableSortLabel>
+                                        </TableCell>
                                         <TableCell align="right">E-mail</TableCell>
                                         <TableCell align="right">
                                             Фамилия
@@ -130,7 +163,7 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                 </TableHead>
                                 <TableBody>
                                     {data.map((user) => (
-                                        console.log('user: ', user),
+                                        // console.log('user: ', user),
                                         <TableRow
                                             key={'user' + user.id}
                                             sx={{
