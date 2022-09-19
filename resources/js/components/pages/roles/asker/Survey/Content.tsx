@@ -8,6 +8,8 @@ import {
 import withRequestService from "../../../../hoc/with-request-service";
 import { makeStyles } from "@mui/styles";
 import { Delete } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
+
 
 type Props = {
     id: number | string;
@@ -37,13 +39,14 @@ const useStyles = makeStyles({
 });
 
 const Content = ({ id, setId, requestService }: Props) => {
+    const history = useHistory();
     const classes = useStyles();
     const [title, setTitle] = useState<String>("");
-    const [questions, setQuestions] = useState<QuestionProps>([{ id: "new", text: "", answers: [{ text: "" }] }]);
+    const [questions, setQuestions] = useState<QuestionProps>([{ id: "new", text: "", answers: [{ text: "" }] }]); 
 
     const addQuestion = () => {
         setQuestions((prev) => {
-            return [...prev, { id: "new", text: "", answers: [{ text: "" }] }];
+            return [...prev, { id: "new", text: "", answers: [{ id: "new", text: "" }] }];
         });
     };
 
@@ -88,6 +91,7 @@ const Content = ({ id, setId, requestService }: Props) => {
         });
 
         if (response.result == "success") {
+            history.push("/asker/survey?id=" + response.data.id);
             setId(response.data.id);
         }
     };
@@ -151,7 +155,7 @@ const Content = ({ id, setId, requestService }: Props) => {
                         ? null
                         : questions.map((question, i) => {
                             return (
-                                <Grid item key={`question_${i}`}>
+                                <Grid item key={"question_" + i}>
                                     <Paper elevation={3}>
                                         <Grid container p={2}>
                                             <Grid item container spacing={2}>
@@ -192,7 +196,7 @@ const Content = ({ id, setId, requestService }: Props) => {
                                                 {question.answers.map(
                                                     (answer, j) => {
                                                         return (
-                                                            <Grid item container spacing={2} key={`answer${answer.id}`}>
+                                                            <Grid item container spacing={2} key={"answer_" + j}>
                                                                 <Grid
                                                                     item
                                                                     xs={11}

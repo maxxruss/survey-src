@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Asker;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Survey;
@@ -105,9 +106,22 @@ class SurveyController extends Controller
 
         // Удаляем или изменяем вопросы
         foreach ($survey_model->questions as $question_model) {
+            // var_dump('$survey_model->questions: ',  $survey_model->questions);
             $need_delete = true;
             foreach ($request->questions as $question_request) {
+                // Если новый вопрос
+                if ($question_request['id'] == 'new' && $question_request['text'] != null) {
+                    $new_question = new Question([
+                        'survey_id' => $id,
+                        'text' => $question_request['text']
+                    ]);
 
+                    $this->editAnswers($new_question, $question_request);
+
+                    $survey_model->questions->add($new_question);
+                }
+
+                // Если вопрос существует
                 if ($question_model['id'] == $question_request['id']) {
                     $need_delete = false;
 
@@ -124,17 +138,8 @@ class SurveyController extends Controller
             }
         }
 
-        // Добавляем новые вопросы
-        foreach ($request->questions as $question_request) {
-            if ($question_request['id'] == 'new' && $question_request['text'] != null) {
-                $new_question = new Question([
-                    'survey_id' => $id,
-                    'text' => $question_request['text']
-                ]);
+        // var_dump($survey_model);die();
 
-                $survey_model->questions->add($new_question);
-            }
-        }
 
         // Записываем связанные модели - добавляем новые и изменяем существующие
         $result = $survey_model->push();
@@ -153,7 +158,7 @@ class SurveyController extends Controller
     {
         $answers_for_delete = [];
 
-        // Удаляем или изменяем вопросы
+        // Удаляем или изменяем ответы
         foreach ($question_model->answers as $answer_model) {
             $need_delete = true;
             foreach ($question_request['answers'] as $answer_request) {
@@ -166,13 +171,13 @@ class SurveyController extends Controller
                     }
                 }
             }
-            // Запоминаем, каких вопросов уже нет, чтобы удалить их
+            // Запоминаем, каких ответов уже нет, чтобы удалить их
             if ($need_delete) {
                 $answers_for_delete[] = $answer_model['id'];
             }
         }
 
-        // Добавляем новые вопросы
+        // Добавляем новые ответы
         foreach ($question_request['answers'] as $answer_request) {
             if ($answer_request['id'] == 'new' && $answer_request['text'] != null) {
                 $new_answer = new Answer([
@@ -184,7 +189,7 @@ class SurveyController extends Controller
             }
         }
 
-        // Удаляем вопросы
+        // Удаляем ответы
         $delete = Answer::whereIn('id', $answers_for_delete)->delete();
     }
 }
