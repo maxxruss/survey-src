@@ -98,6 +98,7 @@ class SurveyController extends Controller
             ->with("questions.answers")
             ->first();
 
+        // Название опроса
         if ($survey_model->title != $title) {
             $survey_model->title = $title;
         }
@@ -116,9 +117,10 @@ class SurveyController extends Controller
                         'text' => $question_request['text']
                     ]);
 
-                    $this->editAnswers($new_question, $question_request);
-
                     $survey_model->questions->add($new_question);
+                    $this->editAnswers($new_question, $question_request);
+                    var_dump('$survey_model: ', $survey_model);
+
                 }
 
                 // Если вопрос существует
@@ -154,7 +156,7 @@ class SurveyController extends Controller
     }
 
 
-    public function editAnswers($question_model, $question_request)
+    public function editAnswers(&$question_model, $question_request)
     {
         $answers_for_delete = [];
 
@@ -179,6 +181,8 @@ class SurveyController extends Controller
 
         // Добавляем новые ответы
         foreach ($question_request['answers'] as $answer_request) {
+           
+            // die();
             if ($answer_request['id'] == 'new' && $answer_request['text'] != null) {
                 $new_answer = new Answer([
                     'question_id' => $question_model['id'],
