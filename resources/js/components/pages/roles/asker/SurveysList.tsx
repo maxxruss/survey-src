@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Button, Paper, IconButton } from "@mui/material";
-import PageLayout from "../../../../ui/PageLayout";
-import withRequestService from "../../../../hoc/with-request-service";
+import PageLayout from "../../../ui/PageLayout";
+import withRequestService from "../../../hoc/with-request-service";
 import { connect } from "react-redux";
-import compose from "../../../../../utils/compose";
+import compose from "../../../../utils/compose";
 import { makeStyles } from "@mui/styles";
 import { Snackbar, Alert } from "@mui/material";
-import { setCompany } from "../../../../../redux/actions";
+import { setCompany } from "../../../../redux/actions";
 import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
 

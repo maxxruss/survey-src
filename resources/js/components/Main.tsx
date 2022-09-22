@@ -11,7 +11,7 @@ import SignUp from "./pages/auth/SignUp";
 import Admin from "./pages/roles/admin/MainAdmin";
 import AdminListAskers from "./pages/roles/admin/AdminListAskers";
 import AskerCompany from "./pages/roles/asker/Company";
-import AskerSurveysList from "./pages/roles/asker/Survey/SurveysList";
+import AskerSurveysList from "./pages/roles/asker/SurveysList";
 import AskerSurvey from "./pages/roles/asker/Survey/Survey";
 import AskerAnalytics from "./pages/roles/asker/Analytics";
 import AskerProfile from "./pages/roles/asker/Profile";
