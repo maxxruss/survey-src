@@ -118,8 +118,11 @@ class SurveyController extends Controller
                     ]);
 
                     $survey_model->questions->add($new_question);
+                    // сохраняем вопросы, чтобы у вопроса был id, к которому затем будет привязан ответ
+                    $survey_model->push();
+
                     $this->editAnswers($new_question, $question_request);
-                    var_dump('$survey_model: ', $survey_model);
+                    // var_dump('$survey_model: ', $survey_model);
 
                 }
 
@@ -144,7 +147,7 @@ class SurveyController extends Controller
 
 
         // Записываем связанные модели - добавляем новые и изменяем существующие
-        $result = $survey_model->push();
+        // $result = $survey_model->push();
 
         // Удаляем вопросы
         $delete = Question::whereIn('id', $question_for_delete)->delete();
@@ -192,6 +195,8 @@ class SurveyController extends Controller
                 $question_model->answers->add($new_answer);
             }
         }
+
+        $question_model->push();
 
         // Удаляем ответы
         $delete = Answer::whereIn('id', $answers_for_delete)->delete();
