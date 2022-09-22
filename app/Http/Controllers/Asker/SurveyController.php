@@ -39,48 +39,29 @@ class SurveyController extends Controller
         ]);
     }
 
+    public function addNewQuestion(Survey $survey_model, $question_request)
+    {
+        if ($question_request['id'] == 'new' && $question_request['text'] != null) {
+            $new_question = new Question([
+                'survey_id' => $survey_model->id,
+                'text' => $question_request['text']
+            ]);
+
+            $survey_model->questions->add($new_question);
+
+            // сохраняем вопросы, чтобы у вопроса был id, к которому затем будет привязан ответ
+            $survey_model->push();
+            $this->editAnswers($new_question, $question_request);
+        }
+    }
+
     public function add(Request $request)
     {
-        $survey_id = Survey::create(['title' => $request->title])->id;
+        $survey_model = Survey::create(['title' => $request->title]);
+        $survey_id = $survey_model->id;
 
-        if (!$survey_id) {
-            return response()->json([
-                'result' => "failed",
-                'msg' => "error survey save",
-            ]);
-        }
-
-
-        foreach ($request->questions as $question) {
-            $create_data = array(
-                'survey_id' => $survey_id,
-                'text' => $question['text'],
-            );
-
-            $question_id = Question::create($create_data)->id;
-
-            if (!$question_id) {
-                return response()->json([
-                    'result' => "failed",
-                    'msg' => "error questions save",
-                ]);
-            }
-
-            foreach ($question['answers'] as $answer) {
-                $create_data = array(
-                    'question_id' => $question_id,
-                    'text' => $answer['text'],
-                );
-
-                $answer_id = Answer::create($create_data)->id;
-
-                if (!$answer_id) {
-                    return response()->json([
-                        'result' => "failed",
-                        'msg' => "error answers save",
-                    ]);
-                }
-            }
+        foreach ($request->questions as $question_request) {
+            $this->addNewQuestion($survey_model, $question_request);
         }
 
         return response()->json([
@@ -107,24 +88,10 @@ class SurveyController extends Controller
 
         // Удаляем или изменяем вопросы
         foreach ($survey_model->questions as $question_model) {
-            // var_dump('$survey_model->questions: ',  $survey_model->questions);
             $need_delete = true;
             foreach ($request->questions as $question_request) {
                 // Если новый вопрос
-                if ($question_request['id'] == 'new' && $question_request['text'] != null) {
-                    $new_question = new Question([
-                        'survey_id' => $id,
-                        'text' => $question_request['text']
-                    ]);
-
-                    $survey_model->questions->add($new_question);
-                    // сохраняем вопросы, чтобы у вопроса был id, к которому затем будет привязан ответ
-                    $survey_model->push();
-
-                    $this->editAnswers($new_question, $question_request);
-                    // var_dump('$survey_model: ', $survey_model);
-
-                }
+                $this->addNewQuestion($survey_model, $question_request);
 
                 // Если вопрос существует
                 if ($question_model['id'] == $question_request['id']) {
@@ -143,18 +110,11 @@ class SurveyController extends Controller
             }
         }
 
-        // var_dump($survey_model);die();
-
-
-        // Записываем связанные модели - добавляем новые и изменяем существующие
-        // $result = $survey_model->push();
-
         // Удаляем вопросы
-        $delete = Question::whereIn('id', $question_for_delete)->delete();
+        Question::whereIn('id', $question_for_delete)->delete();
 
         return response()->json([
-            'result' => "success",
-            // 'survey_id' => $survey_id,
+            'result' => "success"
         ]);
     }
 
@@ -184,7 +144,7 @@ class SurveyController extends Controller
 
         // Добавляем новые ответы
         foreach ($question_request['answers'] as $answer_request) {
-           
+
             // die();
             if ($answer_request['id'] == 'new' && $answer_request['text'] != null) {
                 $new_answer = new Answer([
@@ -199,6 +159,6 @@ class SurveyController extends Controller
         $question_model->push();
 
         // Удаляем ответы
-        $delete = Answer::whereIn('id', $answers_for_delete)->delete();
+        Answer::whereIn('id', $answers_for_delete)->delete();
     }
 }

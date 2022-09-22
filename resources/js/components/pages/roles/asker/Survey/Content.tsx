@@ -42,7 +42,7 @@ const Content = ({ id, setId, requestService }: Props) => {
     const history = useHistory();
     const classes = useStyles();
     const [title, setTitle] = useState<String>("");
-    const [questions, setQuestions] = useState<QuestionProps>([{ id: "new", text: "", answers: [{ text: "" }] }]); 
+    const [questions, setQuestions] = useState<QuestionProps>([{ id: "new", text: "", answers: [{ id: "new", text: "" }] }]); 
 
     const addQuestion = () => {
         setQuestions((prev) => {
