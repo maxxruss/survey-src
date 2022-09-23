@@ -88,7 +88,7 @@ const Survey = ({ requestService }: Props) => {
                     <Content setId={setId} id={id}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <Participants/>
+                    <Participants surveyId={id}/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Item Three

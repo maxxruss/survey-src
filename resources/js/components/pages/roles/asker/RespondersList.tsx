@@ -148,16 +148,10 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                             </TableSortLabel>
                                         </TableCell>
                                         <TableCell align="right">E-mail</TableCell>
-                                        <TableCell align="right">
-                                            Фамилия
-                                        </TableCell>
+                                        <TableCell align="right">Фамилия</TableCell>
                                         <TableCell align="right">Имя</TableCell>
-                                        <TableCell align="right">
-                                            Отчество
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            Активность
-                                        </TableCell>
+                                        <TableCell align="right">Отчество</TableCell>
+                                        <TableCell align="right">Активность</TableCell>
                                         <TableCell align="right"></TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -184,10 +178,10 @@ const RespondersList = ({ requestService }: PropTypes) => {
                                                 {user.last_name}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {user.middle_name}
+                                                {user.first_name}
                                             </TableCell>
                                             <TableCell align="right">
-                                                {user.first_name}
+                                                {user.middle_name}
                                             </TableCell>
                                             <TableCell align="right">
                                                 {user.is_active

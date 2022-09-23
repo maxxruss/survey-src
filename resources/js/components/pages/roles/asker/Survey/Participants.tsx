@@ -1,35 +1,66 @@
-import React from 'react'
-import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
+import React, { useState, useEffect } from 'react'
+import { Grid, List, ListItem, ListItemIcon, ListItemText, Checkbox, Button, Paper } from '@mui/material';
+import withRequestService from "../../../../hoc/with-request-service";
 
-function not(a: readonly number[], b: readonly number[]) {
+type UsersTypes = UserTypes[];
+
+type UserTypes = {
+    id: number;
+    login: string;
+    email: string;
+    last_name: string;
+    middle_name: string;
+    first_name: string;
+    is_active: string;
+    created_at: string;
+};
+
+type PropTypes = {
+    surveyId: number | string;
+    requestService: {
+        request: (method: object) => {
+            result: string;
+            participants: UsersTypes;
+            responders: UsersTypes;
+        };
+    };
+};
+
+
+function not(a: UsersTypes, b: UsersTypes) {
     return a.filter((value) => b.indexOf(value) === -1);
 }
 
-function intersection(a: readonly number[], b: readonly number[]) {
+function intersection(a: UsersTypes, b: UsersTypes) {
     return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-const Participants = () => {
-    const [checked, setChecked] = React.useState<readonly number[]>([]);
-    const [left, setLeft] = React.useState<readonly number[]>([0, 1, 2, 3]);
-    const [right, setRight] = React.useState<readonly number[]>([4, 5, 6, 7]);
+const Participants = ({ surveyId, requestService }: PropTypes) => {
+    const [checked, setChecked] = useState<UsersTypes>([]);
+    const [left, setLeft] = useState<UsersTypes>([]);
+    const [right, setRight] = useState<UsersTypes>([]);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
 
-    const handleToggle = (value: number) => () => {
-        const currentIndex = checked.indexOf(value);
+    const getData = async () => {
+        const response = await requestService.request({
+            url: "asker/responders/getListBySurvey/" + surveyId,
+            method: "get",
+        });
+
+        if (response.result == "success") {
+            setLeft(response.responders);
+            setRight(response.participants);
+        }
+    };
+
+    const handleToggle = (user: UserTypes) => () => {
+        const currentIndex = checked.indexOf(user);
         const newChecked = [...checked];
 
         if (currentIndex === -1) {
-            newChecked.push(value);
+            newChecked.push(user);
         } else {
             newChecked.splice(currentIndex, 1);
         }
@@ -59,22 +90,31 @@ const Participants = () => {
         setRight([]);
     };
 
-    const customList = (items: readonly number[]) => (
-        <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
+    const save = () => {
+        console.log('save')
+        getData();
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const customList = (users: UsersTypes) => (
+        <Paper>
             <List dense component="div" role="list">
-                {items.map((value: number) => {
-                    const labelId = `transfer-list-item-${value}-label`;
+                {users.map((user: UserTypes) => {
+                    const labelId = `transfer-list-item-${user}-label`;
 
                     return (
                         <ListItem
-                            key={value}
+                            key={user.id}
                             role="listitem"
                             button
-                            onClick={handleToggle(value)}
+                            onClick={handleToggle(user)}
                         >
                             <ListItemIcon>
                                 <Checkbox
-                                    checked={checked.indexOf(value) !== -1}
+                                    checked={checked.indexOf(user) !== -1}
                                     tabIndex={-1}
                                     disableRipple
                                     inputProps={{
@@ -82,7 +122,7 @@ const Participants = () => {
                                     }}
                                 />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+                            <ListItemText id={labelId} primary={`${user.last_name} ${user.first_name} ${user.middle_name}`} />
                         </ListItem>
                     );
                 })}
@@ -93,9 +133,19 @@ const Participants = () => {
 
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item>{customList(left)}</Grid>
-            <Grid item>
+            <Grid item xs={5}>{customList(left)}</Grid>
+            <Grid item xs={2}>
                 <Grid container direction="column" alignItems="center">
+                    <Button
+                        sx={{ my: 0.5 }}
+                        variant="outlined"
+                        size="small"
+                        onClick={save}
+                        disabled={left.length === 0}
+                        aria-label="move all right"
+                    >
+                        Сохранить
+                    </Button>
                     <Button
                         sx={{ my: 0.5 }}
                         variant="outlined"
@@ -138,9 +188,9 @@ const Participants = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <Grid item>{customList(right)}</Grid>
+            <Grid item xs={5}>{customList(right)}</Grid>
         </Grid>
     );
 }
 
-export default Participants
+export default withRequestService()(Participants)

@@ -20,4 +20,8 @@ class Survey extends Model
     public function questions() {
         return $this->hasMany(Question::class, "survey_id", "id");
     }
+
+    public function responders() {
+        return $this->belongsToMany(Responder::class, 'survey_responder', 'survey_id', 'responder_id')->withTimestamps();
+    }
 }

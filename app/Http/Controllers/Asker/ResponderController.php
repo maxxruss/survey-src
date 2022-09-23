@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Company;
+use App\Models\Survey;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Responder;
 
@@ -40,6 +41,30 @@ class ResponderController extends Controller
         return response()->json([
             'result' => "success",
             'data' => $data
+        ]);
+    }
+
+    public function getListBySurvey($id)
+    {
+        $company_id = User::where('id', Auth::id())->first()['company_id'];
+        $participants = Survey::where('id', $id)
+            ->with('responders')
+            ->first()
+            ->responders;
+           
+        // var_dump($responders);die();
+        // $responders = $data[0]['responders'];
+
+
+        $responders = Survey::where('id', $id)
+            ->with("responders")
+            ->first()
+            ->responders;
+
+        return response()->json([
+            'result' => "success",
+            'responders' => $responders,
+            'participants' => $participants
         ]);
     }
 
