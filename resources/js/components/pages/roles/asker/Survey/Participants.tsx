@@ -37,11 +37,11 @@ function intersection(a: UsersTypes, b: UsersTypes) {
 
 const Participants = ({ surveyId, requestService }: PropTypes) => {
     const [checked, setChecked] = useState<UsersTypes>([]);
-    const [left, setLeft] = useState<UsersTypes>([]);
-    const [right, setRight] = useState<UsersTypes>([]);
+    const [candidates, setCandidates] = useState<UsersTypes>([]);
+    const [participants, setParticipants] = useState<UsersTypes>([]);
 
-    const leftChecked = intersection(checked, left);
-    const rightChecked = intersection(checked, right);
+    const candidatesChecked = intersection(checked, candidates);
+    const participantsChecked = intersection(checked, participants);
 
     const getData = async () => {
         const response = await requestService.request({
@@ -50,8 +50,10 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         });
 
         if (response.result == "success") {
-            setLeft(response.responders);
-            setRight(response.participants);
+            console.log('responders: ', response.responders)
+            console.log('participants: ', response.participants)
+            setCandidates(response.responders);
+            setParticipants(response.participants);
         }
     };
 
@@ -68,30 +70,42 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         setChecked(newChecked);
     };
 
-    const handleAllRight = () => {
-        setRight(right.concat(left));
-        setLeft([]);
+    const handleAllParticipants = () => {
+        setParticipants(participants.concat(candidates));
+        setCandidates([]);
     };
 
-    const handleCheckedRight = () => {
-        setRight(right.concat(leftChecked));
-        setLeft(not(left, leftChecked));
-        setChecked(not(checked, leftChecked));
+    const handleCheckedParticipants = () => {
+        setParticipants(participants.concat(candidatesChecked));
+        setCandidates(not(candidates, candidatesChecked));
+        setChecked(not(checked, candidatesChecked));
     };
 
-    const handleCheckedLeft = () => {
-        setLeft(left.concat(rightChecked));
-        setRight(not(right, rightChecked));
-        setChecked(not(checked, rightChecked));
+    const handleCheckedCandidates = () => {
+        setCandidates(candidates.concat(participantsChecked));
+        setParticipants(not(participants, participantsChecked));
+        setChecked(not(checked, participantsChecked));
     };
 
-    const handleAllLeft = () => {
-        setLeft(left.concat(right));
-        setRight([]);
+    const handleAllCandidates = () => {
+        setCandidates(candidates.concat(participants));
+        setParticipants([]);
     };
 
-    const save = () => {
-        console.log('save')
+    const save = async () => {
+        const params = {
+            surveyId,
+            participants
+        }
+        const response = await requestService.request({
+            url: "asker/responders/saveParticipants",
+            params
+        });
+
+        if (response.result == "success") {
+            console.log('success')
+        }
+
         getData();
     };
 
@@ -133,7 +147,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item xs={5}>{customList(left)}</Grid>
+            <Grid item xs={5}>{customList(candidates)}</Grid>
             <Grid item xs={2}>
                 <Grid container direction="column" alignItems="center">
                     <Button
@@ -141,8 +155,8 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         variant="outlined"
                         size="small"
                         onClick={save}
-                        disabled={left.length === 0}
-                        aria-label="move all right"
+                        // disabled={candidates.length === 0}
+                        aria-label="move all participants"
                     >
                         Сохранить
                     </Button>
@@ -150,9 +164,9 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         sx={{ my: 0.5 }}
                         variant="outlined"
                         size="small"
-                        onClick={handleAllRight}
-                        disabled={left.length === 0}
-                        aria-label="move all right"
+                        onClick={handleAllParticipants}
+                        disabled={candidates.length === 0}
+                        aria-label="move all participants"
                     >
                         ≫
                     </Button>
@@ -160,9 +174,9 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         sx={{ my: 0.5 }}
                         variant="outlined"
                         size="small"
-                        onClick={handleCheckedRight}
-                        disabled={leftChecked.length === 0}
-                        aria-label="move selected right"
+                        onClick={handleCheckedParticipants}
+                        disabled={candidatesChecked.length === 0}
+                        aria-label="move selected participants"
                     >
                         &gt;
                     </Button>
@@ -170,9 +184,9 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         sx={{ my: 0.5 }}
                         variant="outlined"
                         size="small"
-                        onClick={handleCheckedLeft}
-                        disabled={rightChecked.length === 0}
-                        aria-label="move selected left"
+                        onClick={handleCheckedCandidates}
+                        disabled={participantsChecked.length === 0}
+                        aria-label="move selected candidates"
                     >
                         &lt;
                     </Button>
@@ -180,15 +194,15 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         sx={{ my: 0.5 }}
                         variant="outlined"
                         size="small"
-                        onClick={handleAllLeft}
-                        disabled={right.length === 0}
-                        aria-label="move all left"
+                        onClick={handleAllCandidates}
+                        disabled={participants.length === 0}
+                        aria-label="move all candidates"
                     >
                         ≪
                     </Button>
                 </Grid>
             </Grid>
-            <Grid item xs={5}>{customList(right)}</Grid>
+            <Grid item xs={5}>{customList(participants)}</Grid>
         </Grid>
     );
 }

@@ -48,23 +48,50 @@ class ResponderController extends Controller
     {
         $company_id = User::where('id', Auth::id())->first()['company_id'];
         $participants = Survey::where('id', $id)
-            ->with('responders')
+            ->with('participants')
             ->first()
-            ->responders;
-           
-        // var_dump($responders);die();
+            ->participants;
+
+        $part_ids = $participants->pluck('id')->toArray();
+
+        // var_dump($part_ids);
+        // die();
         // $responders = $data[0]['responders'];
 
-
-        $responders = Survey::where('id', $id)
-            ->with("responders")
+        $responders = Company::find($company_id)
+            ->with('responders')
             ->first()
-            ->responders;
+            ->responders
+            ->whereNotIn('id', $part_ids)
+            ->values()
+            ->toArray();
+
+
+        // $responders = Survey::where('id', $id)
+        //     ->with("responders")
+        //     ->first()
+        //     ->responders;
 
         return response()->json([
             'result' => "success",
             'responders' => $responders,
             'participants' => $participants
+        ]);
+    }
+
+
+
+    public function saveParticipants(Request $request)
+    {
+        $survey_id = $request->surveyId;
+        if (!$survey_id) return;
+
+        $part_ids = array_column($request->participants, 'id');
+        $survey_model = Survey::find($survey_id);
+        $survey_model->participants()->sync($part_ids);
+
+        return response()->json([
+            'result' => "success"
         ]);
     }
 

@@ -21,7 +21,7 @@ class Survey extends Model
         return $this->hasMany(Question::class, "survey_id", "id");
     }
 
-    public function responders() {
+    public function participants() {
         return $this->belongsToMany(Responder::class, 'survey_responder', 'survey_id', 'responder_id')->withTimestamps();
     }
 }
