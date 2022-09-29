@@ -44,8 +44,9 @@ class ResponderController extends Controller
         ]);
     }
 
-    public function getListBySurvey($id)
+    public function getListCandidats(Request $request)
     {
+        $id = $request->id;
         $company_id = User::where('id', Auth::id())->first()['company_id'];
         $participants = Survey::where('id', $id)
             ->with('participants')
@@ -69,7 +70,40 @@ class ResponderController extends Controller
         ]);
     }
 
+    public function getListParticipants($id)
+    {
+        $company_id = User::where('id', Auth::id())->first()['company_id'];
+        $participants = Survey::where('id', $id)
+            ->with('participants')
+            ->first()
+            ->participants;
 
+        // $part_ids = $participants->pluck('id')->toArray();
+
+        // var_dump($part_ids);
+        // die();
+        // $responders = $data[0]['responders'];
+
+        // $responders = Company::find($company_id)
+        //     ->with('responders')
+        //     ->first()
+        //     ->responders
+        //     ->whereNotIn('id', $part_ids)
+        //     ->values()
+        //     ->toArray();
+
+
+        // $responders = Survey::where('id', $id)
+        //     ->with("responders")
+        //     ->first()
+        //     ->responders;
+
+        return response()->json([
+            'result' => "success",
+            // 'responders' => $responders,
+            'participants' => $participants
+        ]);
+    }
 
     public function saveParticipants(Request $request)
     {

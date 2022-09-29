@@ -1,6 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, List, ListItem, ListItemIcon, ListItemText, Checkbox, Button, Paper } from '@mui/material';
+import React, { useState, useEffect, useCallback } from "react";
+import {
+    TextField,
+    Grid,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Checkbox,
+    Button,
+    Paper,
+    Autocomplete,
+} from "@mui/material";
 import withRequestService from "../../../../hoc/with-request-service";
+import debounce from "lodash/debounce";
 
 type UsersTypes = UserTypes[];
 
@@ -26,7 +38,6 @@ type PropTypes = {
     };
 };
 
-
 function not(a: UsersTypes, b: UsersTypes) {
     return a.filter((value) => b.indexOf(value) === -1);
 }
@@ -36,6 +47,7 @@ function intersection(a: UsersTypes, b: UsersTypes) {
 }
 
 const Participants = ({ surveyId, requestService }: PropTypes) => {
+    const [query, setQuery] = useState<string | null>("");
     const [checked, setChecked] = useState<UsersTypes>([]);
     const [candidates, setCandidates] = useState<UsersTypes>([]);
     const [participants, setParticipants] = useState<UsersTypes>([]);
@@ -44,9 +56,18 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const participantsChecked = intersection(checked, participants);
 
     const getData = async () => {
+        loadCandidates();
+        loadParticipants();
+    };
+
+    const loadCandidates = async (query = "") => {
+        const params = {
+            id: surveyId,
+            query,
+        };
         const response = await requestService.request({
-            url: "asker/responders/getListBySurvey/" + surveyId,
-            method: "get",
+            url: "asker/responders/getListCandidats",
+            params,
         });
 
         if (response.result == "success") {            
@@ -93,15 +114,16 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const save = async () => {
         const params = {
             surveyId,
-            participants
-        }
+            participants,
+        };
+
         const response = await requestService.request({
             url: "asker/responders/saveParticipants",
-            params
+            params,
         });
 
         if (response.result == "success") {
-            console.log('success')
+            console.log("success");
         }
 
         getData();
@@ -110,6 +132,13 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     useEffect(() => {
         getData();
     }, []);
+
+    const loadUsersDebounced = useCallback(
+        debounce((q) => loadCandidates(q), 400),
+        []
+    );
+
+    const onChangeAutocompleteFilter = () => {};
 
     const customList = (users: UsersTypes) => (
         <Paper>
@@ -130,11 +159,14 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                                     tabIndex={-1}
                                     disableRipple
                                     inputProps={{
-                                        'aria-labelledby': labelId,
+                                        "aria-labelledby": labelId,
                                     }}
                                 />
                             </ListItemIcon>
-                            <ListItemText id={labelId} primary={`${user.last_name} ${user.first_name} ${user.middle_name}`} />
+                            <ListItemText
+                                id={labelId}
+                                primary={`${user.last_name} ${user.first_name} ${user.middle_name}`}
+                            />
                         </ListItem>
                     );
                 })}
@@ -144,65 +176,95 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     );
 
     return (
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item xs={5}>{customList(candidates)}</Grid>
-            <Grid item xs={2}>
-                <Grid container direction="column" alignItems="center">
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={save}
-                        // disabled={candidates.length === 0}
-                        aria-label="move all participants"
-                    >
-                        Сохранить
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleAllParticipants}
-                        disabled={candidates.length === 0}
-                        aria-label="move all participants"
-                    >
-                        ≫
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleCheckedParticipants}
-                        disabled={candidatesChecked.length === 0}
-                        aria-label="move selected participants"
-                    >
-                        &gt;
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleCheckedCandidates}
-                        disabled={participantsChecked.length === 0}
-                        aria-label="move selected candidates"
-                    >
-                        &lt;
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleAllCandidates}
-                        disabled={participants.length === 0}
-                        aria-label="move all candidates"
-                    >
-                        ≪
-                    </Button>
+        <Grid container direction="column" spacing={3}>
+            <Grid item>
+                <Autocomplete
+                    filterOptions={(x) => x}
+                    disablePortal
+                    id="combo-box-demo"
+                    options={candidates}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => (
+                        <TextField {...params} label="Movie" />
+                    )}
+                    onChange={(event, value) => {
+                        setQuery(value);
+                    }}
+                    onInputChange={(event, value) => {
+                        loadCandidates(value);
+                    }}
+                />
+            </Grid>
+            <Grid
+                item
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Grid item xs={5}>
+                    {customList(candidates)}
+                </Grid>
+                <Grid item xs={2}>
+                    <Grid container direction="column" alignItems="center">
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={save}
+                            // disabled={candidates.length === 0}
+                            aria-label="move all participants"
+                        >
+                            Сохранить
+                        </Button>
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={handleAllParticipants}
+                            disabled={candidates.length === 0}
+                            aria-label="move all participants"
+                        >
+                            ≫
+                        </Button>
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={handleCheckedParticipants}
+                            disabled={candidatesChecked.length === 0}
+                            aria-label="move selected participants"
+                        >
+                            &gt;
+                        </Button>
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={handleCheckedCandidates}
+                            disabled={participantsChecked.length === 0}
+                            aria-label="move selected candidates"
+                        >
+                            &lt;
+                        </Button>
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={handleAllCandidates}
+                            disabled={participants.length === 0}
+                            aria-label="move all candidates"
+                        >
+                            ≪
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid item xs={5}>
+                    {customList(participants)}
                 </Grid>
             </Grid>
-            <Grid item xs={5}>{customList(participants)}</Grid>
         </Grid>
     );
-}
+};
 
-export default withRequestService()(Participants)
+export default withRequestService()(Participants);

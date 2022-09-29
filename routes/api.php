@@ -30,7 +30,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('profile/save', [ProfileController::class, 'saveProfile']);
         Route::post('company/save', [ProfileController::class, 'saveCompany']);
         Route::get('responders/getlist', [ResponderController::class, 'getRespondersList']);
-        Route::get('responders/getListBySurvey/{id}', [ResponderController::class, 'getListBySurvey']);
+        Route::post('responders/getListCandidats}', [ResponderController::class, 'getListCandidats']);
+        Route::get('responders/getListParticipants/{id}', [ResponderController::class, 'getListParticipants']);
         Route::get('responders/{id}', [ResponderController::class, 'getResponder']);
         Route::get('responders/delete/{id}', [ResponderController::class, 'removeResponder']);
         Route::post('responders/save', [ResponderController::class, 'saveResponder']);
