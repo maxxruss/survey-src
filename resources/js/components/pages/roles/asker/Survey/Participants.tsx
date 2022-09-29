@@ -33,7 +33,7 @@ type PropTypes = {
         request: (method: object) => {
             result: string;
             participants: UsersTypes;
-            candidates: UsersTypes;
+            responders: UsersTypes;
         };
     };
 };
@@ -70,8 +70,18 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
             params,
         });
 
-        if (response.result == "success") {            
-            setCandidates(response.candidates);
+        if (response.result == "success") {
+            setCandidates(response.responders);
+        }
+    };
+
+    const loadParticipants = async () => {
+        const response = await requestService.request({
+            url: "asker/responders/getListParticipants/" + surveyId,
+            method: "get",
+        });
+
+        if (response.result == "success") {
             setParticipants(response.participants);
         }
     };
@@ -138,7 +148,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         []
     );
 
-    const onChangeAutocompleteFilter = () => {};
+    const onChangeAutocompleteFilter = () => { };
 
     const customList = (users: UsersTypes) => (
         <Paper>
@@ -178,21 +188,11 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     return (
         <Grid container direction="column" spacing={3}>
             <Grid item>
-                <Autocomplete
-                    filterOptions={(x) => x}
-                    disablePortal
-                    id="combo-box-demo"
-                    options={candidates}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => (
-                        <TextField {...params} label="Movie" />
-                    )}
-                    onChange={(event, value) => {
-                        setQuery(value);
-                    }}
-                    onInputChange={(event, value) => {
-                        loadCandidates(value);
-                    }}
+                <TextField
+                    id="outlined-name"
+                    label="Name"
+                    value={query}
+                    onChange={(e)=> setQuery(e.target.value)}
                 />
             </Grid>
             <Grid

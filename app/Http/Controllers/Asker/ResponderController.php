@@ -55,7 +55,11 @@ class ResponderController extends Controller
 
         $part_ids = $participants->pluck('id')->toArray();
 
-        $candidates = Company::find($company_id)
+        // var_dump($part_ids);
+        // die();
+        // $responders = $data[0]['responders'];
+
+        $responders = Company::find($company_id)
             ->with('responders')
             ->first()
             ->responders
@@ -63,10 +67,16 @@ class ResponderController extends Controller
             ->values()
             ->toArray();
 
+
+        // $responders = Survey::where('id', $id)
+        //     ->with("responders")
+        //     ->first()
+        //     ->responders;
+
         return response()->json([
             'result' => "success",
-            'candidates' => $candidates,
-            'participants' => $participants
+            'responders' => $responders,
+            // 'participants' => $participants
         ]);
     }
 
