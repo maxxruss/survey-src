@@ -21,7 +21,7 @@ type PropTypes = {
         request: (method: object) => {
             result: string;
             participants: UsersTypes;
-            responders: UsersTypes;
+            candidates: UsersTypes;
         };
     };
 };
@@ -49,10 +49,8 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
             method: "get",
         });
 
-        if (response.result == "success") {
-            console.log('responders: ', response.responders)
-            console.log('participants: ', response.participants)
-            setCandidates(response.responders);
+        if (response.result == "success") {            
+            setCandidates(response.candidates);
             setParticipants(response.participants);
         }
     };
