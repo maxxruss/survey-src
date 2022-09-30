@@ -33,7 +33,7 @@ type PropTypes = {
         request: (method: object) => {
             result: string;
             participants: UsersTypes;
-            responders: UsersTypes;
+            candidates: UsersTypes;
         };
     };
 };
@@ -71,7 +71,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         });
 
         if (response.result == "success") {
-            setCandidates(response.responders);
+            setCandidates(response.candidates);
         }
     };
 
@@ -144,11 +144,9 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     }, []);
 
     const loadUsersDebounced = useCallback(
-        debounce((q) => loadCandidates(q), 400),
+        debounce((query) => loadCandidates(query), 400),
         []
-    );
-
-    const onChangeAutocompleteFilter = () => { };
+    );   
 
     const customList = (users: UsersTypes) => (
         <Paper>
@@ -187,12 +185,15 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
     return (
         <Grid container direction="column" spacing={3}>
-            <Grid item>
+            <Grid item xs={12}>
                 <TextField
-                    id="outlined-name"
-                    label="Name"
+                    fullWidth
+                    label="Поиск кандидатов"
                     value={query}
-                    onChange={(e)=> setQuery(e.target.value)}
+                    onChange={(e) =>{ 
+                        setQuery(e.target.value),
+                        loadUsersDebounced(e.target.value)
+                    }}
                 />
             </Grid>
             <Grid
