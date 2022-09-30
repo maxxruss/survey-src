@@ -48,7 +48,6 @@ class ResponderController extends Controller
     {
         $id = $request->get('id');
         $queryString = strtolower($request->get('query'));
-        // var_dump($q);die;
         $company_id = User::where('id', Auth::id())->first()['company_id'];
         $participants = Survey::where('id', $id)
             ->with('participants')
@@ -57,18 +56,9 @@ class ResponderController extends Controller
 
         $part_ids = $participants->pluck('id')->toArray();
 
-        // var_dump($part_ids);
-        // die();
-        // $responders = $data[0]['responders'];
-
         $candidates = Company::query();
-        // $candidates->select('*');
         $candidates->where('id', $company_id);
 
-        // var_dump($candidates->get());
-        // die();
-
-        // $candidates->with('responders');
         $candidates->with(["responders" => function ($query) use ($part_ids, $queryString) {
             $query->where(function ($query) use ($part_ids) {
                 $query->whereNotIn('id', $part_ids);
@@ -83,37 +73,7 @@ class ResponderController extends Controller
             }
         }]);
 
-        // $candidates->with(["responders" => function ($query) use ($part_ids) {
-        //     $query->whereNotIn('id', $part_ids);
-        // }]);
-
-        // $candidates->getRelation('responders');
-        // $candidates->first();
-
-        // $candidates->first();
-        // $candidates->responders;
-
-        // var_dump();
-        // die();
-        // ;
-
-
-
-
-        // $candidates->first();
-        // $candidates
-
-        // ->values()
-        // ->get()
-        // ->responders
-        // ->toArray()
-        // ;
-
         $candidates = $candidates->first()->toArray()['responders'];
-
-
-        // var_dump($candidates);die();
-
 
         return response()->json([
             'result' => "success",
@@ -121,37 +81,28 @@ class ResponderController extends Controller
         ]);
     }
 
-    public function getListParticipants($id)
+    public function getListParticipants(Request $request)
     {
-        $company_id = User::where('id', Auth::id())->first()['company_id'];
-        $participants = Survey::where('id', $id)
-            ->with('participants')
-            ->first()
-            ->participants;
+        $id = $request->get('id');
+        $queryString = strtolower($request->get('query'));
+        $participants = Survey::query();
+        $participants->where('id', $id);
 
-        // $part_ids = $participants->pluck('id')->toArray();
+        $participants->with(["participants" => function ($query) use ($queryString) {
+            if ($queryString) {
 
-        // var_dump($part_ids);
-        // die();
-        // $responders = $data[0]['responders'];
+                $query->where(function ($query) use ($queryString) {
+                    $query->whereRaw("LOWER(first_name) LIKE ?", '%' . $queryString . '%')
+                        ->orWhereRaw("LOWER(last_name)  LIKE ?", "%" . $queryString . "%")
+                        ->orWhereRaw("LOWER(middle_name)  LIKE ?", "%" . $queryString . "%");
+                });
+            }
+        }]);
 
-        // $responders = Company::find($company_id)
-        //     ->with('responders')
-        //     ->first()
-        //     ->responders
-        //     ->whereNotIn('id', $part_ids)
-        //     ->values()
-        //     ->toArray();
-
-
-        // $responders = Survey::where('id', $id)
-        //     ->with("responders")
-        //     ->first()
-        //     ->responders;
+        $participants = $participants->first()->toArray()['participants'];
 
         return response()->json([
             'result' => "success",
-            // 'responders' => $responders,
             'participants' => $participants
         ]);
     }
