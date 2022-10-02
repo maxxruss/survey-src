@@ -14,8 +14,6 @@ import {
 import withRequestService from "../../../../hoc/with-request-service";
 import debounce from "lodash/debounce";
 
-type UsersTypes = UserTypes[];
-
 type UserTypes = {
     id: number;
     login: string;
@@ -26,6 +24,13 @@ type UserTypes = {
     is_active: string;
     created_at: string;
 };
+
+type UsersTypes = UserTypes[];
+
+type initUsers = {
+    participants: UsersTypes;
+    candidates: UsersTypes;
+}
 
 type PropTypes = {
     surveyId: number | string;
@@ -47,13 +52,15 @@ function intersection(a: UsersTypes, b: UsersTypes) {
 }
 
 const Participants = ({ surveyId, requestService }: PropTypes) => {
-    const [query, setQuery] = useState<string | null>("");
+    const [queryCandidates, setQueryCandidates] = useState<string | null>("");
+    const [queryParticipants, setQueryParticipants] = useState<string | null>("");
     const [checked, setChecked] = useState<UsersTypes>([]);
     const [candidates, setCandidates] = useState<UsersTypes>([]);
     const [participants, setParticipants] = useState<UsersTypes>([]);
-
+    const [initUsers, setInitUsers] = useState<initUsers>({participants:[], candidates:[]});
     const candidatesChecked = intersection(checked, candidates);
     const participantsChecked = intersection(checked, participants);
+    const [changedUsers, setChangedUsers] = useState<UsersTypes>([])
 
     const getData = async () => {
         loadCandidates();
@@ -73,6 +80,12 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
         if (response.result == "success") {
             setCandidates(response.candidates);
+            setInitUsers((prev) => {
+                return {
+                    participants: prev.participants,
+                    candidates: response.candidates,
+                };
+            });
         }
     };
 
@@ -89,6 +102,12 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
         if (response.result == "success") {
             setParticipants(response.participants);
+            setInitUsers((prev) => {
+                return {
+                    participants: response.participants,
+                    candidates: prev.candidates,
+                };
+            });
         }
     };
 
@@ -108,23 +127,27 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const handleAllParticipants = () => {
         setParticipants(participants.concat(candidates));
         setCandidates([]);
+        toggleChangedUsers(candidates)
     };
 
     const handleCheckedParticipants = () => {
         setParticipants(participants.concat(candidatesChecked));
         setCandidates(not(candidates, candidatesChecked));
         setChecked(not(checked, candidatesChecked));
+        toggleChangedUsers(participants.concat(candidatesChecked))
     };
 
     const handleCheckedCandidates = () => {
         setCandidates(candidates.concat(participantsChecked));
         setParticipants(not(participants, participantsChecked));
         setChecked(not(checked, participantsChecked));
+        toggleChangedUsers(candidates.concat(participantsChecked))
     };
 
     const handleAllCandidates = () => {
         setCandidates(candidates.concat(participants));
         setParticipants([]);
+        toggleChangedUsers(participants)
     };
 
     const save = async () => {
@@ -157,7 +180,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const searchParticipantsDebounce = useCallback(
         debounce((query) => loadParticipants(query), 400),
         []
-    );
+    );   
 
     const customList = (users: UsersTypes) => (
         <Paper>
@@ -194,6 +217,28 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         </Paper>
     );
 
+    const toggleChangedUsers = (newUsers: UsersTypes) => {
+        let newArray = [...changedUsers];
+        if (!changedUsers.length) {
+            newArray = [...newUsers];
+        } else {
+            changedUsers.map((CU, i) => {
+                if (!newUsers.find((NU) => CU.id === NU.id)) {
+                    console.log("no find");
+                    newArray = [...newArray, ...newUsers];
+                } else {
+                    console.log("find: ", changedUsers[i]);
+                    newArray.splice(i, 1);
+                }
+            });
+        }
+        
+        setChangedUsers(newArray);
+
+        console.log("newArray: ", newArray);
+        // console.log("changedUsers: ", changedUsers);
+    };
+
     return (
         <Grid container direction={'row'} spacing={3}>
             {/* <Grid
@@ -208,9 +253,9 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                     <TextField
                         fullWidth
                         label="Кандидаты"
-                        value={query}
+                        value={queryCandidates}
                         onChange={(e) => {
-                            setQuery(e.target.value),
+                            setQueryCandidates(e.target.value),
                                 searchCandidatesDebounce(e.target.value)
                         }}
                     />
@@ -226,6 +271,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         variant="outlined"
                         size="small"
                         onClick={save}
+                        disabled={!changedUsers.length}
                         // disabled={candidates.length === 0}
                         aria-label="move all participants"
                     >
@@ -278,9 +324,9 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                     <TextField
                         fullWidth
                         label="Участники"
-                        value={query}
+                        value={queryParticipants}
                         onChange={(e) => {
-                            setQuery(e.target.value),
+                            setQueryParticipants(e.target.value),
                                 searchParticipantsDebounce(e.target.value)
                         }}
                     />
