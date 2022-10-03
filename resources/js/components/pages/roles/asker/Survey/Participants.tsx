@@ -125,27 +125,23 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     };
 
     const handleAllParticipants = () => {
-        console.log('handleAllParticipants')
         setParticipants(participants.concat(candidates));
         setCandidates([]);
     };
 
     const handleCheckedParticipants = () => {
-        console.log('handleCheckedParticipants')
         setParticipants(participants.concat(candidatesChecked));
         setCandidates(not(candidates, candidatesChecked));
         setChecked(not(checked, candidatesChecked));
     };
 
     const handleCheckedCandidates = () => {
-        console.log('handleCheckedCandidates')
         setCandidates(candidates.concat(participantsChecked));
         setParticipants(not(participants, participantsChecked));
         setChecked(not(checked, participantsChecked));
     };
 
     const handleAllCandidates = () => {
-        console.log('handleAllCandidates')
         setCandidates(candidates.concat(participants));
         setParticipants([]);
     };
@@ -153,40 +149,21 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const checkChanges = () => {
         const initCandidates = initUsers.candidates
         const initParticipants = initUsers.participants
-        let changes = 0
-
-        // if ((!initCandidates.length && !candidates.length) ||
-        //     (!initParticipants.length && !participants.length)
-        // ) {
-        //     isChange = false
-        // }
+        let changes = 0    
 
         initCandidates.map((initUser) => {
             const index = candidates.findIndex((user) => initUser.id == user.id)
             // Если пользователь не найден - изменения есть
             changes += index == -1 ? 1 : 0
-            // console.log("candidates.findIndex: ", changes);
         })
 
         initParticipants.map((initUser) => {
             const index = participants.findIndex((user) => initUser.id == user.id)
             // Если пользователь не найден - изменения есть
             changes += index == -1 ? 1 : 0
-            // console.log("participants.findIndex: ", changes);
         })
 
         setDisabled(!changes)
-
-
-        // console.log("initCandidates: ", initCandidates);
-        // console.log("candidates: ", candidates);
-        // console.log("---------------------------------------------");
-        // console.log("initParticipants: ", initParticipants);
-        // console.log("participants: ", participants);
-        // console.log("isChange: ", changes);
-        // console.log("=====================================");
-
-        // console.log("changedUsers: ", changedUsers);
     };
 
     const save = async () => {
@@ -293,7 +270,6 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         size="small"
                         onClick={save}
                         disabled={disabled}
-                        // disabled={candidates.length === 0}
                         aria-label="move all participants"
                     >
                         Сохранить
