@@ -109,10 +109,9 @@ const Content = ({ id, setId, requestService }: Props) => {
         }
     };
 
-    const getData = async (surveyId = id) => {
-        console.log('id: ', id)
+    const getData = async () => {
         const response = await requestService.request({
-            url: "asker/getSurvey/" + surveyId,
+            url: "asker/survey/getContent/" + id,
             method: "get",
         });
 

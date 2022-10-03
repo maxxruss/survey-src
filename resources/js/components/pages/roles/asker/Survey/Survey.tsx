@@ -6,6 +6,7 @@ import { makeStyles } from "@mui/styles";
 import { Tab, Tabs, Box } from '@mui/material';
 import Content from './Content'
 import Participants from './Participants'
+import Manage from './Manage'
 
 type Props = {
     requestService: {
@@ -85,13 +86,13 @@ const Survey = ({ requestService }: Props) => {
                     <Tab label="Управление" {...a11yProps(2)} />
                 </Tabs>
                 <TabPanel value={value} index={0}>
-                    <Content setId={setId} id={id}/>
+                    <Content setId={setId} id={id} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <Participants surveyId={id}/>
+                    <Participants id={id} />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Item Three
+                    <Manage id={id} />
                 </TabPanel>
             </>
         </PageLayout>

@@ -33,7 +33,7 @@ type initUsers = {
 }
 
 type PropTypes = {
-    surveyId: number | string;
+    id: number | string;
     requestService: {
         request: (method: object) => {
             result: string;
@@ -51,7 +51,7 @@ function intersection(a: UsersTypes, b: UsersTypes) {
     return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-const Participants = ({ surveyId, requestService }: PropTypes) => {
+const Participants = ({ id, requestService }: PropTypes) => {
     const [queryCandidates, setQueryCandidates] = useState<string | null>("");
     const [queryParticipants, setQueryParticipants] = useState<string | null>("");
     const [checked, setChecked] = useState<UsersTypes>([]);
@@ -69,7 +69,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
     const loadCandidates = async (query = "") => {
         const params = {
-            id: surveyId,
+            id,
             query,
         };
 
@@ -91,7 +91,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
     const loadParticipants = async (query = "") => {
         const params = {
-            id: surveyId,
+            id,
             query,
         };
 
@@ -168,7 +168,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
 
     const save = async () => {
         const params = {
-            surveyId,
+            id,
             participants,
         };
 

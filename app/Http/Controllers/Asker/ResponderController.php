@@ -109,7 +109,7 @@ class ResponderController extends Controller
 
     public function saveParticipants(Request $request)
     {
-        $survey_id = $request->surveyId;
+        $survey_id = $request->id;
         if (!$survey_id) return;
 
         $part_ids = array_column($request->participants, 'id');

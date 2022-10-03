@@ -10,6 +10,37 @@ use App\Models\Answer;
 
 class SurveyController extends Controller
 {
+
+    public function getInfo($id)
+    {
+        return response()->json([
+            'result' => "success",
+            'data' => array(
+                'id' => $id
+            )
+        ]);
+    }
+
+    public function start($id)
+    {
+        return response()->json([
+            'result' => "success",
+            'data' => array(
+                'id' => $id
+            )
+        ]);
+    }
+
+    public function stop($id)
+    {
+        return response()->json([
+            'result' => "success",
+            'data' => array(
+                'id' => $id
+            )
+        ]);
+    }
+
     public function getList()
     {
         return response()->json([
@@ -18,7 +49,7 @@ class SurveyController extends Controller
         ]);
     }
 
-    public function getSurvey($id)
+    public function getContent($id)
     {
         $data = Survey::where('id', $id)
             ->with("questions.answers")
