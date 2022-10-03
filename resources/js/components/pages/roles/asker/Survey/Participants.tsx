@@ -57,10 +57,10 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const [checked, setChecked] = useState<UsersTypes>([]);
     const [candidates, setCandidates] = useState<UsersTypes>([]);
     const [participants, setParticipants] = useState<UsersTypes>([]);
-    const [initUsers, setInitUsers] = useState<initUsers>({participants:[], candidates:[]});
+    const [initUsers, setInitUsers] = useState<initUsers>({ participants: [], candidates: [] });
     const candidatesChecked = intersection(checked, candidates);
     const participantsChecked = intersection(checked, participants);
-    const [changedUsers, setChangedUsers] = useState<UsersTypes>([])
+    const [disabled, setDisabled] = useState<boolean>(true)
 
     const getData = async () => {
         loadCandidates();
@@ -125,29 +125,68 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     };
 
     const handleAllParticipants = () => {
+        console.log('handleAllParticipants')
         setParticipants(participants.concat(candidates));
         setCandidates([]);
-        toggleChangedUsers(candidates)
     };
 
     const handleCheckedParticipants = () => {
+        console.log('handleCheckedParticipants')
         setParticipants(participants.concat(candidatesChecked));
         setCandidates(not(candidates, candidatesChecked));
         setChecked(not(checked, candidatesChecked));
-        toggleChangedUsers(participants.concat(candidatesChecked))
     };
 
     const handleCheckedCandidates = () => {
+        console.log('handleCheckedCandidates')
         setCandidates(candidates.concat(participantsChecked));
         setParticipants(not(participants, participantsChecked));
         setChecked(not(checked, participantsChecked));
-        toggleChangedUsers(candidates.concat(participantsChecked))
     };
 
     const handleAllCandidates = () => {
+        console.log('handleAllCandidates')
         setCandidates(candidates.concat(participants));
         setParticipants([]);
-        toggleChangedUsers(participants)
+    };
+
+    const checkChanges = () => {
+        const initCandidates = initUsers.candidates
+        const initParticipants = initUsers.participants
+        let changes = 0
+
+        // if ((!initCandidates.length && !candidates.length) ||
+        //     (!initParticipants.length && !participants.length)
+        // ) {
+        //     isChange = false
+        // }
+
+        initCandidates.map((initUser) => {
+            const index = candidates.findIndex((user) => initUser.id == user.id)
+            // Если пользователь не найден - изменения есть
+            changes += index == -1 ? 1 : 0
+            // console.log("candidates.findIndex: ", changes);
+        })
+
+        initParticipants.map((initUser) => {
+            const index = participants.findIndex((user) => initUser.id == user.id)
+            // Если пользователь не найден - изменения есть
+            changes += index == -1 ? 1 : 0
+            // console.log("participants.findIndex: ", changes);
+        })
+
+        setDisabled(!changes)
+
+
+        // console.log("initCandidates: ", initCandidates);
+        // console.log("candidates: ", candidates);
+        // console.log("---------------------------------------------");
+        // console.log("initParticipants: ", initParticipants);
+        // console.log("participants: ", participants);
+        // console.log("isChange: ", changes);
+        // console.log("=====================================");
+
+        // console.log("changedUsers: ", changedUsers);
     };
 
     const save = async () => {
@@ -162,7 +201,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         });
 
         if (response.result == "success") {
-            console.log("success");
+            checkChanges();
         }
 
         getData();
@@ -172,6 +211,10 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         getData();
     }, []);
 
+    useEffect(() => {
+        checkChanges();
+    }, [candidates, participants]);
+
     const searchCandidatesDebounce = useCallback(
         debounce((query) => loadCandidates(query), 400),
         []
@@ -180,7 +223,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
     const searchParticipantsDebounce = useCallback(
         debounce((query) => loadParticipants(query), 400),
         []
-    );   
+    );
 
     const customList = (users: UsersTypes) => (
         <Paper>
@@ -217,28 +260,6 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
         </Paper>
     );
 
-    const toggleChangedUsers = (newUsers: UsersTypes) => {
-        let newArray = [...changedUsers];
-        if (!changedUsers.length) {
-            newArray = [...newUsers];
-        } else {
-            changedUsers.map((CU, i) => {
-                if (!newUsers.find((NU) => CU.id === NU.id)) {
-                    console.log("no find");
-                    newArray = [...newArray, ...newUsers];
-                } else {
-                    console.log("find: ", changedUsers[i]);
-                    newArray.splice(i, 1);
-                }
-            });
-        }
-        
-        setChangedUsers(newArray);
-
-        console.log("newArray: ", newArray);
-        // console.log("changedUsers: ", changedUsers);
-    };
-
     return (
         <Grid container direction={'row'} spacing={3}>
             {/* <Grid
@@ -271,7 +292,7 @@ const Participants = ({ surveyId, requestService }: PropTypes) => {
                         variant="outlined"
                         size="small"
                         onClick={save}
-                        disabled={!changedUsers.length}
+                        disabled={disabled}
                         // disabled={candidates.length === 0}
                         aria-label="move all participants"
                     >
