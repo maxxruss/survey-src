@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Survey;
 use App\Models\Question;
 use App\Models\Answer;
+use Carbon\Carbon;
 
 class SurveyController extends Controller
 {
@@ -22,16 +23,42 @@ class SurveyController extends Controller
     }
 
     public function start($id)
-    {
+    {       
+        $model = Survey::find($id);
+
+        if (!$model->start) {
+            $model->start = Carbon::now();
+            $model->save();            
+
+            $result = 'success';
+        } else {
+            $result = 'failed';
+        }
+
         return response()->json([
-            'result' => "success",
-            'data' => array(
-                'id' => $id
-            )
+            'result' => $result
         ]);
     }
 
-    public function stop($id)
+    public function end($id)
+    {
+        $model = Survey::find($id);
+
+        if (!$model->end) {
+            $model->end = Carbon::now();
+            $model->save();            
+
+            $result = 'success';
+        } else {
+            $result = 'failed';
+        }
+
+        return response()->json([
+            'result' => $result
+        ]);
+    }
+
+    public function sendInvite($id)
     {
         return response()->json([
             'result' => "success",

@@ -12,7 +12,7 @@ import {
     Autocomplete,
     IconButton
 } from "@mui/material";
-import { PlayArrow, Stop } from '@mui/icons-material';
+import { PlayArrow, Stop, Email } from '@mui/icons-material';
 import withRequestService from "../../../../hoc/with-request-service";
 
 type PropTypes = {
@@ -51,14 +51,25 @@ const Manage = ({ id, requestService }: PropTypes) => {
         }
     }
 
-    const stopSurvey = async () => {
+    const endSurvey = async () => {
         const response = await requestService.request({
-            url: "asker/survey/stop/" + id,
+            url: "asker/survey/end/" + id,
             method: 'get',
         });
 
         if (response.result == "success") {
-            console.log('startSurvey - success')
+            console.log('endSurvey - success')
+        }
+    }
+
+    const sendInvite = async () => {
+        const response = await requestService.request({
+            url: "asker/survey/sendInvite/" + id,
+            method: 'get',
+        });
+
+        if (response.result == "success") {
+            console.log('sendInvite - success')
         }
     }
 
@@ -79,9 +90,16 @@ const Manage = ({ id, requestService }: PropTypes) => {
                 <IconButton
                     color="primary"
                     size="large"
-                    onClick={() => stopSurvey()}
+                    onClick={() => endSurvey()}
                 >
                     <Stop fontSize="inherit" />
+                </IconButton>
+                <IconButton
+                    color="primary"
+                    size="large"
+                    onClick={() => sendInvite()}
+                >
+                    <Email fontSize="inherit" />
                 </IconButton>
             </Grid>
         </>

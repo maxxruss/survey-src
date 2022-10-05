@@ -8,6 +8,9 @@ class Survey extends Model
 {
     protected $table = 'surveys';
     public $timestamps = true;
+    // protected $primaryKey = 'id';
+
+    // public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *

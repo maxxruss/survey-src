@@ -42,7 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('survey/delete', [SurveyController::class, 'delete']);
         Route::get('survey/getInfo/{id}', [SurveyController::class, 'getInfo']);
         Route::get('survey/start/{id}', [SurveyController::class, 'start']);
-        Route::get('survey/stop/{id}', [SurveyController::class, 'stop']);
+        Route::get('survey/end/{id}', [SurveyController::class, 'end']);
+        Route::get('survey/sendInvite/{id}', [SurveyController::class, 'sendInvite']);
         Route::get('survey/getContent/{id}', [SurveyController::class, 'getContent']);
 
     });
