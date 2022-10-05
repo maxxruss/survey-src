@@ -8,27 +8,36 @@ use App\Models\Survey;
 use App\Models\Question;
 use App\Models\Answer;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SurveyController extends Controller
 {
 
+
     public function getInfo($id)
     {
+        $data = Survey::select(
+            DB::raw("to_char(surveys.start, 'DD-MM-YYYY') as start"),
+            DB::raw("to_char(surveys.end, 'DD-MM-YYYY') as end")
+        )
+        ->where('id', $id)
+        ->first();
+
+        // var_dump($data);die();
+
         return response()->json([
             'result' => "success",
-            'data' => array(
-                'id' => $id
-            )
+            'data' => $data
         ]);
     }
 
     public function start($id)
-    {       
+    {
         $model = Survey::find($id);
 
         if (!$model->start) {
             $model->start = Carbon::now();
-            $model->save();            
+            $model->save();
 
             $result = 'success';
         } else {
@@ -46,7 +55,7 @@ class SurveyController extends Controller
 
         if (!$model->end) {
             $model->end = Carbon::now();
-            $model->save();            
+            $model->save();
 
             $result = 'success';
         } else {

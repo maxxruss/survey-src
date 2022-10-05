@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Survey extends Model
 {
@@ -26,5 +27,5 @@ class Survey extends Model
 
     public function participants() {
         return $this->belongsToMany(Responder::class, 'survey_responder', 'survey_id', 'responder_id')->withTimestamps();
-    }
+    }    
 }
