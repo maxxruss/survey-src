@@ -14,12 +14,24 @@ import {
 } from "@mui/material";
 import { PlayArrow, Stop, Email } from "@mui/icons-material";
 import withRequestService from "../../../../hoc/with-request-service";
+import { makeStyles } from "@mui/styles";
+// import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+
+
 
 type SurveyTypes = {
     id: number;
-    start: string | null;
-    end: string | null;
+    start: string ;
+    end: string ;
 };
+
+type DatesTypes = {
+    start: string ;
+    end: string ;
+}
 
 type PropTypes = {
     id: number | string;
@@ -32,7 +44,22 @@ type PropTypes = {
     };
 };
 
+const useStyles = makeStyles({
+    titleGrid: {
+        paddingRight: "35px",
+        textAlign: "right",
+        alignSelf: "center",
+        fontWeight: "600",
+        fontSize: "20px",
+    },
+    dataGrid: {
+        // paddingLeft: '15px',
+    },
+});
+
 const Manage = ({ id, requestService }: PropTypes) => {
+    const classes = useStyles();
+    const [dates, setDates] = useState<DatesTypes>({ start: '', end: '' });
     const [data, setData] = useState<SurveyTypes>();
     const getData = async () => {
         console.log("id: ", id);
@@ -88,6 +115,24 @@ const Manage = ({ id, requestService }: PropTypes) => {
         <>
             {data ? (
                 <Grid container direction="column" spacing={3}>
+                    <Grid item container direction={"row"}>
+                        <Grid item className={classes.titleGrid} xs={6}>
+                            Дата начала
+                        </Grid>
+                        <Grid item className={classes.dataGrid} xs={3}>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    label="Date desktop"
+                                    inputFormat="MM/dd/yyyy"
+                                    value={dates.start}
+                                    onChange={(newValue: string) => {
+                                        setDates({start: newValue, end: dates.end})
+                                      }}
+                                    renderInput={(params: any) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </Grid>
+                    </Grid>
                     <Grid item>Статус</Grid>
                     <Grid item>
                         <TextField
