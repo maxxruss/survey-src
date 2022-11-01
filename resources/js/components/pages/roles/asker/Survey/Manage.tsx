@@ -15,22 +15,22 @@ import {
 import { PlayArrow, Stop, Email } from "@mui/icons-material";
 import withRequestService from "../../../../hoc/with-request-service";
 import { makeStyles } from "@mui/styles";
-// import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 
 type SurveyTypes = {
     id: number;
-    start: string ;
-    end: string ;
+    start: string;
+    end: string;
+    status: string;
 };
 
 type DatesTypes = {
-    start: string ;
-    end: string ;
+    start: Date | null;
+    end: Date | null;
 }
 
 type PropTypes = {
@@ -59,8 +59,9 @@ const useStyles = makeStyles({
 
 const Manage = ({ id, requestService }: PropTypes) => {
     const classes = useStyles();
-    const [dates, setDates] = useState<DatesTypes>({ start: '', end: '' });
+    const [dates, setDates] = useState<DatesTypes>({ start: null, end: null });
     const [data, setData] = useState<SurveyTypes>();
+
     const getData = async () => {
         console.log("id: ", id);
         const response = await requestService.request({
@@ -111,78 +112,80 @@ const Manage = ({ id, requestService }: PropTypes) => {
         getData();
     }, []);
 
+    if (!data) return null
+
     return (
         <>
-            {data ? (
-                <Grid container direction="column" spacing={3}>
-                    <Grid item container direction={"row"}>
-                        <Grid item className={classes.titleGrid} xs={6}>
-                            Дата начала
-                        </Grid>
-                        <Grid item className={classes.dataGrid} xs={3}>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    label="Date desktop"
-                                    inputFormat="MM/dd/yyyy"
-                                    value={dates.start}
-                                    onChange={(newValue: string) => {
-                                        setDates({start: newValue, end: dates.end})
-                                      }}
-                                    renderInput={(params: any) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </Grid>
+            <Grid container direction="column" spacing={3}>
+                <Grid item container direction={"row"}>
+                    <Grid item className={classes.titleGrid} xs={6}>
+                        Дата начала
                     </Grid>
-                    <Grid item>Статус</Grid>
-                    <Grid item>
-                        <TextField
-                            label="Дата начала"
-                            size="small"
-                            disabled
-                            value={data.start}
-                            variant="outlined"
-                            style={{
-                                width: "100%",
-                            }}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            label="Дата окончания"
-                            size="small"
-                            disabled
-                            value={data.end}
-                            variant="outlined"
-                            style={{
-                                width: "100%",
-                            }}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <IconButton
-                            color="primary"
-                            size="large"
-                            onClick={() => startSurvey()}
-                        >
-                            <PlayArrow fontSize="inherit" />
-                        </IconButton>
-                        <IconButton
-                            color="primary"
-                            size="large"
-                            onClick={() => endSurvey()}
-                        >
-                            <Stop fontSize="inherit" />
-                        </IconButton>
-                        <IconButton
-                            color="primary"
-                            size="large"
-                            onClick={() => sendInvite()}
-                        >
-                            <Email fontSize="inherit" />
-                        </IconButton>
+                    <Grid item className={classes.dataGrid} xs={3}>
+                        {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="Date desktop"
+                                inputFormat="MM/dd/yyyy"
+                                value={dates.start}
+                                onChange={(newValue: Date | null) => {
+                                    setDates({ start: newValue, end: dates.end })
+                                }}
+                                renderInput={(params: any) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider> */}
                     </Grid>
                 </Grid>
-            ) : null}
+                <Grid item>{`Статус ${data.status}`}</Grid>
+                <Grid item>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="Дата начала"
+                            inputFormat="MM/dd/yyyy"
+                            value={dates.start}
+                            onChange={(newValue: Date | null) => {
+                                setDates({ start: newValue, end: dates.end })
+                            }}
+                            renderInput={(params: any) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid item>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="Дата окончания"
+                            inputFormat="MM/dd/yyyy"
+                            value={dates.end}
+                            onChange={(newValue: Date | null) => {
+                                setDates({ start: dates.start, end: newValue })
+                            }}
+                            renderInput={(params: any) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid item>
+                    <IconButton
+                        color="primary"
+                        size="large"
+                        onClick={() => startSurvey()}
+                    >
+                        <PlayArrow fontSize="inherit" />
+                    </IconButton>
+                    <IconButton
+                        color="primary"
+                        size="large"
+                        onClick={() => endSurvey()}
+                    >
+                        <Stop fontSize="inherit" />
+                    </IconButton>
+                    <IconButton
+                        color="primary"
+                        size="large"
+                        onClick={() => sendInvite()}
+                    >
+                        <Email fontSize="inherit" />
+                    </IconButton>
+                </Grid>
+            </Grid>
         </>
     );
 };
